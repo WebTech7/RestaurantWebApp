@@ -49,7 +49,7 @@
 
       <div class="starter-template">
         <h1>RestaurantWebApp</h1>
-        <p class="lead">Lorem Ipsum</p>
+        <p class="lead">Lorem Ipsum.</p>
       </div>
 
     </div><!-- /.container -->
