@@ -78,36 +78,34 @@ if(!isset($_GET['postalCode'])){
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main results">
             <div class="header"><h3>Results for <?php echo $postalCode ?></h3></div>
             <div class="result-content">
-                <div class="row">
+                        <?php
+        for($i=0;$i<15;$i++){
+            if($i % 2 == 0){
+                ?><div class="row"><?php
+            }
+        ?>
                     <div class="col-lg-6">
                         <div class="result-box">
-                            <div class="result-image"></div>
+                            <div class="result-image" style="background:url(http://www.foodnavigator-usa.com/var/plain_site/storage/images/publications/food-beverage-nutrition/foodnavigator-usa.com/regulation/subway-removing-controversial-dough-conditioner-baking-expert-deems-ingredient-unnecessary/8754193-1-eng-GB/Subway-removing-controversial-dough-conditioner-baking-expert-deems-ingredient-unnecessary.jpg);background-size:cover;background-position:center;"></div>
                             <div class="result-content">
                                 <h4>Subway</h4>
+                                <p class="description-short">
+                                    dashdaosjhdisjiodsajoidjasiojdiosdashd dashdaosjhdisjiodsajoidjasiojdiosdashd dashdaosjhdisjiodsajoidjasiojdiosdashds
+                                </p>
+                                <p class="reviews-short">
+                                    1 review &bull; 
+                                    <img src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/star-128.png" class="star"/>
+                                    <img src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/star-128.png" class="star"/>
+                                    <img src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/star-128.png" class="star"/>
+                                    <img src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/star-128.png" class="star"/>
+                                    <img src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/star-128.png" class="star"/>
+                                </p>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="result-box">
-                            <div class="result-image"></div>
-                            <div class="result-content"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="result-box">
-                            <div class="result-image"></div>
-                            <div class="result-content"></div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="result-box">
-                            <div class="result-image"></div>
-                            <div class="result-content"></div>
-                        </div>
-                    </div>
-                </div>
+                        <?php
+                        if($i % 1 == 0){
+                ?></div><?php } } ?>
+                    
             </div>
         </div>
       </div>
