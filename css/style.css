@@ -30,6 +30,19 @@ body {
   border: 0;
 }
 
+.navbar-inverse {
+    background: rgba(242, 160, 3, 0.7);
+    border-bottom: #F2A003 1px solid;
+}
+
+.navbar-inverse .navbar-brand {
+    color:#222;
+}
+
+.navbar-inverse .navbar-nav>li>a {
+    color:#222;
+}
+
 .sidebar {
   display: none;
 }
@@ -94,10 +107,11 @@ body {
 }
 
 .input-one {
-    font-size:16px;
-    padding:10px 20px;
+    font-size:15px;
+    padding:7px 13px;
     border-radius:21px;
     border:none;
+    width:175px;
     outline:none;
 }
 
@@ -132,7 +146,12 @@ body {
     margin-top:5px;
     text-align: left;
     padding-right:52px;
-    width: 215px;
+    width: 220px;
+    font-size:16px;
+    padding:10px 20px;
+    border-radius:21px;
+    border:none;
+    outline:none;
 }
 
 .something-absolute {
@@ -153,13 +172,87 @@ body {
     top:-42px;
     left:269px;
     cursor: pointer;
-    transition: background 0.3s;
-    background-image: url(https://cdn3.iconfinder.com/data/icons/faticons/32/arrow-right-01-48.png);
-    background-size: 100%;
+    transition: background 0.1s;
+    background-image: url(https://cdn2.iconfinder.com/data/icons/arrow-5/512/arrow_pencil_left-large-128.png);
+    background-size: calc(100% - 10px);
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .arrow-button:hover {
     background:#68A6C4;
-    background-image: url(https://cdn3.iconfinder.com/data/icons/faticons/32/arrow-right-01-48.png);
-    background-size: 100%;
+    background-image: url(https://cdn2.iconfinder.com/data/icons/arrow-5/512/arrow_pencil_left-large-128.png);
+    background-size: calc(100% - 5px);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.front-footer {
+    position:fixed;
+    right: 0;
+    bottom: 0;
+}
+
+.front-footer ul li {
+    display: inline;
+    padding-right: 20px;
+    color:#FFF;
+    text-shadow: 0 0 10px #000;
+}
+
+.front-footer ul li a {
+    color:#FFF;
+    text-decoration: none;
+}
+
+.specify {
+    background-color:#F0F0F0;
+    padding:0;
+    border:none;
+    border-right:#BBB 1px solid;
+}
+
+.header {
+    padding:20px 25px;
+}
+
+.results .header {
+    background-color: #F0F0F0;
+    padding-top:21px;
+}
+
+.results {
+    padding-left:20px;
+    padding:0;
+}
+
+.results .row {
+    width:100%;
+    margin:0;
+}
+
+.result-box {
+    height:100px;
+    width:100%;
+    background:rgba(242, 160, 3, 0.7);
+    border-radius:3px;
+    overflow: hidden;
+    padding:15px;
+    margin-top:30px;
+}
+
+.result-image {
+    float:left;
+    height:70px;
+    width:70px;
+    background:#fff;
+    border-radius:3px;
+}
+
+.result-content {
+    padding:0 10px;    
+}
+
+.result-content h4 {
+    color:#FFF;
 }

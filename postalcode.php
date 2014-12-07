@@ -25,6 +25,17 @@
                 </div>
            </div>
         </div> 
+        <div class="front-footer"><ul>
+            <li>
+                &copy; Copyright WebTech7 2014 <?php $y=date('Y'); if($y != 2014){echo "- $y";} ?>
+            </li>
+            <li>
+                <a href="contact.php">Contact</a>
+            </li>
+            <li>
+                <a href="about.php">About</a>
+            </li>
+            </ul></div>
         <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
