@@ -77,17 +77,20 @@ if(!isset($_GET['postalCode'])){
                 <label for="kind-of-rest"><p>
                     What kind of restaurant are you looking for?
                     </p></label>
-                      <select class="form-control" style="margin-left:15px" id="kind-of-rest">
+                <div class="specify-option-content">
+                      <select class="form-control"name="kind-of-rest" id="kind-of-rest">
                           <option>Select a type</option>
                           <option>Fast food</option>
                           <option>Italian</option>
                           <option>Chinese</option>
                           <option>Dutch</option>
                       </select><br />
-                <label for="kind-of-rest"><p>
+                </div>
+                <label for="radius"><p>
                     In what radius do you want to search?
                     </p></label>
-                        <select class="form-control" style="margin-left:15px;" id="kind-of-rest">
+                <div class="specify-option-content">
+                        <select class="form-control" name="radius" id="radius">
                         <option>Select a radius</option>  
                         <option>2 km</option>
                           <option>5 km</option>
@@ -95,14 +98,16 @@ if(!isset($_GET['postalCode'])){
                           <option>25 km</option>
                             <option>50 km</option>
                       </select><br />
-                <label for="kind-of-rest"><p>
-                    Minimum rating:<br />
+                </div>
+                <label for="min-rating"><p>
+                    Minimum rating:</p></label><br />
+                <div class="specify-option-content">
                     <img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" class="star-large"/>
                     <img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" class="star-large"/>
                     <img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" class="star-large"/>
                     <img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" class="star-large"/>
                     <img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" class="star-large"/>
-                    </p></label>
+                </div>
           </div>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main results">

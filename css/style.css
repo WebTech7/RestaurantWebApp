@@ -182,7 +182,7 @@ body {
 .arrow-button:hover {
     background:#68A6C4;
     background-image: url(https://cdn2.iconfinder.com/data/icons/arrow-5/512/arrow_pencil_left-large-128.png);
-    background-size: calc(100% - 5px);
+    background-size: calc(100% - 10px);
     background-position: center;
     background-repeat: no-repeat;
 }
@@ -295,4 +295,8 @@ body {
     max-height: 20px;
     overflow: hidden;
     word-wrap: break-word;
+}
+
+.specify-option-content {
+    margin-left:15px;
 }
