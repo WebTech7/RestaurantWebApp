@@ -14,7 +14,7 @@ if(!isset($_GET['postalCode'])){
 } else if(!checkIfPostalCode($_GET['postalCode'])){
         header("Location: postalCode.php?error=1");
     } else {
-    $postalCode = $_GET['postalCode'];
+    $postalCode = strtoupper($_GET['postalCode']);
 ?><!DOCTYPE html>
 <html lang="en">
   <head>
@@ -50,17 +50,16 @@ if(!isset($_GET['postalCode'])){
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">RestaurantWebApp</a>
+          <a class="navbar-brand" href="postalcode.php">RestaurantWebApp</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Dashboard</a></li>
-            <li><a href="#">Settings</a></li>
-            <li><a href="#">Profile</a></li>
-            <li><a href="#">Help</a></li>
+            <li><a href="postalcode.php">Front Page</a></li>
+            <li><a href="contact.php">Contact</a></li>
+            <li><a href="about.php">About</a></li>
           </ul>
           <form class="navbar-form navbar-right">
-            <input type="text" class="input-one" placeholder="Search for restaurants">
+            <input type="text" class="form-control" placeholder="Search for restaurants">
           </form>
         </div>
       </div>
@@ -74,6 +73,37 @@ if(!isset($_GET['postalCode'])){
                     Specify
                 </h3>
             </div>
+            <div class="specify-content">
+                <label for="kind-of-rest"><p>
+                    What kind of restaurant are you looking for?
+                    </p></label>
+                      <select class="form-control" style="margin-left:15px" id="kind-of-rest">
+                          <option>Select a type</option>
+                          <option>Fast food</option>
+                          <option>Italian</option>
+                          <option>Chinese</option>
+                          <option>Dutch</option>
+                      </select><br />
+                <label for="kind-of-rest"><p>
+                    In what radius do you want to search?
+                    </p></label>
+                        <select class="form-control" style="margin-left:15px;" id="kind-of-rest">
+                        <option>Select a radius</option>  
+                        <option>2 km</option>
+                          <option>5 km</option>
+                          <option>10 km</option>
+                          <option>25 km</option>
+                            <option>50 km</option>
+                      </select><br />
+                <label for="kind-of-rest"><p>
+                    Minimum rating:<br />
+                    <img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" class="star-large"/>
+                    <img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" class="star-large"/>
+                    <img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" class="star-large"/>
+                    <img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" class="star-large"/>
+                    <img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" class="star-large"/>
+                    </p></label>
+          </div>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main results">
             <div class="header"><h3>Results for <?php echo $postalCode ?></h3></div>
@@ -90,15 +120,20 @@ if(!isset($_GET['postalCode'])){
                             <div class="result-content">
                                 <h4>Subway</h4>
                                 <p class="description-short">
-                                    dashdaosjhdisjiodsajoidjasiojdiosdashd dashdaosjhdisjiodsajoidjasiojdiosdashd dashdaosjhdisjiodsajoidjasiojdiosdashds
+                                    Some description...
                                 </p>
                                 <p class="reviews-short">
-                                    1 review &bull; 
-                                    <img src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/star-128.png" class="star"/>
-                                    <img src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/star-128.png" class="star"/>
-                                    <img src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/star-128.png" class="star"/>
-                                    <img src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/star-128.png" class="star"/>
-                                    <img src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/star-128.png" class="star"/>
+                                    1 review &bull;<span style="font-size:8px;">&nbsp;</span>
+                                    <?php
+        $outOfFiveStars = 4;
+        for($j=0;$j<5;$j++){
+                                    if($j < $outOfFiveStars){
+                                    ?>
+                                    <img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_full.png" class="star"/>
+                                    <?php } else {
+                                     ?> <img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" class="star"/> <?php   
+                                    } }
+        ?>
                                 </p>
                             </div>
                         </div>
@@ -121,6 +156,13 @@ if(!isset($_GET['postalCode'])){
     <script src="../../dist/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+        <script>
+            $(".star-large").hover(function(){
+                this.src = 'https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_full.png'; 
+            }, function(){
+                this.src = 'https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png';    
+            });
+        </script>
   </body>
 </html>
 <?php
