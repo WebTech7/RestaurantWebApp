@@ -1,4 +1,21 @@
-<!DOCTYPE html>
+<?php ob_start();
+function checkIfPostalCode($postcode){
+    $remove = str_replace(" ","", $postcode);
+    $upper = strtoupper($remove);
+
+    if( preg_match("/^\W*[1-9]{1}[0-9]{3}\W*[a-zA-Z]{2}\W*$/",  $upper)) {
+        return $upper;
+    } else {
+        return false;
+    }
+}
+if(!isset($_GET['postalCode'])){
+    header("Location: postalCode.php");
+} else{ 
+    if(!checkIfPostalCode($_GET['postalCode'])){
+        header("Location: postalCode.php?error=1");
+    } 
+?><!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -7,7 +24,7 @@
     <meta name="description" content="Restaurant Info, Reviews and Orders">
     <meta name="author" content="WebTech7">
 
-    <title>Starter Template for Bootstrap</title>
+    <title>RestaurantWebApp</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -228,3 +245,6 @@
     <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
   </body>
 </html>
+<?php
+}
+    ?>
