@@ -62,7 +62,8 @@
         </script>
         <script>
             function changeSearchType(status) {
-                 $("#front-input").css('background', '#FFF'); 
+                 $("#front-input").css('background', '#FFF');
+                 $("#front-input").css('color', '#000'); 
                 if(status){
                document.getElementById("other-search-method-wrapper").innerHTML = '<p onclick="changeSearchType(false);" id="other-search-method">Or search by postal code...</p>'; 
                     document.getElementById("question").innerHTML = 'What are you looking for?'; 
