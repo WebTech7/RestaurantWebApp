@@ -87,6 +87,16 @@ if(!isset($_GET['postalCode'])){
                       </select><br />
                 </div>
                 <label for="radius"><p>
+                    Do you want to order?
+                    </p></label>
+                <div class="specify-option-content">
+                        <select class="form-control" name="radius" id="radius">
+                            <option>Select an answer</option>
+                            <option>Yes</option>
+                            <option>No</option>
+                    </select>
+                </div><br />
+                <label for="radius"><p>
                     In what radius do you want to search?
                     </p></label>
                 <div class="specify-option-content">
@@ -99,6 +109,7 @@ if(!isset($_GET['postalCode'])){
                             <option>50 km</option>
                       </select><br />
                 </div>
+                
                 <label for="min-rating"><p>
                     Minimum rating:</p></label><br />
                 <div class="specify-option-content">
@@ -111,7 +122,13 @@ if(!isset($_GET['postalCode'])){
           </div>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main results">
-            <div class="header"><h3>Results for <?php echo $postalCode ?></h3></div>
+            <div class="header"><h3>Results for <?php echo $postalCode ?></h3><div style="right:30px;" class="something-absolute"><div class="something-0"><div class="sort-by-div">
+                <label for="sort-by" >Sort by:</label>
+                <select class="form-control" name="sort-by">
+                    <option>Best reviews</option>  
+                    <option>Newest</option>
+                </select>
+                </div></div></div></div>
             <div class="result-content">
                         <?php
         for($i=0;$i<15;$i++){
@@ -127,19 +144,24 @@ if(!isset($_GET['postalCode'])){
                                 <p class="description-short">
                                     Some description...
                                 </p>
-                                <p class="reviews-short">
-                                    1 review &bull;<span style="font-size:8px;">&nbsp;</span>
+                                <div style="float:left;margin-top:15px;">
+                                    <p>1 review &bull;</p></div>
+                                    <div style="float:left;margin-left:17px;width:100px;overflow:hidden">
                                     <?php
-        $outOfFiveStars = 4;
+        $outOfFiveStars = 4.4723893828327238;
         for($j=0;$j<5;$j++){
                                     if($j < $outOfFiveStars){
+                                        if($outOfFiveStars - $j < 1){
+                                            ?>
+                                        <div style="float:left;"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" class="star"/></div><div style="position:absolute;z-index:1;width:0;height:0;"><div style="z-index:1;position:relative;width:<?php echo ($outOfFiveStars - $j)*13; ?>px;left:<?php echo (1/($outOfFiveStars - $j))*($outOfFiveStars - $j)*13 + 13*($j-1) + ($j+1)*3; ?>px;overflow:hidden;"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_full.png" class="star" style="margin-left:0 !important;"/></div></div>
+                                    <?php
+                                        } else {
                                     ?>
-                                    <img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_full.png" class="star"/>
-                                    <?php } else {
-                                     ?> <img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" class="star"/> <?php   
+                                        <div class="star-wrapper"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_full.png" class="star"/></div>
+                                    <?php } } else {
+                                        ?> <div class="star-wrapper"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" class="star"/></div> <?php   
                                     } }
-        ?>
-                                </p>
+                                        ?></div>
                             </div>
                         </div>
                         <?php
