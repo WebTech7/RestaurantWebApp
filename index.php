@@ -148,12 +148,14 @@ if(!isset($_GET['postalCode'])){
                                     <p>1 review &bull;</p></div>
                                     <div style="float:left;margin-left:17px;width:100px;overflow:hidden">
                                     <?php
-        $outOfFiveStars = 4.4723893828327238;
+        $outOfFiveStars = 4.3;
+        $pxWidthOfStar = 13;
+        $pxMarginLeft = 3;
         for($j=0;$j<5;$j++){
                                     if($j < $outOfFiveStars){
                                         if($outOfFiveStars - $j < 1){
                                             ?>
-                                        <div style="float:left;"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" class="star"/></div><div style="position:absolute;z-index:1;width:0;height:0;"><div style="z-index:1;position:relative;width:<?php echo ($outOfFiveStars - $j)*13; ?>px;left:<?php echo (1/($outOfFiveStars - $j))*($outOfFiveStars - $j)*13 + 13*($j-1) + ($j+1)*3; ?>px;overflow:hidden;"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_full.png" class="star" style="margin-left:0 !important;"/></div></div>
+                                        <div style="float:left;"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" class="star"/></div><div style="position:absolute;z-index:1;width:0;height:0;"><div style="z-index:1;position:relative;width:<?php echo ($outOfFiveStars - $j)*$pxWidthOfStar; ?>px;left:<?php echo ($pxWidthOfStar+$pxMarginLeft)*$j + $pxMarginLeft; ?>px;overflow:hidden;"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_full.png" class="star" style="margin-left:0 !important;"/></div></div>
                                     <?php
                                         } else {
                                     ?>
