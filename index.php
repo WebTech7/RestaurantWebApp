@@ -3,16 +3,25 @@ function checkIfPostalCode($postcode){
     $remove = str_replace(" ","", $postcode);
     $upper = strtoupper($remove);
 
-    if( preg_match("/^\W*[1-9]{1}[0-9]{3}\W*[a-zA-Z]{2}\W*$/",  $upper)) {
+    if(preg_match("/^\W*[1-9]{1}[0-9]{3}\W*[a-zA-Z]{2}\W*$/",  $upper)) {
         return $upper;
     } else {
         return false;
     }
 }
-if(!isset($_GET['postalCode'])){
+function checkIfsearchQuery($query){    
+    if(trim($query)!='') {
+        return true;
+    } else {
+        return false;
+    }
+}
+if(!isset($_GET['postalCode']) && !isset($_GET["searchQuery"])){
     header("Location: postalCode.php");
-} else if(!checkIfPostalCode($_GET['postalCode'])){
+} else if(!checkIfPostalCode($_GET['postalCode']) && !isset($_GET["searchQuery"])){
         header("Location: postalCode.php?error=1");
+    } else if(!checkIfsearchQuery($_GET['searchQuery']) && (!checkIfPostalCode($_GET['postalCode']) || !isset($_GET["postalCode"])) ) {
+        header("Location: postalCode.php?error=2");
     } else {
     $postalCode = strtoupper($_GET['postalCode']);
 ?><!DOCTYPE html>
@@ -78,7 +87,7 @@ if(!isset($_GET['postalCode'])){
                     What kind of restaurant are you looking for?
                     </p></label>
                 <div class="specify-option-content">
-                      <select class="form-control"name="kind-of-rest" id="kind-of-rest">
+                      <select class="form-control" name="kind-of-rest" id="kind-of-rest">
                           <option>Select a type</option>
                           <option>Fast food</option>
                           <option>Italian</option>
@@ -113,11 +122,11 @@ if(!isset($_GET['postalCode'])){
                 <label for="min-rating"><p>
                     Minimum rating:</p></label><br />
                 <div class="specify-option-content">
-                    <img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" class="star-large"/>
-                    <img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" class="star-large"/>
-                    <img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" class="star-large"/>
-                    <img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" class="star-large"/>
-                    <img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" class="star-large"/>
+                    <input type="image" src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" id="1" value="1" class="star-large" />
+                    <input type="image" src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" value="2" class="star-large" id="2"/>
+                    <input type="image" src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" value="3" class="star-large" id="3"/>
+                    <input type="image" src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" value="4" class="star-large" id="4"/>
+                    <input type="image" src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" value="5" class="star-large" id="5"/>
                 </div>
           </div>
         </div>
@@ -129,7 +138,7 @@ if(!isset($_GET['postalCode'])){
                     <option>Newest</option>
                 </select>
                 </div></div></div></div>
-            <div class="result-content">
+            <div class="result-content-wrapper">
                         <?php
         for($i=0;$i<15;$i++){
             if($i % 2 == 0){
@@ -148,7 +157,7 @@ if(!isset($_GET['postalCode'])){
                                     <p>1 review &bull;</p></div>
                                     <div style="float:left;margin-left:17px;width:100px;overflow:hidden">
                                     <?php
-        $outOfFiveStars = 4.3;
+        $outOfFiveStars = 3.45;
         $pxWidthOfStar = 13;
         $pxMarginLeft = 3;
         for($j=0;$j<5;$j++){
@@ -187,9 +196,17 @@ if(!isset($_GET['postalCode'])){
     <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
         <script>
             $(".star-large").hover(function(){
-                this.src = 'https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_full.png'; 
+                var fullSrc = 'https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_full.png';
+                this.src = fullSrc;
+                for(a=0;a<$(this).val();a++){
+                    $("#"+a+"").attr("src", fullSrc);
+                }
             }, function(){
-                this.src = 'https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png';    
+                var emptySrc = 'https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png';
+                this.src = emptySrc;
+                for(a=0;a<$(this).val();a++){
+                    $("#"+a+"").attr("src", emptySrc);
+                }
             });
         </script>
   </body>

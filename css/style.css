@@ -13,6 +13,10 @@ h1, h2, h3, h4, h5, h6, p {
      margin:0;
 }
 
+.header1-on-front {
+    cursor: pointer;
+}
+
 .select-menu-wrapper {
     padding:0;
 }
@@ -147,7 +151,7 @@ body {
     margin-top:5px;
     text-align: left;
     padding-right:52px;
-    width: 220px;
+    width: 270px;
     font-size:16px;
     padding:10px 20px;
     border-radius:21px;
@@ -171,7 +175,7 @@ body {
     background: #82CCEC;
     position: relative;
     top:-42px;
-    left:269px;
+    left:294px;
     cursor: pointer;
     transition: background 0.1s;
     background-image: url(https://cdn2.iconfinder.com/data/icons/arrow-5/512/arrow_pencil_left-large-128.png);
@@ -234,7 +238,7 @@ body {
 .results {
     padding-left:20px;
     padding:0;
-    margin-bottom:25px;
+    padding-bottom:25px;
 }
 
 .results .row {
@@ -258,6 +262,10 @@ body {
     background:rgba(213, 117, 15, 0.7);
 }
 
+.results {
+    background:#FAFAFA;
+}
+
 .result-image {
     float:left;
     height:70px;
@@ -265,6 +273,10 @@ body {
     background:#fff;
     border-radius:3px;
     box-shadow: inset 0 0 50px #777;
+}
+
+.result-content-wrapper {
+    padding:0 10px;
 }
 
 .result-content {
@@ -317,4 +329,14 @@ body {
 .sort-by-div select {
     float:right;
     width:130px;
+}
+
+#other-search-method {
+    color: #82CCEC;
+    cursor: pointer;
+    text-shadow: 0 0 5px #000;
+}
+
+#other-search-method {
+    margin-left: -27px;
 }
