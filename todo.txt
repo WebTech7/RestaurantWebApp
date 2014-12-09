@@ -1,0 +1,11 @@
+To do list
+
+Node JS leren - Iedereen - Di 16 december
+
+Verbinding maken met de Yelp API - Enzo - Di 16 december
+
+Verbinding maken met Facebook API - Coen - Di 16 december
+
+Als je op een box klikt, dat je naar de volgende pagina gaat - Max - Di 16 december
+
+Google Maps API - Thijs - Di 16 december
