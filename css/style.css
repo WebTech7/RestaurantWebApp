@@ -111,6 +111,10 @@ body {
   border-radius: 50%;
 }
 
+input[type="image"] {
+    outline:none;
+}
+
 .input-one {
     font-size:15px;
     padding:7px 13px;
@@ -150,7 +154,7 @@ body {
 .round-in-middle-input {
     margin-top:5px;
     text-align: left;
-    padding-right:52px;
+    padding-right:52px !important;
     width: 270px;
     font-size:16px;
     padding:10px 20px;
@@ -301,6 +305,11 @@ body {
     height: 20px;
     margin-top: 5px;
     cursor: pointer;
+    padding:0 2px;
+}
+
+.first-star-large {
+    padding-left:0;
 }
 
 .description-short {

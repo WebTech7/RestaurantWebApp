@@ -16,6 +16,14 @@ function checkIfsearchQuery($query){
         return false;
     }
 }
+
+function makeStringSafe($string) {
+    $string = trim($string);
+    $string = stripslashes($string);
+    $string = htmlspecialchars($string);
+    return $string;
+}
+
 if(!isset($_GET['postalCode']) && !isset($_GET["searchQuery"])){
     header("Location: postalCode.php");
 } else if(!checkIfPostalCode($_GET['postalCode']) && !isset($_GET["searchQuery"])){
@@ -23,7 +31,8 @@ if(!isset($_GET['postalCode']) && !isset($_GET["searchQuery"])){
     } else if(!checkIfsearchQuery($_GET['searchQuery']) && (!checkIfPostalCode($_GET['postalCode']) || !isset($_GET["postalCode"])) ) {
         header("Location: postalCode.php?error=2");
     } else {
-    $postalCode = strtoupper($_GET['postalCode']);
+    $postalCode = strtoupper(makeStringSafe($_GET['postalCode']));
+    $searchQuery = makeStringSafe($_GET['searchQuery']);
 ?><!DOCTYPE html>
 <html lang="en">
   <head>
@@ -88,7 +97,7 @@ if(!isset($_GET['postalCode']) && !isset($_GET["searchQuery"])){
                     </p></label>
                 <div class="specify-option-content">
                       <select class="form-control" name="kind-of-rest" id="kind-of-rest">
-                          <option>Select a type</option>
+                          <option>No preference</option>  
                           <option>Fast food</option>
                           <option>Italian</option>
                           <option>Chinese</option>
@@ -100,7 +109,7 @@ if(!isset($_GET['postalCode']) && !isset($_GET["searchQuery"])){
                     </p></label>
                 <div class="specify-option-content">
                         <select class="form-control" name="radius" id="radius">
-                            <option>Select an answer</option>
+                            <option>No preference</option>  
                             <option>Yes</option>
                             <option>No</option>
                     </select>
@@ -110,7 +119,7 @@ if(!isset($_GET['postalCode']) && !isset($_GET["searchQuery"])){
                     </p></label>
                 <div class="specify-option-content">
                         <select class="form-control" name="radius" id="radius">
-                        <option>Select a radius</option>  
+                        <option>No preference</option>  
                         <option>2 km</option>
                           <option>5 km</option>
                           <option>10 km</option>
@@ -121,17 +130,13 @@ if(!isset($_GET['postalCode']) && !isset($_GET["searchQuery"])){
                 
                 <label for="min-rating"><p>
                     Minimum rating:</p></label><br />
-                <div class="specify-option-content">
-                    <input type="image" src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" id="1" value="1" class="star-large" />
-                    <input type="image" src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" value="2" class="star-large" id="2"/>
-                    <input type="image" src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" value="3" class="star-large" id="3"/>
-                    <input type="image" src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" value="4" class="star-large" id="4"/>
-                    <input type="image" src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" value="5" class="star-large" id="5"/>
+                <div class="specify-option-content star-specify-option-content">
+                    <input type="image" src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" id="1" value="1" class="star-large first-star-large" /><input type="image" src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" value="2" class="star-large" id="2"/><input type="image" src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" value="3" class="star-large" id="3"/><input type="image" src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" value="4" class="star-large" id="4"/><input type="image" src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" value="5" class="star-large" id="5"/>
                 </div>
           </div>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main results">
-            <div class="header"><h3>Results for <?php echo $postalCode ?></h3><div style="right:30px;" class="something-absolute"><div class="something-0"><div class="sort-by-div">
+            <div class="header"><h3>Results for <?php if(isset($_GET["postalCode"])){echo $postalCode;}else echo $searchQuery; ?></h3><div style="right:30px;" class="something-absolute"><div class="something-0"><div class="sort-by-div">
                 <label for="sort-by" >Sort by:</label>
                 <select class="form-control" name="sort-by">
                     <option>Best reviews</option>  
@@ -195,17 +200,42 @@ if(!isset($_GET['postalCode']) && !isset($_GET["searchQuery"])){
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
         <script>
-            $(".star-large").hover(function(){
-                var fullSrc = 'https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_full.png';
+            var clicked = 0;
+            
+            $(".star-large").click(function(){
+                clicked = 0;
+                emptySrc = 'https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png';
+                    this.src = emptySrc;
+                    for(a=1;a<=5;a++){
+                        $("#"+a+"").attr("src", emptySrc);
+                    }
+                fullSrc = 'https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_full.png';
                 this.src = fullSrc;
                 for(a=0;a<$(this).val();a++){
                     $("#"+a+"").attr("src", fullSrc);
                 }
+                clicked = $(this).val();
+            });
+            $(".star-large").hover(function(){
+                emptySrc = 'https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png';
+                    this.src = emptySrc;
+                    for(a=1;a<=5;a++){
+                        $("#"+a+"").attr("src", emptySrc);
+                    }
+                fullSrc = 'https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_full.png';
+                this.src = fullSrc;
+                for(a=1;a<=$(this).val();a++){
+                    $("#"+a+"").attr("src", fullSrc);
+                }
             }, function(){
-                var emptySrc = 'https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png';
-                this.src = emptySrc;
-                for(a=0;a<$(this).val();a++){
-                    $("#"+a+"").attr("src", emptySrc);
+                    fullSrc = 'https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_full.png';
+                    emptySrc = 'https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png';
+                    for(a=0;a<=5;a++){
+                        if(a > parseInt(clicked)){
+                            $("#"+a+"").attr("src", emptySrc);
+                        } else {
+                            $("#"+a+"").attr("src", fullSrc);
+                        }
                 }
             });
         </script>
