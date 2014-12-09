@@ -145,6 +145,9 @@ if(!isset($_GET['postalCode']) && !isset($_GET["searchQuery"])){
                 </div></div></div></div>
             <div class="result-content-wrapper">
                         <?php
+    
+    
+    
         for($i=0;$i<15;$i++){
             if($i % 2 == 0){
                 ?><div class="row"><?php
@@ -154,7 +157,7 @@ if(!isset($_GET['postalCode']) && !isset($_GET["searchQuery"])){
                         <div class="result-box">
                             <div class="result-image" style="background:url(http://www.foodnavigator-usa.com/var/plain_site/storage/images/publications/food-beverage-nutrition/foodnavigator-usa.com/regulation/subway-removing-controversial-dough-conditioner-baking-expert-deems-ingredient-unnecessary/8754193-1-eng-GB/Subway-removing-controversial-dough-conditioner-baking-expert-deems-ingredient-unnecessary.jpg);background-size:cover;background-position:center;"></div>
                             <div class="result-content">
-                                <h4>Subway</h4>
+                                <h4><?php echo "Subway"; ?></h4>
                                 <p class="description-short">
                                     Some description...
                                 </p>
