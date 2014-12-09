@@ -8,7 +8,6 @@ function checkIfPostalCode($postcode){
     } else {
         return false;
     }
-    <-- lol -->
 }
 function checkIfsearchQuery($query){    
     if(trim($query)!='') {
