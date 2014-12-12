@@ -1,11 +1,12 @@
 
 
-<?php
-//echo $_POST["name"];
-//$search = $_POST["name"];
 
-$unsigned_url = "http://api.yelp.com/v2/search?term=food&location=breda" //+ $search;
-//$unsigned_url = "http://api.yelp.com/v2/business/the-waterboy-sacramento";
+
+<?php
+$search = $_POST["name"];
+$url = "http://api.yelp.com/v2/search?term=food&limit=1&location=";
+$unsigned_url = $url . $search;
+
 // Enter the path that the oauth library is in relation to the php file
 require_once('/OAuth.php');
 // Set your OAuth credentials here  
@@ -40,9 +41,8 @@ $token = new OAuthToken($token, $token_secret);
 
 // Print it for debugging
 echo '<pre>';
-echo $result->name;
-echo $result->location->city;
-echo $result->location->display_address[0];
+//print_r($result); 
+echo $result->businesses[0]->name;
 echo '</pre>';
 
 ?>
