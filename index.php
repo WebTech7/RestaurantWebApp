@@ -25,11 +25,11 @@ function makeStringSafe($string) {
 }
 
 if(!isset($_GET['postalCode']) && !isset($_GET["searchQuery"])){
-    header("Location: postalCode.php");
+    header("Location: postalcode.php");
 } else if(isset($_GET["postalCode"]) && (!checkIfPostalCode($_GET['postalCode']))){
-        header("Location: postalCode.php?error=1");
+        header("Location: postalcode.php?error=1");
     } else if(isset($_GET["searchQuery"]) && (!checkIfsearchQuery($_GET['searchQuery'])) ) {
-        header("Location: postalCode.php?error=2");
+        header("Location: postalcode.php?error=2");
     } else {
     if(isset($_GET["postalCode"])) $postalCode = strtoupper(makeStringSafe($_GET['postalCode']));
     if(isset($_GET["searchQuery"])) $searchQuery = makeStringSafe($_GET['searchQuery']);
@@ -58,23 +58,101 @@ if(!isset($_GET['postalCode']) && !isset($_GET["searchQuery"])){
   </head>
 
   <body>
-<script>
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '1033735633321196',
-      xfbml      : true,
-      version    : 'v2.2'
+      <script>
+  // This is called with the results from from FB.getLoginStatus().
+  function statusChangeCallback(response) {
+    console.log('statusChangeCallback');
+    console.log(response);
+    // The response object is returned with a status field that lets the
+    // app know the current login status of the person.
+    // Full docs on the response object can be found in the documentation
+    // for FB.getLoginStatus().
+    if (response.status === 'connected') {
+      whenLoggedIn();
+      testAPI();
+    } else if (response.status === 'not_authorized') {
+      // The person is logged into Facebook, but not your app.
+      document.getElementById('status').innerHTML = 'Please log ' +
+        'into this app.';
+    } else {
+      // The person is not logged into Facebook, so we're not sure if
+      // they are logged into this app or not.
+      document.getElementById('status').innerHTML = 'Please log ' +
+        'into Facebook.';
+    }
+  }
+
+  // This function is called when someone finishes with the Login
+  // Button.  See the onlogin handler attached to it in the sample
+  // code below.
+  function checkLoginState() {
+    FB.getLoginStatus(function(response) {
+      statusChangeCallback(response);
     });
+  }
+
+  window.fbAsyncInit = function() {
+  FB.init({
+    appId      : '1033735633321196',
+    cookie     : true,  // enable cookies to allow the server to access 
+                        // the session
+    xfbml      : true,  // parse social plugins on this page
+    version    : 'v2.1' // use version 2.1
+  });
+
+  // Now that we've initialized the JavaScript SDK, we call 
+  // FB.getLoginStatus().  This function gets the state of the
+  // person visiting this page and can return one of three states to
+  // the callback you provide.  They can be:
+  //
+  // 1. Logged into your app ('connected')
+  // 2. Logged into Facebook, but not your app ('not_authorized')
+  // 3. Not logged into Facebook and can't tell if they are logged into
+  //    your app or not.
+  //
+  // These three cases are handled in the callback function.
+
+  FB.getLoginStatus(function(response) {
+    statusChangeCallback(response);
+  });
+
   };
 
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "//connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
+  // Load the SDK asynchronously
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+
+  // Here we run a very simple test of the Graph API after login is
+  // successful.  See statusChangeCallback() for when this call is made.
+  function testAPI() {
+    console.log('Welcome!  Fetching your information.... ');
+    FB.api('/me', function(response) {
+      console.log('Successful login for: ' + response.name);
+      document.getElementById('status').innerHTML =
+        'Thanks for logging in, ' + response.name + '!';
+    });
+  }
 </script>
+
+<!--
+  Below we include the Login Button social plugin. This button uses
+  the JavaScript SDK to present a graphical Login button that triggers
+  the FB.login() function when clicked.
+-->
+      <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/nl_NL/sdk.js#xfbml=1&appId=1033735633321196&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+      
       <div id="wrap-everything">
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container-fluid">
@@ -93,7 +171,7 @@ if(!isset($_GET['postalCode']) && !isset($_GET["searchQuery"])){
             <li><a href="contact.php">Contact</a></li>
             <li><a href="about.php">About</a></li>
             <li><a class="login-link" id="login-link" onclick="openLogin('signup');">Sign up</a></li>
-            <li><a class="login-link" id="login-link" onclick="openLogin('login');">Login <img src="https://www.facebook.com/images/fb_icon_325x325.png" class="small-facebook-logo" /></a></li>
+              <li><a class="login-link" id="login-link" onclick="openLogin('login');">Login <img src="https://www.facebook.com/images/fb_icon_325x325.png" class="small-facebook-logo" /></a></li>
           </ul>
           <form class="navbar-form navbar-right">
             <input type="text" class="form-control" placeholder="Search for restaurants">
@@ -155,12 +233,7 @@ if(!isset($_GET['postalCode']) && !isset($_GET["searchQuery"])){
           </div>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main results">
-            <div class="header"><h3>Results for <?php if(isset($_GET["postalCode"])){echo $postalCode;}else echo $searchQuery; ?> <div
-  class="fb-like"
-  data-share="true"
-  data-width="450"
-  data-show-faces="true">
-</div></h3><div style="right:30px;" class="something-absolute"><div class="something-0"><div class="sort-by-div">
+            <div class="header"><h3>Results for <?php if(isset($_GET["postalCode"])){echo $postalCode;}else echo $searchQuery; ?></h3><div style="right:30px;" class="something-absolute"><div class="something-0"><div class="sort-by-div">
                 <label for="sort-by" >Sort by:</label>
                 <select class="form-control" name="sort-by">
                     <option>Best reviews</option>  
@@ -216,10 +289,12 @@ if(!isset($_GET['postalCode']) && !isset($_GET["searchQuery"])){
           </div>
       </div>
 
-      <div id="login-screen-wrapper" onclick="closeLogin();">
+      <div id="login-screen-wrapper" class="content-when-not-logged-in" onclick="closeLogin();">
           <div id="login-screen" class="container">
               <div class="something-absolute something-0"><div class="login-screen-cross"><img src="https://cdn0.iconfinder.com/data/icons/slim-square-icons-basics/100/basics-22-32.png" width="15"/></div></div>
-              <button type="button" onclick="document.location.href='fb';" class="btn btn-default btn-lg btn-primary"><img src="https://www.facebook.com/images/fb_icon_325x325.png" class="middle-facebook-logo" /> Log in with Facebook</button>
+              <!--<button type="button" class="btn btn-default btn-lg btn-primary"><img src="https://www.facebook.com/images/fb_icon_325x325.png" class="middle-facebook-logo" scope="public_profile,email" onlogin="checkLoginState();" /> Log in with Facebook<-button><fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+</fb:login-button>--><div class="fb-login-button" data-max-rows="1" data-size="xlarge" data-show-faces="false" data-auto-logout-link="true"></div>
+
               
                 <hr />
                     <h4><span id="login-without-fb">Log in</span><span id="signup-without-fb">Sign up</span> without Facebook</h4>
@@ -394,8 +469,7 @@ if(!isset($_GET['postalCode']) && !isset($_GET["searchQuery"])){
                     document.getElementById("login-feedback-danger").innerHTML = 'The combination of email address and password is not known by us.';
                 }
             }
-        </script>
-        
+            </script>
   </body>
 </html>
 <?php
