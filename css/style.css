@@ -1,5 +1,6 @@
 body {
-  padding-top: 50px;
+    padding-top: 50px;
+    background:#FAFAFA;
 }
 
 .postal-body {
@@ -19,10 +20,6 @@ h1, h2, h3, h4, h5, h6, p {
 
 .select-menu-wrapper {
     padding:0;
-}
-
-body {
-  padding-top: 50px;
 }
 
 .sub-header {
@@ -155,12 +152,13 @@ input[type="image"] {
     margin-top:5px;
     text-align: left;
     padding-right:52px !important;
-    width: 270px;
+    width: 136px;
     font-size:16px;
     padding:10px 20px;
     border-radius:21px;
     border:none;
     outline:none;
+    transition:all 0.5s;
 }
 
 .something-absolute {
@@ -179,18 +177,19 @@ input[type="image"] {
     background: #82CCEC;
     position: relative;
     top:-42px;
-    left:294px;
+    margin-left:227px;
     cursor: pointer;
     transition: background 0.1s;
-    background-image: url(https://cdn2.iconfinder.com/data/icons/arrow-5/512/arrow_pencil_left-large-128.png);
+    background-image: url(https://cdn0.iconfinder.com/data/icons/slim-square-icons-basics/100/basics-02-48.png);
     background-size: calc(100% - 10px);
     background-position: center;
     background-repeat: no-repeat;
+    transition:all 0.5s;
 }
 
 .arrow-button:hover {
     background:#68A6C4;
-    background-image: url(https://cdn2.iconfinder.com/data/icons/arrow-5/512/arrow_pencil_left-large-128.png);
+    background-image: url(https://cdn0.iconfinder.com/data/icons/slim-square-icons-basics/100/basics-02-48.png);
     background-size: calc(100% - 10px);
     background-position: center;
     background-repeat: no-repeat;
@@ -264,10 +263,6 @@ input[type="image"] {
 
 .result-box:hover {
     background:rgba(213, 117, 15, 0.7);
-}
-
-.results {
-    background:#FAFAFA;
 }
 
 .result-image {
@@ -348,4 +343,71 @@ input[type="image"] {
 
 #other-search-method {
     margin-left: -27px;
+}
+
+.small-facebook-logo {
+    height:15px;
+    margin: 0 0 3px 2px;
+    border-radius: 2px;
+}
+
+.middle-facebook-logo {
+    height:20px;
+    margin: 0 5px 3px 0;
+    border-radius: 3px;
+    box-shadow: 0 0 8px #AAA;
+}
+
+.login-link {
+    cursor: pointer;
+}
+
+#login-screen-wrapper {
+    display:none;
+    position:absolute;
+    width:100vw;
+    height:100%;
+    background:rgba(0,0,0,0.5);
+    top:0;
+    left:0;
+    z-index:1030;
+    overflow:auto;
+}
+
+#login-screen {
+    margin-top:60px;
+    width:300px;
+    background:#DDD;
+    padding:20px;
+    border-radius:5px;
+    text-align: center;
+    box-shadow: 0 0 10px #000;
+    margin-bottom:50px;
+}
+
+.login-screen-cross {
+    position:relative;
+    left:260px;
+    top:-17px;
+    cursor: pointer;
+}
+
+#signup-form {
+    display:none;
+}
+
+.btn-default {
+    outline:none !important;
+}
+
+#login-feedback-danger {
+    display:none;
+}
+
+#signup-feedback-danger {
+    display:none;
+}
+
+#signup-feedback-success {
+    display:none;
 }

@@ -26,13 +26,13 @@ function makeStringSafe($string) {
 
 if(!isset($_GET['postalCode']) && !isset($_GET["searchQuery"])){
     header("Location: postalCode.php");
-} else if(!checkIfPostalCode($_GET['postalCode']) && !isset($_GET["searchQuery"])){
+} else if(isset($_GET["postalCode"]) && (!checkIfPostalCode($_GET['postalCode']))){
         header("Location: postalCode.php?error=1");
-    } else if(!checkIfsearchQuery($_GET['searchQuery']) && (!checkIfPostalCode($_GET['postalCode']) || !isset($_GET["postalCode"])) ) {
+    } else if(isset($_GET["searchQuery"]) && (!checkIfsearchQuery($_GET['searchQuery'])) ) {
         header("Location: postalCode.php?error=2");
     } else {
-    $postalCode = strtoupper(makeStringSafe($_GET['postalCode']));
-    $searchQuery = makeStringSafe($_GET['searchQuery']);
+    if(isset($_GET["postalCode"])) $postalCode = strtoupper(makeStringSafe($_GET['postalCode']));
+    if(isset($_GET["searchQuery"])) $searchQuery = makeStringSafe($_GET['searchQuery']);
 ?><!DOCTYPE html>
 <html lang="en">
   <head>
@@ -58,7 +58,24 @@ if(!isset($_GET['postalCode']) && !isset($_GET["searchQuery"])){
   </head>
 
   <body>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1033735633321196',
+      xfbml      : true,
+      version    : 'v2.2'
+    });
+  };
 
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+      <div id="wrap-everything">
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -75,6 +92,8 @@ if(!isset($_GET['postalCode']) && !isset($_GET["searchQuery"])){
             <li><a href="postalcode.php">Front Page</a></li>
             <li><a href="contact.php">Contact</a></li>
             <li><a href="about.php">About</a></li>
+            <li><a class="login-link" id="login-link" onclick="openLogin('signup');">Sign up</a></li>
+            <li><a class="login-link" id="login-link" onclick="openLogin('login');">Login <img src="https://www.facebook.com/images/fb_icon_325x325.png" class="small-facebook-logo" /></a></li>
           </ul>
           <form class="navbar-form navbar-right">
             <input type="text" class="form-control" placeholder="Search for restaurants">
@@ -104,11 +123,11 @@ if(!isset($_GET['postalCode']) && !isset($_GET["searchQuery"])){
                           <option>Dutch</option>
                       </select><br />
                 </div>
-                <label for="radius"><p>
+                <label for="order"><p>
                     Do you want to order?
                     </p></label>
                 <div class="specify-option-content">
-                        <select class="form-control" name="radius" id="radius">
+                        <select class="form-control" name="order" id="order">
                             <option>No preference</option>  
                             <option>Yes</option>
                             <option>No</option>
@@ -136,7 +155,12 @@ if(!isset($_GET['postalCode']) && !isset($_GET["searchQuery"])){
           </div>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main results">
-            <div class="header"><h3>Results for <?php if(isset($_GET["postalCode"])){echo $postalCode;}else echo $searchQuery; ?></h3><div style="right:30px;" class="something-absolute"><div class="something-0"><div class="sort-by-div">
+            <div class="header"><h3>Results for <?php if(isset($_GET["postalCode"])){echo $postalCode;}else echo $searchQuery; ?> <div
+  class="fb-like"
+  data-share="true"
+  data-width="450"
+  data-show-faces="true">
+</div></h3><div style="right:30px;" class="something-absolute"><div class="something-0"><div class="sort-by-div">
                 <label for="sort-by" >Sort by:</label>
                 <select class="form-control" name="sort-by">
                     <option>Best reviews</option>  
@@ -144,11 +168,9 @@ if(!isset($_GET['postalCode']) && !isset($_GET["searchQuery"])){
                 </select>
                 </div></div></div></div>
             <div class="result-content-wrapper">
-                        <?php
+                        <?php    
     
-    
-    
-        for($i=0;$i<15;$i++){
+        for($i=0;$i<1;$i++){
             if($i % 2 == 0){
                 ?><div class="row"><?php
             }
@@ -159,7 +181,7 @@ if(!isset($_GET['postalCode']) && !isset($_GET["searchQuery"])){
                             <div class="result-content">
                                 <h4><?php echo "Subway"; ?></h4>
                                 <p class="description-short">
-                                    Some description...
+                                    Some description...<br />
                                 </p>
                                 <div style="float:left;margin-top:15px;">
                                     <p>1 review &bull;</p></div>
@@ -187,11 +209,50 @@ if(!isset($_GET['postalCode']) && !isset($_GET["searchQuery"])){
                         if($i % 1 == 0){
                 ?></div><?php } } ?>
                     
+                    </div>
+                </div>
+              </div>
             </div>
-        </div>
+          </div>
       </div>
-    </div>
 
+      <div id="login-screen-wrapper" onclick="closeLogin();">
+          <div id="login-screen" class="container">
+              <div class="something-absolute something-0"><div class="login-screen-cross"><img src="https://cdn0.iconfinder.com/data/icons/slim-square-icons-basics/100/basics-22-32.png" width="15"/></div></div>
+              <button type="button" onclick="document.location.href='fb';" class="btn btn-default btn-lg btn-primary"><img src="https://www.facebook.com/images/fb_icon_325x325.png" class="middle-facebook-logo" /> Log in with Facebook</button>
+              
+                <hr />
+                    <h4><span id="login-without-fb">Log in</span><span id="signup-without-fb">Sign up</span> without Facebook</h4>
+                <br />
+                <div><div class="btn-group" role="group" aria-label="...">
+                  <button type="button" onclick="showLogin();" class="btn btn-default login-button">Log in</button>
+                  <button type="button" onclick="showSignUp();" class="btn btn-default signup-button">Sign up</button>
+                </div>
+                        <br />        
+
+                <br />
+                  <form role="form" id="login-form">
+                    <div class="form-group">
+                        <div class="alert alert-danger" role="alert" id="login-feedback-danger"></div>
+                      <label for="login-email">Email:</label>
+                      <input type="email" class="form-control" id="login-email" placeholder="Enter email">
+                    </div>
+                    <div class="form-group">
+                      <label for="pwd">Password:</label>
+                      <input type="password" class="form-control" id="login-pwd" placeholder="Enter password">
+                    </div>
+                    <button type="submit" onclick="submitLogin();" value="login" class="btn btn-default">Log in</button>
+                  </form>
+                    <form role="form" id="signup-form">
+                    <div class="form-group">
+                        <div class="alert alert-danger" role="alert" id="signup-feedback-danger"></div>
+                        <div class="alert alert-success" role="success" id="signup-feedback-success"></div>
+                      <label for="signup-email">Email:</label>
+                      <input id="signup-email" type="email" class="form-control" id="email" placeholder="Enter email">
+                    </div>
+                    <button type="submit" onclick="submitSignUp();" class="btn btn-default">Sign up</button>
+                  </form>
+      </div>
 
 
 
@@ -242,6 +303,99 @@ if(!isset($_GET['postalCode']) && !isset($_GET["searchQuery"])){
                 }
             });
         </script>
+        
+        <script>
+            loginScreen = false;
+            
+            function showLogin(){
+                $("#login-form").show();
+                $("#signup-form").hide();      
+                $("#login-without-fb").show();
+                $("#signup-without-fb").hide();
+                $(".login-button").css('background', '#CCC');
+                $(".signup-button").css('background', '#e6e6e6');
+                $(".login-button").css('pointer-events', 'none');                
+                $(".signup-button").css('pointer-events', 'auto');
+            }
+            
+            function showSignUp(){
+                $("#signup-form").show();
+                $("#login-form").hide();
+                $("#signup-without-fb").show();
+                $("#login-without-fb").hide();
+                $(".signup-button").css('background', '#CCC');
+                $(".login-button").css('background', '#e6e6e6');
+                $(".signup-button").css('pointer-events', 'none');
+                $(".login-button").css('pointer-events', 'auto');
+            }
+            
+            function openLogin(type){
+                $("#login-screen-wrapper").show();
+                if(type == 'login'){
+                    showLogin();
+                } else if(type == 'signup'){
+                    showSignUp();
+                }
+            }
+            
+            $("#login-screen-wrapper").on('click', function() {
+              $("#login-screen-wrapper").hide();
+            }).children().on('click',function(){
+                return false;
+            });
+            
+             $(".login-screen-cross").on('click', function() {
+                $("#login-screen-wrapper").hide();
+            })
+            
+            $(document).ready(function(){
+                $("#login-screen-wrapper").hide();
+            });
+            
+            function checkEmail(email) {
+                if(email.length > 1){
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            
+            function submitSignUp(){
+                if(checkEmail($("#signup-email").val())){
+                    document.getElementById("signup-feedback-success").innerHTML = 'A verification email has been sent to your email address. Click the verification link in the email, set your password and you\'re done.';
+                    $("#signup-feedback-success").show();
+                    $("#signup-feedback-danger").hide();
+                } else {
+                   document.getElementById("signup-feedback-danger").innerHTML = 'This is not a valid email address.';
+                    $("#signup-feedback-danger").show();
+                    $("#signup-feedback-success").hide();
+                }
+            }
+
+            function loginSuccess(){
+                if($("#login-email").val() == 'success'){
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            
+            function login(){
+                //some AJAX
+            }
+            
+            function submitLogin(){
+                if(loginSuccess()){
+                    $("#login-screen-wrapper").hide();
+                    $("#signup-feedback-danger").hide();
+                    login();
+                } else {
+                    $("#login-feedback-danger").show();
+                    document.getElementById("login-feedback-danger").innerHTML = 'The combination of email address and password is not known by us.';
+                }
+            }
+        </script>
+        
   </body>
 </html>
 <?php
