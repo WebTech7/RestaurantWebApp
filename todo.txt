@@ -1,11 +1,14 @@
 To do list
 
-Node JS leren - Iedereen - Di 16 december
-
-Verbinding maken met de Yelp API - Enzo - Di 16 december
-
-Verbinding maken met Facebook API - Coen - Di 16 december
-
-Als je op een box klikt, dat je naar de volgende pagina gaat - Max - Di 16 december
-
+16 december
+Node JS leren - Iedereen (we gaan mySQL en PHP gebruiken)
+Verbinding maken met de Yelp API - Enzo - Gedaan
+Als je op een box klikt, dat je naar de volgende pagina gaat - Max - Gedaan
+Verbinding maken met Facebook API - Coen - Gedaan
 Google Maps API - Thijs - Di 16 december
+
+5 januari
+Yelp helemaal integreren -> alle nodige informatie uit JSON in variabelen zetten -> Enzo
+Nadat Enzo klaar is, Max -> In nextpage.php variabelen gebruiken -> Max
+Header voor iedere pagina bruikbaar maken -> Coen
+Eigen reviews database maken, misschien dat mensen het al kunnen intypen, dat het automisch in de database wordt gezet -> Max en Coen
