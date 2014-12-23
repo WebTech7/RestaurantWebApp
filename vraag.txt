@@ -1,0 +1,8 @@
+zouden jullie je telefoonnummers even door kunnen geven?
+
+misschien kunnen jullie dan gelijk helpen dit op te lossen,
+ik moet een array hebben die geen naam heeft, dit ziet er dan zo uit in JSON (bijlage).
+Hoe het nu werkt is dat je eerst alle business langsgaat (dan naam e.d. laat zien),
+dan kan je op eenzelfde manier categories aanvragen maar daarbinnen heeft de array geen
+naam en kan ik de tags niet krijgen.
+Als iemand weet hoe je dit kan fixen, laat het weten
