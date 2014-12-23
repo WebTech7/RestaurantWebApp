@@ -41,7 +41,7 @@ $token = new OAuthToken($token, $token_secret);
 
 // Print it for debugging
 echo '<pre>';
-//print_r($result); 
+print_r($result); 
 echo $result->businesses[0]->name;
 echo '</pre>';
 
