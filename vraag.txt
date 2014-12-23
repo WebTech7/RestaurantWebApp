@@ -6,14 +6,3 @@ Hoe het nu werkt is dat je eerst alle business langsgaat (dan naam e.d. laat zie
 dan kan je op eenzelfde manier categories aanvragen maar daarbinnen heeft de array geen
 naam en kan ik de tags niet krijgen.
 Als iemand weet hoe je dit kan fixen, laat het weten
-
-Antwoord Coen:
-Mijn telefoonnummer is 0611410491.
-
-Ik denk dat ik begrijp wat je bedoelt. Als normaal zo de rating zou opvragen:
-
-echo $businesses[0]['rating'];
-
-Dan vraag laat je hem zo Soul food teruggeven:
-
-echo $businesses[0][categories][0][0];
