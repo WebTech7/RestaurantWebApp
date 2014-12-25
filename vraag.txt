@@ -17,3 +17,28 @@ echo $businesses[0]['rating'];
 Dan vraag laat je hem zo Soul food teruggeven:
 
 echo $businesses[0][categories][0][0];
+
+Enzo:
+bedankt voor de reactie, hellas werkt het alleen niet.
+Als je dit doet zegt hij: trying to get property of non-object.
+
+als je rating wil hebben dan doe je nu:
+echo "rating: " . $result->businesses[$i]->rating;
+
+ik wil alleen dat hij alle tags pakt van categories, dit lijkt me noodzakelijk voor een 
+goede zoekfunctie, daarom zet ik het in een for loop:
+
+for($i = 0; $i < count($result->businesses); ++$i){
+        echo "<li>";
+        echo $result->businesses[$i]->name;
+        echo "<br>";
+        echo "rating: " . $result->businesses[$i]->rating;
+        echo "<br>";
+        for($j = 0; $j < count($result->businesses->categories); ++$j){
+                echo "tags: " . $result->businesses[$i]->categories[$j]->[$j];
+        };
+        echo "</li>";
+        };
+echo ' </ol>';
+
+dit werkt helaas niet, ziet iemand wat er misgaat?
