@@ -35,7 +35,7 @@ for($i = 0; $i < count($result->businesses); ++$i){
         echo "rating: " . $result->businesses[$i]->rating;
         echo "<br>";
         for($j = 0; $j < count($result->businesses->categories); ++$j){
-                echo "tags: " . $result->businesses[$i]->categories[$j]->[$j];
+                echo "tags: " . $result->businesses[$i]->categories[$j][0];
         };
         echo "</li>";
         };
