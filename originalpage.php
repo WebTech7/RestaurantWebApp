@@ -5,7 +5,7 @@ $restaurantId = "restaurant-naam" ;
 
 ?>
 
-<a href="nextpage.php?id=<?php echo $restaurantId; ?>">Click here to go to the restaurants page</a> 
+<a href="restaurant.php?id=<?php echo $restaurantId; ?>">Click here to go to the restaurants page</a> 
 <!-- Dit is de link die per restaurant er bij moet staan, waarschijnlijk dus in de for functie die alle resultaten uit de api haalt -->
 
 

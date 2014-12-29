@@ -1,184 +1,30 @@
-<?php ob_start();
-function checkIfPostalCode($postcode){
-    $remove = str_replace(" ","", $postcode);
-    $upper = strtoupper($remove);
-
-    if(preg_match("/^\W*[1-9]{1}[0-9]{3}\W*[a-zA-Z]{2}\W*$/",  $upper)) {
-        return $upper;
-    } else {
-        return false;
-    }
-}
-function checkIfsearchQuery($query){    
-    if(trim($query)!='') {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-function makeStringSafe($string) {
-    $string = trim($string);
-    $string = stripslashes($string);
-    $string = htmlspecialchars($string);
-    return $string;
-}
-
-if(!isset($_GET['postalCode']) && !isset($_GET["searchQuery"])){
+<?php ob_start(); session_start(); require_once("functions.php");
+if(!isset($_GET["place"]) && !isset($_COOKIE["place"])){
     header("Location: postalcode.php");
-} else if(isset($_GET["postalCode"]) && (!checkIfPostalCode($_GET['postalCode']))){
-        header("Location: postalcode.php?error=1");
-    } else if(isset($_GET["searchQuery"]) && (!checkIfsearchQuery($_GET['searchQuery'])) ) {
-        header("Location: postalcode.php?error=2");
-    } else {
-    if(isset($_GET["postalCode"])) $postalCode = strtoupper(makeStringSafe($_GET['postalCode']));
-    if(isset($_GET["searchQuery"])) $searchQuery = makeStringSafe($_GET['searchQuery']);
-?><!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Restaurant Info, Reviews and Orders">
-    <meta name="author" content="WebTech7">
-
-    <title>RestaurantWebApp</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="css/style.css" rel="stylesheet">
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  </head>
-
-  <body>
-      <script>
-  // This is called with the results from from FB.getLoginStatus().
-  function statusChangeCallback(response) {
-    console.log('statusChangeCallback');
-    console.log(response);
-    // The response object is returned with a status field that lets the
-    // app know the current login status of the person.
-    // Full docs on the response object can be found in the documentation
-    // for FB.getLoginStatus().
-    if (response.status === 'connected') {
-      whenLoggedIn();
-      testAPI();
-    } else if (response.status === 'not_authorized') {
-      // The person is logged into Facebook, but not your app.
-      document.getElementById('status').innerHTML = 'Please log ' +
-        'into this app.';
-    } else {
-      // The person is not logged into Facebook, so we're not sure if
-      // they are logged into this app or not.
-      document.getElementById('status').innerHTML = 'Please log ' +
-        'into Facebook.';
+} else if((!isset($_GET["place"]) || trim($_GET["place"]) == "" ) && (!isset($_COOKIE["place"]) || trim($_COOKIE["place"]) == "") ) {
+    header("Location: postalcode.php?error=2");
+} else {
+    if(isset($_GET["place"])){
+    $place = makeInputSafe($_GET["place"]);
+    setcookie("place", $place);
     }
-  }
-
-  // This function is called when someone finishes with the Login
-  // Button.  See the onlogin handler attached to it in the sample
-  // code below.
-  function checkLoginState() {
-    FB.getLoginStatus(function(response) {
-      statusChangeCallback(response);
-    });
-  }
-
-  window.fbAsyncInit = function() {
-  FB.init({
-    appId      : '1033735633321196',
-    cookie     : true,  // enable cookies to allow the server to access 
-                        // the session
-    xfbml      : true,  // parse social plugins on this page
-    version    : 'v2.1' // use version 2.1
-  });
-
-  // Now that we've initialized the JavaScript SDK, we call 
-  // FB.getLoginStatus().  This function gets the state of the
-  // person visiting this page and can return one of three states to
-  // the callback you provide.  They can be:
-  //
-  // 1. Logged into your app ('connected')
-  // 2. Logged into Facebook, but not your app ('not_authorized')
-  // 3. Not logged into Facebook and can't tell if they are logged into
-  //    your app or not.
-  //
-  // These three cases are handled in the callback function.
-
-  FB.getLoginStatus(function(response) {
-    statusChangeCallback(response);
-  });
-
-  };
-
-  // Load the SDK asynchronously
-  (function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/en_US/sdk.js";
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));
-
-  // Here we run a very simple test of the Graph API after login is
-  // successful.  See statusChangeCallback() for when this call is made.
-  function testAPI() {
-    console.log('Welcome!  Fetching your information.... ');
-    FB.api('/me', function(response) {
-      console.log('Successful login for: ' + response.name);
-      document.getElementById('status').innerHTML =
-        'Thanks for logging in, ' + response.name + '!';
-    });
-  }
-</script>
-
-<!--
-  Below we include the Login Button social plugin. This button uses
-  the JavaScript SDK to present a graphical Login button that triggers
-  the FB.login() function when clicked.
--->
-      <div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/nl_NL/sdk.js#xfbml=1&appId=1033735633321196&version=v2.0";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
-      
-      <div id="wrap-everything">
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="postalcode.php">RestaurantWebApp</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="postalcode.php">Front Page</a></li>
-            <li><a href="contact.php">Contact</a></li>
-            <li><a href="about.php">About</a></li>
-            <li><a class="login-link" id="login-link" onclick="openLogin('signup');">Sign up</a></li>
-              <li><a class="login-link" id="login-link" onclick="openLogin('login');">Login <img src="https://www.facebook.com/images/fb_icon_325x325.png" class="small-facebook-logo" /></a></li>
-          </ul>
-          <form class="navbar-form navbar-right">
-            <input type="text" class="form-control" placeholder="Search for restaurants">
-          </form>
-        </div>
-      </div>
-    </nav>
+    $place = makeInputSafe($_COOKIE["place"]);
+    $title = $place;
+    if(isset($_GET["q"])){
+        $q = makeInputSafe($_GET["q"]);
+        setcookie("q", $q);
+        if(trim($q) != ""){
+            $title = $q . " | " . $place;
+        }
+    } else {
+        $q = $_COOKIE["q"];
+    }
+    $_COOKIE["get"] = "";
+    if(isset($_GET["place"]) || isset($_GET["q"])){
+        header("Location: index.php");
+    }
+    showHeader($title);
+?>
 
     <div class="container-fluid">
       <div class="row">
@@ -202,12 +48,14 @@ if(!isset($_GET['postalCode']) && !isset($_GET["searchQuery"])){
                       </select><br />
                 </div>
                 <label for="order"><p>
-                    Do you want to order?
+                    Do you want to order or pick up?
                     </p></label>
                 <div class="specify-option-content">
                         <select class="form-control" name="order" id="order">
                             <option>No preference</option>  
-                            <option>Yes</option>
+                            <option>Order or pick up</option>
+                            <option>Order</option>
+                            <option>Pick up</option>
                             <option>No</option>
                     </select>
                 </div><br />
@@ -216,73 +64,34 @@ if(!isset($_GET['postalCode']) && !isset($_GET["searchQuery"])){
                     </p></label>
                 <div class="specify-option-content">
                         <select class="form-control" name="radius" id="radius">
-                        <option>No preference</option>  
-                        <option>2 km</option>
-                          <option>5 km</option>
-                          <option>10 km</option>
-                          <option>25 km</option>
-                            <option>50 km</option>
+                        <option value="">No preference</option>  
+                        <option value="2000">2 km</option>
+                          <option value="5000">5 km</option>
+                          <option value="10000">10 km</option>
+                          <option value="25000">25 km</option>
+                            <option value="50000" >50 km</option>
                       </select><br />
                 </div>
                 
                 <label for="min-rating"><p>
                     Minimum rating:</p></label><br />
                 <div class="specify-option-content star-specify-option-content">
-                    <input type="image" src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" id="1" value="1" class="star-large first-star-large" /><input type="image" src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" value="2" class="star-large" id="2"/><input type="image" src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" value="3" class="star-large" id="3"/><input type="image" src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" value="4" class="star-large" id="4"/><input type="image" src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" value="5" class="star-large" id="5"/>
+                    <input onclick="" type="image" src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" id="1" value="1" class="star-large first-star-large" /><input type="image" src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" value="2" class="star-large" id="2"/><input type="image" src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" value="3" class="star-large" id="3"/><input type="image" src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" value="4" class="star-large" id="4"/><input type="image" src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" value="5" class="star-large" id="5"/><input style="display:none;" type="image" src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/bullet_deny.png" class="star-large-none"/><span style="display:none;" id="hidden-rating">0</span>
                 </div>
           </div>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main results">
-            <div class="header"><h3>Results for <?php if(isset($_GET["postalCode"])){echo $postalCode;}else echo $searchQuery; ?></h3><div style="right:30px;" class="something-absolute"><div class="something-0"><div class="sort-by-div">
-                <label for="sort-by" >Sort by:</label>
-                <select class="form-control" name="sort-by">
-                    <option>Best reviews</option>  
-                    <option>Newest</option>
+            <div id="results-loading"></div>
+            <div class="header" style="overflow:hidden;"><h3 style="float:left !important;margin-right:20px;">Results for <span id="results-for"><?php if(isset($q) && trim($q)!=""){echo "<i>" . $q . "</i> around ";} echo "<i>".$place."</i>"; ?></span></h3><div style="float:left;"><div style="float:right !important;" id="sort-wrap"><div class="sort-by-div"></div>
+                <label style="float:left;padding-top:5px;" for="sort-by">Sort by:</label>
+                <select style="float:left;width:150px;margin-top:-2px;margin-left:5px;" class="form-control" id="sort-by" name="sort-by">
+                    <option value="0">Best matched</option>
+                    <option value="1">Distance</option>
+                    <option value="2">Highest rated</option>  
                 </select>
-                </div></div></div></div>
-            <div class="result-content-wrapper">
-                        <?php    
-    
-        for($i=0;$i<1;$i++){
-            if($i % 2 == 0){
-                ?><div class="row"><?php
-            }
-        ?>
-                    <div class="col-lg-6">
-                        <div class="result-box">
-                            <div class="result-image" style="background:url(http://www.foodnavigator-usa.com/var/plain_site/storage/images/publications/food-beverage-nutrition/foodnavigator-usa.com/regulation/subway-removing-controversial-dough-conditioner-baking-expert-deems-ingredient-unnecessary/8754193-1-eng-GB/Subway-removing-controversial-dough-conditioner-baking-expert-deems-ingredient-unnecessary.jpg);background-size:cover;background-position:center;"></div>
-                            <div class="result-content">
-                                <h4><?php echo "Subway"; ?></h4>
-                                <p class="description-short">
-                                    Some description...<br />
-                                </p>
-                                <div style="float:left;margin-top:15px;">
-                                    <p>1 review &bull;</p></div>
-                                    <div style="float:left;margin-left:17px;width:100px;overflow:hidden">
-                                    <?php
-        $outOfFiveStars = 3.45;
-        $pxWidthOfStar = 13;
-        $pxMarginLeft = 3;
-        for($j=0;$j<5;$j++){
-                                    if($j < $outOfFiveStars){
-                                        if($outOfFiveStars - $j < 1){
-                                            ?>
-                                        <div style="float:left;"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" class="star"/></div><div style="position:absolute;z-index:1;width:0;height:0;"><div style="z-index:1;position:relative;width:<?php echo ($outOfFiveStars - $j)*$pxWidthOfStar; ?>px;left:<?php echo ($pxWidthOfStar+$pxMarginLeft)*$j + $pxMarginLeft; ?>px;overflow:hidden;"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_full.png" class="star" style="margin-left:0 !important;"/></div></div>
-                                    <?php
-                                        } else {
-                                    ?>
-                                        <div class="star-wrapper"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_full.png" class="star"/></div>
-                                    <?php } } else {
-                                        ?> <div class="star-wrapper"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" class="star"/></div> <?php   
-                                    } }
-                                        ?></div>
-                            </div>
-                        </div>
-                        <?php
-                        if($i % 1 == 0){
-                ?></div><?php } } ?>
-                    
-                    </div>
+                </div></div></div>
+            <div id="results-content-wrapper" class="result-content-wrapper">
+                        <?php require_once("refreshResults.php"); ?>
                 </div>
               </div>
             </div>
@@ -335,141 +144,10 @@ if(!isset($_GET['postalCode']) && !isset($_GET["searchQuery"])){
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="../../dist/js/bootstrap.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
-        <script>
-            var clicked = 0;
-            
-            $(".star-large").click(function(){
-                clicked = 0;
-                emptySrc = 'https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png';
-                    this.src = emptySrc;
-                    for(a=1;a<=5;a++){
-                        $("#"+a+"").attr("src", emptySrc);
-                    }
-                fullSrc = 'https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_full.png';
-                this.src = fullSrc;
-                for(a=0;a<$(this).val();a++){
-                    $("#"+a+"").attr("src", fullSrc);
-                }
-                clicked = $(this).val();
-            });
-            $(".star-large").hover(function(){
-                emptySrc = 'https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png';
-                    this.src = emptySrc;
-                    for(a=1;a<=5;a++){
-                        $("#"+a+"").attr("src", emptySrc);
-                    }
-                fullSrc = 'https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_full.png';
-                this.src = fullSrc;
-                for(a=1;a<=$(this).val();a++){
-                    $("#"+a+"").attr("src", fullSrc);
-                }
-            }, function(){
-                    fullSrc = 'https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_full.png';
-                    emptySrc = 'https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png';
-                    for(a=0;a<=5;a++){
-                        if(a > parseInt(clicked)){
-                            $("#"+a+"").attr("src", emptySrc);
-                        } else {
-                            $("#"+a+"").attr("src", fullSrc);
-                        }
-                }
-            });
-        </script>
-        
-        <script>
-            loginScreen = false;
-            
-            function showLogin(){
-                $("#login-form").show();
-                $("#signup-form").hide();      
-                $("#login-without-fb").show();
-                $("#signup-without-fb").hide();
-                $(".login-button").css('background', '#CCC');
-                $(".signup-button").css('background', '#e6e6e6');
-                $(".login-button").css('pointer-events', 'none');                
-                $(".signup-button").css('pointer-events', 'auto');
-            }
-            
-            function showSignUp(){
-                $("#signup-form").show();
-                $("#login-form").hide();
-                $("#signup-without-fb").show();
-                $("#login-without-fb").hide();
-                $(".signup-button").css('background', '#CCC');
-                $(".login-button").css('background', '#e6e6e6');
-                $(".signup-button").css('pointer-events', 'none');
-                $(".login-button").css('pointer-events', 'auto');
-            }
-            
-            function openLogin(type){
-                $("#login-screen-wrapper").show();
-                if(type == 'login'){
-                    showLogin();
-                } else if(type == 'signup'){
-                    showSignUp();
-                }
-            }
-            
-            $("#login-screen-wrapper").on('click', function() {
-              $("#login-screen-wrapper").hide();
-            }).children().on('click',function(){
-                return false;
-            });
-            
-             $(".login-screen-cross").on('click', function() {
-                $("#login-screen-wrapper").hide();
-            })
-            
-            $(document).ready(function(){
-                $("#login-screen-wrapper").hide();
-            });
-            
-            function checkEmail(email) {
-                if(email.length > 1){
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-            
-            function submitSignUp(){
-                if(checkEmail($("#signup-email").val())){
-                    document.getElementById("signup-feedback-success").innerHTML = 'A verification email has been sent to your email address. Click the verification link in the email, set your password and you\'re done.';
-                    $("#signup-feedback-success").show();
-                    $("#signup-feedback-danger").hide();
-                } else {
-                   document.getElementById("signup-feedback-danger").innerHTML = 'This is not a valid email address.';
-                    $("#signup-feedback-danger").show();
-                    $("#signup-feedback-success").hide();
-                }
-            }
-
-            function loginSuccess(){
-                if($("#login-email").val() == 'success'){
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-            
-            function login(){
-                //some AJAX
-            }
-            
-            function submitLogin(){
-                if(loginSuccess()){
-                    $("#login-screen-wrapper").hide();
-                    $("#signup-feedback-danger").hide();
-                    login();
-                } else {
-                    $("#login-feedback-danger").show();
-                    document.getElementById("login-feedback-danger").innerHTML = 'The combination of email address and password is not known by us.';
-                }
-            }
-            </script>
+    <script src="js/ie10-viewport-bug-workaround.js"></script>
+    <script src="js/main.js"></script>
   </body>
 </html>
 <?php

@@ -1,5 +1,8 @@
+<<<<<<< Updated upstream:test.php
 
 
+=======
+>>>>>>> Stashed changes:tests/test.php
 <?php
 $search = $_POST["name"];
 $url = "http://api.yelp.com/v2/search?term=food&limit=10&location=";

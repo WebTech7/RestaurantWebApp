@@ -1,6 +1,7 @@
 body {
     padding-top: 50px;
     background:#FAFAFA;
+    height:100%;
 }
 
 .postal-body {
@@ -44,8 +45,24 @@ h1, h2, h3, h4, h5, h6, p {
     color:#222;
 }
 
-.sidebar {
-  display: none;
+@media (max-width: 767px) {
+    .sidebar {
+        top:0 !important;
+        border-bottom:1px solid #222 !important;
+        padding-bottom:20px !important;
+    }
+    #sort-wrap {
+        margin-top:20px !important;
+    }
+    .results .header {
+        border-bottom:1px solid #222 !important;        
+    }
+    #results-loading {
+        height:100%;
+        width:100%;
+        top:0;
+        left:0;
+    }
 }
 
 @media (min-width: 768px) {
@@ -271,7 +288,7 @@ input[type="image"] {
     width:70px;
     background:#fff;
     border-radius:3px;
-    box-shadow: inset 0 0 50px #777;
+    box-shadow: inset 0 0 10px #777;
 }
 
 .result-content-wrapper {
@@ -297,6 +314,13 @@ input[type="image"] {
 }
 
 .star-large {
+    height: 20px;
+    margin-top: 5px;
+    cursor: pointer;
+    padding:0 2px;
+}
+
+.star-large-none {
     height: 20px;
     margin-top: 5px;
     cursor: pointer;
@@ -410,4 +434,79 @@ input[type="image"] {
 
 #signup-feedback-success {
     display:none;
+}
+
+.question {
+    margin:10px 0 5px 0;
+}
+
+.find-location {
+    border-radius:21px;
+    padding: 7px 14px;
+    border: none;
+    font-size: 15px;
+    background: #82CCEC;
+    transition:background 0.5s;
+    outline: none;
+}
+
+.find-location:hover {
+    background:#68A6C4;
+    transition:background 0.5s;
+}
+
+#front-form {
+    margin-bottom:0;
+}
+
+#top-search-button {
+    padding:0;
+    background:#82CCEC;
+    transition:all 0.5s;
+    border: #68A6C4 1px solid;
+}
+
+#top-search-button:hover {
+    background:#68A6C4;
+    transition:all 0.5s;
+}
+
+.contact-right {
+    position:absolute;height:0;width:0;right:70px;
+}
+
+.contact-right div {
+    position:relative;left:100%;
+}
+
+.contact-right div img {
+    width:40px;
+    transition: all 0.3s;
+    border-radius:5px;
+}
+
+.contact-right div img:hover {
+    background: #FFF;
+    transition: all 0.3s;
+}
+
+#results-loading {
+    opacity:0;
+    position:fixed;
+    z-index:-20;
+    width:100%;
+    height:100vh;
+    background-image:url("https://m1.behance.net/rendition/modules/100385201/disp/32b2a2798dae4b5118c2ba97ce4d2fba.gif");
+    background-repeat:no-repeat;
+    background-color:#58a5a3;
+    background-position:center;
+    transition:opacity 0.5s;
+}
+
+.reset-specify {
+    color:blue;
+}
+
+.reset-specify:hover {
+    text-decoration:underline;
 }

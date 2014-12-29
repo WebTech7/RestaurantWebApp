@@ -1,29 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php ob_start(); session_start();
 
-
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
-
-    <title>Dashboard Template for Bootstrap</title>
-
-		<link href="css/bootstrap.min.css" rel="stylesheet">
-		<link href="css/styles.css" rel="stylesheet">
-
-    
-    <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-<?php
 $errorRestaurantId = 1;  //De boolean die nodig is voor het checken of alles klopt
 $restaurantName = "";
 $restaurantLogo  = "";
@@ -35,8 +11,6 @@ $restaurantPhone  = "";
 $restaurantCurrency  = "";
 $restaurantCategory  = "";
 $restaurantDeals  = "";
-
-
 
 //$testing ="";  			Deze lines checken waar er iets fout gaat in de code, puur voor testen.
 //$testing2 ="";
@@ -74,38 +48,9 @@ IF ($errorRestaurantId == FALSE) { // als er dus iets fout is gegaan heeft is $e
 //echo $testing . $testing2 . $testing3 . $testing4 ;
 $errorMessage = "Something went wrong";
 
-}
-?>
-
-
-  </head>
-
-  <body>
-<?php IF ($errorRestaurantId == TRUE ){ ?>
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">OurEatingsitesName</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">References</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Help</a></li>
-          </ul>
-          <form class="navbar-form navbar-right">
-            <input type="text" class="form-control" placeholder="Search...">
-          </form>
-        </div>
-      </div>
-    </nav>
+} IF ($errorRestaurantId == TRUE ){ 
+require_once("functions.php");
+showHeader(""); ?>
 
     <div class="container-fluid">
       <div class="row">
