@@ -42,6 +42,7 @@ echo '<ol>';
 //print_r($result); 
 for($i = 0; $i < count($result->businesses); ++$i){
         $business = $result->businesses[$i];
+        $businessID = $business->id;
 
         echo "<li>";
         echo $business->name;
