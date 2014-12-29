@@ -1,10 +1,8 @@
 
 
-
-
 <?php
 $search = $_POST["name"];
-$url = "http://api.yelp.com/v2/search?term=food&limit=1&location=";
+$url = "http://api.yelp.com/v2/search?term=food&limit=10&location=";
 $unsigned_url = $url . $search;
 
 // Enter the path that the oauth library is in relation to the php file
@@ -40,9 +38,43 @@ $token = new OAuthToken($token, $token_secret);
         $result = json_decode($json_string);
 
 // Print it for debugging
-echo '<pre>';
-print_r($result); 
-echo $result->businesses[0]->name;
-echo '</pre>';
+echo '<ol>';
+//print_r($result); 
+for($i = 0; $i < count($result->businesses); ++$i){
+        $business = $result->businesses[$i];
+
+        echo "<li>";
+        echo $business->name;
+        echo "<br>";
+        echo "rating: " . $business->rating;
+        echo "<br>";
+        echo "Number of reviews: " . $business->review_count;
+        echo "<br>";
+        echo "tags: ";
+                if(isset($business->categories)) {
+                        $tags = count($business->categories);
+
+                        for($j = 0; $j < $tags; ++$j){
+                                echo $business->categories[$j][0];
+                                echo " ";
+                        }
+                }
+                else{
+                        echo "None ";    
+                };
+        echo "<br>";
+        echo "<a href=" . $business->url . ">" . $business->url . "</a>";
+        echo "<br>";
+        echo "phone: " . $business->display_phone;
+        echo "<br>";
+        echo $business->location->display_address[0];
+        echo "<br>";
+        echo $business->location->display_address[1];
+        echo "<br>";
+        echo $business->location->display_address[2];
+        echo "</li>";
+        echo "<br>";
+        };
+echo ' </ol>';
 
 ?>
