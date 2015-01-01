@@ -2,12 +2,18 @@ $(document).ready(function(){
     height = $(".navbar").outerHeight();
     $("body").css('padding-top', height);
     $(".sidebar").css('top', height);
+    height = $("#specify").outerHeight() - $("#results-for-header").outerHeight();
+    $("#map").css('height', height);
+    $("#googleMap").css('height', height);
 });
 
 $(window).resize(function(){
     height = $(".navbar").outerHeight();
     $("body").css('padding-top', height);
     $(".sidebar").css('top', height);
+    height = $("#specify").outerHeight() - $("#results-for-header").outerHeight();
+    $("#map").css('height', height);
+    $("#googleMap").css('height', height);
 });
 
             loginScreen = false;
@@ -155,23 +161,28 @@ $(window).resize(function(){
 
 
 function submitTopSearch(){
+    $("#sort-by").val(0);
+    $("#radius").val("");
     var askedArray = new Array();
     askedArray["q"] = $("#top-search-q").val();
     askedArray["place"] = $("#top-search-place").val();
     askedArray["useq"] = 1;
     refreshResults(askedArray);
     resultsfor = "";
+    title = "";
     if($("#top-search-q").val() != ""){
         resultsfor = "<i>" + resultsfor + $("#top-search-q").val() + "</i> around ";
+        title = title + $("#top-search-q").val() + " | ";
     }
     if($("#top-search-place").val() != ""){
         resultsfor = resultsfor + "<i>" + $("#top-search-place").val() + "</i>";
+        title = title + $("#top-search-place").val();
     } else {
         resultsfor = resultsfor + "<i>" + $.cookie("place") + "</i>";
+        title = title + $.cookie("place");
     }
     document.getElementById("results-for").innerHTML = resultsfor;
-    $("#sort-by").val(0);
-    $("#radius").val("");
+    $(document).prop('title', title + ' | RestaurantWebApp');
 }
 
 function refreshResults(askedArray){
@@ -214,8 +225,32 @@ function refreshResults(askedArray){
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("results-content-wrapper").innerHTML = xmlhttp.responseText;
             $("#results-loading").css('opacity', 0);
+            height = $("#specify").outerHeight() - $("#results-for-header").outerHeight();
+            $("#map").css('height', height);
+            
+myCenter=new google.maps.LatLng(51.508742,-0.120850);
+
+google.maps.event.addDomListener(window, 'load', function(){var mapProp = {
+  center:myCenter,
+  zoom:5,
+  mapTypeId:google.maps.MapTypeId.ROADMAP
+  };
+
+var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+
+var marker=new google.maps.Marker({
+  position:myCenter,
+  });
+
+marker.setMap(map);});
+                if($("#choose-list").hasClass("active")){
+                    $("#list").show();
+                    $("#map").hide();
+                } else {
+                    $("#list").hide();
+                    $("#map").show();
+                }
             setTimeout(function(){
-                //alert("hey");
                 $("#results-loading").css('z-index', -20);
             }, 500);
         }
@@ -243,4 +278,50 @@ function refineRating(rating){
     askedArray["rating"] = rating;
     askedArray["usecookieget"] = 1;
     refreshResults(askedArray);
+}
+
+var points = 0;
+function topSearchLocation() {
+    if (navigator.geolocation) {
+        $("#location-or-load").attr('src', 'http://www.ballarat.vic.gov.au/media/2651383/loading.gif');
+        navigator.geolocation.getCurrentPosition(showTopPosition);
+    } else { 
+        alert("Geolocation is not supported by this browser.");
+    }
+}
+
+function showTopPosition(position) {
+    str = position.coords.latitude + ',' + position.coords.longitude;
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                $("#top-search-place").val(xmlhttp.responseText);
+                $("#top-search-place").css('background-color', '#86cea6');
+                $("#top-search-place").css('border-color', '#86cea6');
+                setTimeout(function(){$("#top-search-place").css('background-color', '#FFF');
+                $("#top-search-place").css('border-color', '#ccc');}, 300);
+                $("#location-or-load").attr('src', 'https://cdn2.iconfinder.com/data/icons/flat-ui-icons-24-px/24/location-24-48.png');
+            }
+        }
+        xmlhttp.open("GET", "geo.php?latlng=" + str, true);
+        xmlhttp.send();
+}
+
+
+function showList(){
+  $("#choose-map").attr("class", "");
+  $("#choose-list").attr("class", "active");
+  $("#list").show();
+  $("#map").hide();
+    $("#results-content-wrapper").css('padding', '0px 10px');
+    $(".results").css('padding-bottom', 25);
+}
+
+function showMap(){
+  $("#choose-map").attr("class", "active");
+  $("#choose-list").attr("class", "");
+  $("#list").hide();
+  $("#map").show();
+    $("#results-content-wrapper").css('padding', 0);
+    $(".results").css('padding-bottom', 0);
 }

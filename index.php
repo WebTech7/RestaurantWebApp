@@ -28,7 +28,7 @@ if(!isset($_GET["place"]) && !isset($_COOKIE["place"])){
 
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar specify">
+        <div class="col-sm-3 col-md-2 sidebar specify" id="specify">
             <div class="header">
                 <h3>
                     Specify
@@ -69,7 +69,7 @@ if(!isset($_GET["place"]) && !isset($_COOKIE["place"])){
                           <option value="5000">5 km</option>
                           <option value="10000">10 km</option>
                           <option value="25000">25 km</option>
-                            <option value="50000" >50 km</option>
+                            <option value="40000" >40 km</option>
                       </select><br />
                 </div>
                 
@@ -82,14 +82,25 @@ if(!isset($_GET["place"]) && !isset($_COOKIE["place"])){
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main results">
             <div id="results-loading"></div>
-            <div class="header" style="overflow:hidden;"><h3 style="float:left !important;margin-right:20px;">Results for <span id="results-for"><?php if(isset($q) && trim($q)!=""){echo "<i>" . $q . "</i> around ";} echo "<i>".$place."</i>"; ?></span></h3><div style="float:left;"><div style="float:right !important;" id="sort-wrap"><div class="sort-by-div"></div>
-                <label style="float:left;padding-top:5px;" for="sort-by">Sort by:</label>
-                <select style="float:left;width:150px;margin-top:-2px;margin-left:5px;" class="form-control" id="sort-by" name="sort-by">
-                    <option value="0">Best matched</option>
-                    <option value="1">Distance</option>
-                    <option value="2">Highest rated</option>  
-                </select>
-                </div></div></div>
+            <div class="header" id="results-for-header" style="overflow:hidden;"><h3 style="float:left !important;margin-right:20px;">Results for <span id="results-for"><?php if(isset($q) && trim($q)!=""){echo "<i>" . $q . "</i> around ";} echo "<i>".$place."</i>"; ?></span></h3>
+                <div style="float:left;">
+                    <div id="sort-wrap"><div class="sort-by-div"></div>
+                    <label style="float:left;padding-top:5px;" for="sort-by">Sort by:</label>
+                    <select style="float:left;width:150px;margin-top:-2px;margin-left:5px;" class="form-control" id="sort-by" name="sort-by">
+                        <option value="0">Best matched</option>
+                        <option value="1">Distance</option>
+                        <option value="2">Highest rated</option>  
+                    </select>
+                        
+                <nav>
+  <ul class="pagination list-or-map" style="margin:-2px 0 0 10px;">
+      <li id="choose-list" class="active"><a onclick="showList();" style="cursor:pointer;"><span aria-hidden="true"><div style="border-bottom:2px solid #222;width:20px;margin-top:3px;"></div><div style="border-bottom:2px solid #222;width:20px;margin-top:4px;"></div>
+      <div style="border-bottom:2px solid #222;width:20px;margin-top:4px;margin-bottom:3px;"></div></span>
+      <li id="choose-map"><a onclick="showMap();" style="cursor:pointer;"><img src="https://cdn2.iconfinder.com/data/icons/pittogrammi/142/93-48.png" height="18"/><span class="sr-only">(current)</span></a></li>
+  </ul>
+                    </div>
+                </div>
+            </div>
             <div id="results-content-wrapper" class="result-content-wrapper">
                         <?php require_once("refreshResults.php"); ?>
                 </div>
@@ -97,9 +108,14 @@ if(!isset($_GET["place"]) && !isset($_COOKIE["place"])){
             </div>
           </div>
       </div>
+</div></div></div></div></div></div>
 
       <div id="login-screen-wrapper" class="content-when-not-logged-in" onclick="closeLogin();">
           <div id="login-screen" class="container">
+              <?php
+
+
+    ?>
               <div class="something-absolute something-0"><div class="login-screen-cross"><img src="https://cdn0.iconfinder.com/data/icons/slim-square-icons-basics/100/basics-22-32.png" width="15"/></div></div>
               <!--<button type="button" class="btn btn-default btn-lg btn-primary"><img src="https://www.facebook.com/images/fb_icon_325x325.png" class="middle-facebook-logo" scope="public_profile,email" onlogin="checkLoginState();" /> Log in with Facebook<-button><fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
 </fb:login-button>--><div class="fb-login-button" data-max-rows="1" data-size="xlarge" data-show-faces="false" data-auto-logout-link="true"></div>
@@ -117,6 +133,31 @@ if(!isset($_GET["place"]) && !isset($_COOKIE["place"])){
                 <br />
                   <form role="form" id="login-form">
                     <div class="form-group">
+                        <?php
+    require_once("fb/src/Facebook/FacebookRequest.php");
+//use Facebook\FacebookRequest;
+//use Facebook\GraphUser;
+//use Facebook\FacebookRequestException;
+
+if($session) {
+
+  try {
+
+    $user_profile = (new FacebookRequest(
+      $session, 'GET', '/me'
+    ))->execute()->getGraphObject(GraphUser::className());
+
+    echo "Name: " . $user_profile->getName();
+
+  } catch(FacebookRequestException $e) {
+
+    echo "Exception occured, code: " . $e->getCode();
+    echo " with message: " . $e->getMessage();
+
+  }   
+
+}
+    ?>
                         <div class="alert alert-danger" role="alert" id="login-feedback-danger"></div>
                       <label for="login-email">Email:</label>
                       <input type="email" class="form-control" id="login-email" placeholder="Enter email">

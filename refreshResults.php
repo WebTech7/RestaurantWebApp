@@ -62,7 +62,6 @@ if(!isset($_COOKIE["get"])){
 $_COOKIE["get"] = $get;
 $url = "http://api.yelp.com/v2/search?$get&location=";
 $unsigned_url = $url . $place;
-echo '<script>$(document).prop("title", '.$title.');</script>';
 // Enter the path that the oauth library is in relation to the php file
 require_once('OAuth.php');
 // Set your OAuth credentials here  
@@ -94,17 +93,14 @@ $token = new OAuthToken($token, $token_secret);
         $response = json_decode($data);
         $json_string = file_get_contents($signed_url);
         $result = json_decode($json_string);
-        $countBoxes = 0;
+        $countBoxes = 0;echo "<div id='list'><div class='row'>";
         for($i=0;$i<count($result->businesses);$i++){
             if($rating <= $result->businesses[$i]->rating){
                 $countBoxes++;
-            if($i % 2 == 0){
-                ?><div class="row"><?php
-            }
-        ?>
+            ?>
                     <div class="col-lg-6">
                         <div class="result-box" onclick="document.location.href='restaurant.php?id=<?php echo $result->businesses[$i]->id; ?>';">
-                            <div class="result-image" style="background:url(<?php if($result->businesses[$i]->image_url != ""){ echo $result->businesses[$i]->image_url; } else { echo "https://cdn0.iconfinder.com/data/icons/kameleon-free-pack-rounded/110/Food-Dome-128.png"; } ?>) #FFF;background-size:cover;background-position:center;"></div>
+                            <div class="result-image" style="background:url(<?php if($result->businesses[$i]->image_url != ""){ echo $result->businesses[$i]->image_url; } else { echo "https://cdn4.iconfinder.com/data/icons/home-sweet-home-2/120/cafe-512.png"; } ?>) #FFF;background-size:cover;background-position:center;"></div>
                             <div class="result-content">
                                 <h4 style="height:20px;overflow:hidden;"><?php echo $result->businesses[$i]->name;
  ?></h4>
@@ -143,18 +139,19 @@ $token = new OAuthToken($token, $token_secret);
                                     } }
                                         ?></div>
                                 
-                        </div>
-                            
+                        </div></div>
                             </div>
                         <?php
-                        if($i % 1 == 0){
-                ?></div><?php } } }
+                         } }
 if($countBoxes == 0){
     ?>
-<div style="width:calc(100% - 20px);background:#f5bb4d;margin:20px;padding:10px;border-radius:5px;"><h4>No results found.<br /><br />Suggestions:<br /><ul><li>Make sure everything is spelled right.</li><li>Be more general.</li></ul></h4></div>
+<div style="width:calc(100% - 40px);color:#FFF;background:#f5bb4d;margin:30px 20px 0 20px;padding:25px;border-radius:5px;"><div class="row"><div style="float:left;width:100px;"><img alt="Not found" src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678069-sign-error-256.png" width="100%"/></div><div style="padding-left:20px;float:left;width:calc(100% - 100px);"><h4 style="font-weight:normal;">No results found.<br /><br />Suggestions:<br /><ul style="margin-top:5px;margin-bottom:0;"><li>Make sure everything is spelled right.</li><li>Be more general.</li></ul></h4></div></div></div>
 <?php
 }
 ?>
-                
+                </div>
                     </div>
 <span style="display:none;" id="current-q"><?php echo $q; ?></span>
+<div id="map" style="display:none;background:green;">
+    <div id="googleMap" style="width:100%;height:100%;"></div>
+</div>

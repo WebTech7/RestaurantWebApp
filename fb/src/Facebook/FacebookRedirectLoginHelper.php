@@ -45,7 +45,7 @@ class FacebookRedirectLoginHelper
   /**
    * @var string The redirect URL for the application
    */
-  private $redirectUrl;
+  private $redirectUrl = "http://localhost:8000/restaurantwebapp/fb.php";
 
   /**
    * @var string Prefix to use for session variables
@@ -70,7 +70,7 @@ class FacebookRedirectLoginHelper
    * @param string $appId The application id
    * @param string $appSecret The application secret
    */
-  public function __construct($redirectUrl, $appId = null, $appSecret = null)
+  public function __construct($redirectUrl, $appId = null, $appSecret = null, $user_id = '')
   {
     $this->appId = FacebookSession::_getTargetAppId($appId);
     $this->appSecret = FacebookSession::_getTargetAppSecret($appSecret);

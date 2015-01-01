@@ -18,7 +18,7 @@
                         <input type="text" name="q" style="<?php if(isset($_GET["error"]) && $_GET["error"] == 1){ ?>background-color:#D5423D;color:#FFF;<?php } ?>width:235px;padding-right:20px !important;" autocomplete="off" id="q-input" placeholder="Italian, Domino's" <?php if(isset($_COOKIE["q"])){echo "value='".$_COOKIE["q"]."'";} ?> class="input-one round-in-middle-input"/>
                         
                         <h3 class="question">And where?</h3>
-                                                                                         <input type="text" name="place" style=" <?php if(isset($_GET["error"]) && $_GET["error"] == 2){ ?> background-color:#D5423D;color:#FFF; <?php } ?> width:235px;" autocomplete="off" id="place-input" placeholder="1234AB or Eindhoven" class="input-one round-in-middle-input" <?php if(isset($_COOKIE["place"])){echo "value='".$_COOKIE["place"]."'";} ?>/>
+                                                                                         <input type="text" name="place" style=" <?php if(isset($_GET["error"]) && $_GET["error"] == 2){ ?> background-color:#D5423D;color:#FFF; <?php } ?> width:235px;" autocomplete="off" id="place-input" placeholder="1234AB, Eindhoven" class="input-one round-in-middle-input" <?php if(isset($_COOKIE["place"])){echo "value='".$_COOKIE["place"]."'";} ?>/>
                                                                                          
                                                                                          <div class="something-abolute"><div class="something-0"><div style="margin-left:278px" class="arrow-button" onclick="$('#front-form').submit();"></div></div></div>
                         <h5 style="color:#FFF;margin:3px 0;">or</h5>

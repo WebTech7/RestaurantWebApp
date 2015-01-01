@@ -1,3 +1,79 @@
+/--- Alles wat nog moet gebeuren ---/
+
+1. Het specify-gedeelte (links op de pagina met zoekresultaten) {index.php}
+    a) "What kind of restaurant are you looking for?" moet werken net zoals "In what radius do you want to search?"            
+        i) Een aantal categorieën restaurants moet of via een API of hiervan: "http://www.yelp.com/developers/documentation/v2/all_category_list" gekopieerd worden.
+        ii) Het moet met AJAX werken net zoals het rating-specify gedeelte.
+    b) "Do you want to order or pick up?" moet werken net zoals "In what radius do you want to search?"
+        i) Dit moet volledig uit onze database komen, voor restaurants die willen bezorgen en laten afhalen (dus bestellen moet bij dat restaurant mogelijk zijn).
+        ii) Het moet met AJAX werken net zoals het rating-specify gedeelte.
+
+2. Een kaart met alle restaurants binnen de zoekresultaten laten zien, waar nu de resultaten op een rijtje staan. {index.php}
+
+3. De volledige pagina van een restaurant {restaurant.php}
+    a) Het linker, smalle gedeelte van de pagina
+        i) Rating (kan je kopieren van refreshResults.php, alleen $outOfFiveStars een andere waarde geven.)
+        ii) Locatie, telefoon, evt. afstand vanaf je postcode of ingegeven plaats, categorieen.
+        iii) in Yelp API documentatie kijken wat nog meer mogelijk is.
+    b) Het rechter, brede gedeelte van de pagina
+        i) Foto's (zou mooi zijn in een slideshow van bootstrap o.i.d.)
+        ii) Eventueel het logo ophalen in Yelp.
+        iii) Kaart van waar het is en de aangegeven locatie die opgeslagen staat in $_COOKIE["place"].
+        iv) in Yelp API documentatie kijken wat nog meer mogelijk is.
+        v) Niet alle informatie, foto's en kaarten rechts onder elkaar, maar gebruik maken van <div class="row"> en <div class="col-lg-x"> (zie Bootstrap documentatie).
+    c) De zoekfunctie in de header naar index.php laten verwijzen.
+    d) Net zoals bij index.php, als de header hoger dan 50 pixels is, moet de padding-top van de pagina groter worden, omdat de header ands voor de overige content van de pagina gaat zitten.
+
+4. De database maken (met MySQL en PHPMyAdmin, zie connect.php hoe je in de PHPMyAdmin komt.)
+    a) Tabel 'users', het kunnen gebruikers zijn die via hun email hun account geverifieerd hebben of die via Facebook een account hebben aangemaakt. Bij het aanmaken van een account komen de gegevens in deze tabel.
+        i) Moeten nog kolommen 'bezorgadres', 'bezorgpostcode', 'bezorgwoonplaats' bij.
+    b) Tabel 'reviews' die mensen op onze pagina plaatsen.
+    c) Tabel 'restaurants', waarin restauranteigenaren hun restaurant toevoegen die niet op Yelp staan. Tabel heeft zelfde structuur als Yelp.
+    d) Tabel 'menu', waarin de menu's staan van restaurants, gelinkt aan het restaurant_id van Yelp of van de tabel 'restaurants'.
+    e) Tabel 'orders', waarin de statussen en informatie [bezorgadres, tijd e.d.] van bestellingen staan.
+    
+5. Sign up (kan met email en facebook) en login pagina maken (is al een gedeelte van gemaakt, deze verschijnt over de rest van de pagina heen).
+
+6. Als iemand zich aanmeldt, komt hij op deze pagina (als hij via email werkt, krijgt hij een mail met een link). Hier moeten gegevens, zoals voornaam en achternaam (en overige informatie, die nog in de database mist) worden ingegeven. Bezorgadres, hoeft nog niet. Dit hoeft pas de eerste keer als iemand eten thuis laat bezorgen. {auth.php}
+
+7. "I'm an owner" moet linken naar signupowner.php (bestaat nog niet). In dit bestand kan een eigenaar zijn restaurant toevoegen en wordt geupload in de database. Hier moet de eigenaar ook aangeven of hij wil dat mensen bij zijn restaurant kunnen bestellen.
+
+8. Een pagina waarin klanten bij een restaurant eten kunnen bestellen bij een restaurant, die daar toestemming voor gegeven heeft. De afhandeling van de bestelling wordt hier ook gedaan (bezorgadres invullen, {betalen wordt waarschijnlijk een beetje moeilijk, dus laten we in het begin maar gewoon zeggen dat aan de deur wordt betaald.}). {order.php}
+
+9. Een pagina voor de restauranteigenaren waarin ze informatie over hun restaurant kunnen wijzigen (de informatie die op Yelp staat, kunnen ze hier niet wijzigen). Hier kunnen ze ook hun menu toevoegen, aangeven dat klanten bij hun kan afhalen of laten bezorgen. {owner.php}
+
+10. Eventueel een contact.php en een about.php pagina, maar hoeft niet per se. Zou wel netjes zijn.
+
+11. Onze eigen API (Ik stel voor een REST API, die gebruik maakt van MySQL en XML en JSON terug kan geven, afhankelijk wat de gebruiker vraagt.) maken met de functies:
+    a) showRestaurant: Laat informatie over restaurants zien. Data sources: onze database en Yelp databse.
+    b) showReviews: Laat reviews zien over een restaurant. Data sources: onze database en Yelp database.
+    c) showMenu: Laat menu zien van restaurant. Data sources: onze database
+    d) showUserInfo: Laat zeer beperkte informatie over gebruikers zien.
+    e) Eventueel nog meer.
+    
+12. Een pagina waarin de gebruiker zijn gegevens kan wijzigen. Is denk ik ook niet strict noodzakelijk, maar kan wel handig zijn. {user.php}
+
+13. Report schrijven
+____________________________________________
+Wat     | Wie       | Gedaan    | Wanneer
+1       |           |           |
+2       |           |           |
+3       |           |           |
+4a      | Coen      | X         | 
+4b      | Coen      | X         | 
+5       |           |           |
+6       |           |           |
+7       |           |           |
+8       |           |           |
+9       |           |           |
+10      |           |           |
+11      |           |           |
+12      |           |           |
+13      |           |           |
+_____________________________________________
+
+/--- OUD ---/
+
 To do list
 
 16 december

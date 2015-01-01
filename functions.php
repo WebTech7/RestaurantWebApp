@@ -79,6 +79,25 @@ function showHeader($title) {
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <script src="http://maps.googleapis.com/maps/api/js"></script>
+<script>
+var myCenter=new google.maps.LatLng(51.508742,-0.120850);
+
+
+google.maps.event.addDomListener(window, 'load', function(){var mapProp = {
+  center:myCenter,
+  zoom:5,
+  mapTypeId:google.maps.MapTypeId.ROADMAP
+  };
+
+var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+
+var marker=new google.maps.Marker({
+  position:myCenter,
+  });
+
+marker.setMap(map);});
+</script>
   </head>
 
   <body>
@@ -191,6 +210,14 @@ function showHeader($title) {
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
+              <li>
+              <form class="navbar-form navbar-right">
+            <input class="form-control top-search-input" id="top-search-q" style="width:145px;" placeholder="Italian, Domino's">
+            <input type="text" <?php if(isset($_COOKIE["place"])){echo "value='".$_COOKIE["place"]."'";} ?> class="form-control top-search-input" id="top-search-place" style="width:135px;border-radius:4px 0 0 4px;margin-right:0;" placeholder="1234AB, Eindhoven">
+                  <div class="btn btn-regular" id="top-search-location"><img id="location-or-load" onclick="topSearchLocation();" src="https://cdn2.iconfinder.com/data/icons/flat-ui-icons-24-px/24/location-24-48.png" height="24"/></div>
+              <div class="btn btn-regular" id="top-search-button"><img onclick="submitTopSearch();" src="https://cdn0.iconfinder.com/data/icons/slim-square-icons-basics/100/basics-02-48.png" height="30"/></div>
+          </form>
+              </li>
             <li><a href="owner.php">I'm an owner!</a></li>
             <li><a href="postalcode.php">Front Page</a></li>
             <li><a href="contact.php">Contact</a></li>
@@ -198,11 +225,7 @@ function showHeader($title) {
             <li><a class="login-link" id="login-link" onclick="openLogin('signup');">Sign up</a></li>
               <li><a class="login-link" id="login-link" onclick="openLogin('login');">Login <img src="https://www.facebook.com/images/fb_icon_325x325.png" class="small-facebook-logo" /></a></li>
           </ul>
-          <form class="navbar-form navbar-right">
-            <input class="form-control top-search-input" id="top-search-q" style="width:145px;" placeholder="Italian, Domino's">
-            <input type="text" <?php if(isset($_COOKIE["place"])){echo "value='".$_COOKIE["place"]."'";} ?> class="form-control top-search-input" id="top-search-place" style="width:165px;" placeholder="1234AB or Eindhoven">
-              <div class="btn btn-regular" id="top-search-button"><img onclick="submitTopSearch();" src="https://cdn0.iconfinder.com/data/icons/slim-square-icons-basics/100/basics-02-48.png" height="30"/></div>
-          </form>
+          
         </div>
       </div>
     </nav>
