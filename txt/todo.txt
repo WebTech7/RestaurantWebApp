@@ -36,11 +36,11 @@
 
 6. Als iemand zich aanmeldt, komt hij op deze pagina (als hij via email werkt, krijgt hij een mail met een link). Hier moeten gegevens, zoals voornaam en achternaam (en overige informatie, die nog in de database mist) worden ingegeven. Bezorgadres, hoeft nog niet. Dit hoeft pas de eerste keer als iemand eten thuis laat bezorgen. {auth.php}
 
-7. "I'm an owner" moet linken naar signupowner.php (bestaat nog niet). In dit bestand kan een eigenaar zijn restaurant toevoegen en wordt geupload in de database. Hier moet de eigenaar ook aangeven of hij wil dat mensen bij zijn restaurant kunnen bestellen.
+7. "I'm an owner" moet linken naar {signupowner.php} (bestaat nog niet). In dit bestand kan een eigenaar zijn restaurant toevoegen en wordt geupload in de database. Hier moet de eigenaar ook aangeven of hij wil dat mensen bij zijn restaurant kunnen bestellen.
 
-8. Een pagina waarin klanten bij een restaurant eten kunnen bestellen bij een restaurant, die daar toestemming voor gegeven heeft. De afhandeling van de bestelling wordt hier ook gedaan (bezorgadres invullen, {betalen wordt waarschijnlijk een beetje moeilijk, dus laten we in het begin maar gewoon zeggen dat aan de deur wordt betaald.}). {order.php}
+8. Een pagina waarin klanten bij een restaurant eten kunnen bestellen bij een restaurant, die daar toestemming voor gegeven heeft. (het eten aanklikken gebeurt al in restaurant.php) De afhandeling van de bestelling wordt hier ook gedaan (bezorgadres invullen, {betalen wordt waarschijnlijk een beetje moeilijk, dus laten we in het begin maar gewoon zeggen dat aan de deur wordt betaald.}). {order.php} Ook wordt er een mailtje gestuurd naar de eigenaar als er een order binnen is.
 
-9. Een pagina voor de restauranteigenaren waarin ze informatie over hun restaurant kunnen wijzigen (de informatie die op Yelp staat, kunnen ze hier niet wijzigen). Hier kunnen ze ook hun menu toevoegen, aangeven dat klanten bij hun kan afhalen of laten bezorgen. {owner.php}
+9. Een pagina voor de restauranteigenaren waarin ze informatie over hun restaurant kunnen wijzigen (de informatie die op Yelp staat, kunnen ze hier niet wijzigen). Hier kunnen ze ook hun menu toevoegen, aangeven dat klanten bij hun kan afhalen of laten bezorgen. Orders kunnen hier ook bekeken worden. {owner.php}
 
 10. Eventueel een contact.php en een about.php pagina, maar hoeft niet per se. Zou wel netjes zijn.
 
@@ -51,25 +51,29 @@
     d) showUserInfo: Laat zeer beperkte informatie over gebruikers zien.
     e) Eventueel nog meer.
     
-12. Een pagina waarin de gebruiker zijn gegevens kan wijzigen. Is denk ik ook niet strict noodzakelijk, maar kan wel handig zijn. {user.php}
+12. Een pagina waarin de gebruiker zijn gegevens kan wijzigen en zijn bestellingen kan bekijken. {user.php}
 
-13. Report schrijven
+13. Report schrijven.
+
+14. Een pagina waar onze API wordt uitgelegd. [optioneel]
 ____________________________________________
 Wat     | Wie       | Gedaan    | Wanneer
-1       |           |           |
-2       |           |           |
-3       |           |           |
-4a      | Coen      | X         | 
-4b      | Coen      | X         | 
-5       |           |           |
-6       |           |           |
-7       |           |           |
-8       |           |           |
-9       |           |           |
-10      |           |           |
-11      |           |           |
-12      |           |           |
-13      |           |           |
+1       | Coen      |           | 5 januari
+2       | Thijs     |           | 5 januari
+3       | Enzo      |           | 5 januari
+4a      | Coen      | X         | -
+4b      | Coen      | X         | -
+4rest   | Max       |           | 6 januari
+5       | Coen      |           | . januari
+6       | Coen      |           | . januari
+7       | Max       |           | 6 januari
+8       | Enzo      |           | . januari
+9       | Max       |           | 6 januari
+10      | Optioneel |           | 
+11      | ?         |           | 
+12      | Thijs     |           | 8 januari
+13      | Iedereen  |           | 
+14      | Optioneel |           | 
 _____________________________________________
 
 /--- OUD ---/
