@@ -299,8 +299,7 @@ input[type="image"] {
     padding:0 10px;
 }
 
-.result-content h4, p {
-    color:#FFF;
+.result-content h4, p, {
     position:relative;
     left:15px;
 }

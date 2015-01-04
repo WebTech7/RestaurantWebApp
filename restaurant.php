@@ -30,9 +30,59 @@ IF (isset($_GET['id']) ) {
 			} 
 				ELSE {
 					//$testing4 = "Alles ging goed";
-					$restaurantName = "All good indeed";									//Hier kunnen alle gegevens uit de api in variables gezet worden.
-				}
-	} 
+					$restaurantName = "All good indeed";
+
+            $url = "http://api.yelp.com/v2/business/";
+            $unsigned_url = $url . $restaurantID;
+
+            // Enter the path that the oauth library is in relation to the php file
+            require_once('/OAuth.php');
+            // Set your OAuth credentials here  
+            // These credentials can be obtained from the 'Manage API Access' page in the
+            // developers documentation (http://www.yelp.com/developers)
+            $consumer_key = 'i7bZJazfcVtcYOVQMiiiDQ';
+            $consumer_secret = 'DYZf-xFkSU0oSYvd_p9GuoKrDrY';
+            $token = 'sbOK5g3X_9JiYjIibXPOPB9aN9yh4GKR';
+            $token_secret = 'oViN5ngntd0Ctb2qeAcwKd9fAOM';
+            $token = new OAuthToken($token, $token_secret);
+
+            $consumer = new OAuthConsumer($consumer_key, $consumer_secret);
+
+            $signature_method = new OAuthSignatureMethod_HMAC_SHA1();
+
+            $oauthrequest = OAuthRequest::from_consumer_and_token($consumer, $token, 'GET', $unsigned_url);
+
+            $oauthrequest->sign_request($signature_method, $consumer, $token);
+
+            $signed_url = $oauthrequest->to_url();
+
+            $ch = curl_init($signed_url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+
+            $data = curl_exec($ch);
+            curl_close($ch);
+
+            $response = json_decode($data);
+            $json_string = file_get_contents($signed_url);
+            $result = json_decode($json_string);									
+            //Hier kunnen alle gegevens uit de api in variables gezet worden.
+
+            $restaurantName = $result->name;
+            $restaurantLogo  = "";
+            $restaurantCountry  = $result->location->display_address[2];
+            $restaurantCity = $result->location->city;
+            $restaurantAdres  = $result->location->display_address[0];
+            $restaurantRating  = $result->rating;
+            $restaurantRatingStars  = "";
+            $restaurantPhone  = $result->display_phone;
+            $restaurantCurrency  = "";
+            $restaurantCategory  = $result->categories;
+            $restaurantDeals  = "";
+            $restaurantRatingImg = $result->rating_img_url;
+
+    				}
+    	} 
 		ELSE 
 		{ 
 		$errorRestaurantId = 0;
@@ -55,14 +105,52 @@ showHeader(""); ?>
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
-			<p>Hier kan de rating <br /> naam<br /> locatie<br /> etc van het restaurant komen.</P>
+			<p><?php print $restaurantName ?><br /></p>
+                <div>
+                    <?php
+                        $outOfFiveStars = $restaurantRating;
+                        $pxWidthOfStar = 13;
+                        $pxMarginLeft = 3;
+                        for($j=0;$j<5;$j++){
+                                    if($j < $outOfFiveStars){
+                                        if($outOfFiveStars - $j < 1){
+                    ?>
+                                        <div style="float:left;"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" class="star"/></div><div style="position:absolute;z-index:1;width:0;height:0;"><div style="z-index:1;position:relative;width:<?php echo ($outOfFiveStars - $j)*$pxWidthOfStar; ?>px;left:<?php echo ($pxWidthOfStar+$pxMarginLeft)*$j + $pxMarginLeft; ?>px;overflow:hidden;"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_full.png" class="star" style="margin-left:0 !important;"/></div></div>
+                                    <?php
+                                        } else {
+                                    ?>
+                                        <div class="star-wrapper"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_full.png" class="star"/></div>
+                                    <?php } } else {
+                                        ?> <div class="star-wrapper"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" class="star"/></div> <?php   
+                                    } }
+                                        ?>
+                                
+                </div><br / >
+            <p><br />
+                <?php print $restaurantAdres; ?><br />
+                <?php print $restaurantCity; ?> <br />
+                <?php print $restaurantCountry; ?><br /><br />
+                <?php print $restaurantPhone; ?> <br / >
+                <?php    if(isset($restaurantCategory)) {
+                        $tags = count($restaurantCategory);
+
+                        for($j = 0; $j < $tags; ++$j){
+                                echo $restaurantCategory[$j][0];
+                                echo " ";
+                        }
+                }
+                else{
+                        echo "None ";    
+                }; ?>
+            </P>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header">Restaurant name</h1>
+          <h1 class="page-header"><?php print $restaurantName ?></h1>
 				<p> Hier kan bijvoorbeeld het menu, het logo, de reviews en een map komen. <br />
 					Ik weet alleen niet wat er allemaal uit de api gehaald kan worden, dus dit kon ik nog niet precies indelen. <br />
 					Ik heb al wel een stel variable waarvan ik vermoed dat ze er in staan boven aan het document leeg gezet. <br />
 				</p>
+        <?php print_r($result); ?>
    
         </div>
       </div>
