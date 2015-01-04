@@ -557,3 +557,17 @@ input[type="image"] {
 #results-for-header h3 {
     margin-top:1px;
 }
+
+#EnzoLeft{
+    float:left;
+}
+#EnzoRight {
+    float:right;
+    position: absolute;
+    padding-left: 1200px;
+}
+
+#EnzoRight img{
+    width: 200px;
+    height:200px;
+}

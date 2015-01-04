@@ -80,6 +80,12 @@ IF (isset($_GET['id']) ) {
             $restaurantCategory  = $result->categories;
             $restaurantDeals  = "";
             $restaurantRatingImg = $result->rating_img_url;
+            $restaurantUrl = $result->url;
+            $restaurantImg = $result->image_url;
+            $reviewUser = $result->reviews[0]->user->name; 
+            $reviewExcerpt = $result->reviews[0]->excerpt;
+            $reviewRating = $result->reviews[0]->rating;
+
 
     				}
     	} 
@@ -146,13 +152,41 @@ showHeader(""); ?>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           <h1 class="page-header"><?php print $restaurantName ?></h1>
-				<p> Hier kan bijvoorbeeld het menu, het logo, de reviews en een map komen. <br />
-					Ik weet alleen niet wat er allemaal uit de api gehaald kan worden, dus dit kon ik nog niet precies indelen. <br />
-					Ik heb al wel een stel variable waarvan ik vermoed dat ze er in staan boven aan het document leeg gezet. <br />
+            <div id="EnzoLeft">
+				<p> Reviews from Yelp: <br /><br />
+                    Review from: <?php print $reviewUser; ?> <br / >
+                    User rating: 
+                        <div>
+                        <?php
+                            $pxWidthOfStar = 13;
+                            $pxMarginLeft = 3;
+                            for($k=0;$k<5;$k++){
+                                        if($k < $reviewRating){
+                                            if($reviewRating - $k < 1){
+                        ?>
+                                            <div style="float:left;"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" class="star"/></div><div style="position:absolute;z-index:1;width:0;height:0;"><div style="z-index:1;position:relative;width:<?php echo ($outOfFiveStars - $k)*$pxWidthOfStar; ?>px;left:<?php echo ($pxWidthOfStar+$pxMarginLeft)*$k + $pxMarginLeft; ?>px;overflow:hidden;"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_full.png" class="star" style="margin-left:0 !important;"/></div></div>
+                                        <?php
+                                            } else {
+                                        ?>
+                                            <div class="star-wrapper"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_full.png" class="star"/></div>
+                                        <?php } } else {
+                                            ?> <div class="star-wrapper"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" class="star"/></div> <?php   
+                                        } }
+                                            ?>
+                                    
+                        </div><br /><br />
+                    <?php print $reviewExcerpt; ?> <br / >
+                    For more reviews and information visit: <a href=<?php print $restaurantUrl; ?>><?php print $restaurantUrl; ?></a> <br / ><br />
+
+
+					Reviews from our site <br />
+					<br />
 				</p>
-        <?php print_r($result); ?>
-   
         </div>
+        <div id="EnzoRight">
+            <img src=<?php print $restaurantImg; ?>>
+        </div>
+       </div>
       </div>
     </div>
 <?php 
