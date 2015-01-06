@@ -78,17 +78,34 @@ IF (isset($_GET['id']) ) {
             $restaurantCity = $result->location->city;
             $restaurantAdres  = $result->location->display_address[0];
             $restaurantRating  = $result->rating;
-            $restaurantRatingStars  = "";
-            $restaurantPhone  = $result->display_phone;
+            $restaurantPhone  = '';
+            if(isset($result->display_phone)){
+                $restaurantPhone  = $result->display_phone;
+            }
             $restaurantCurrency  = "";
-            $restaurantCategory  = $result->categories;
+            $reviewRating = 0;
+            $reviewUser = '';
+            $reviewExcerpt = '';
+                        $restaurantImg = 'http://s3-media3.fl.yelpcdn.com/assets/2/www/img/e98ed5a1460f/brand_guidelines/yelp-2c-outline.png';
+            if(isset($result->categories)){
+                $restaurantCategory  = $result->categories;
+            };
             $restaurantDeals  = "";
             $restaurantRatingImg = $result->rating_img_url;
             $restaurantUrl = $result->url;
-            $restaurantImg = $result->image_url;
-            $reviewUser = $result->reviews[0]->user->name; 
-            $reviewExcerpt = $result->reviews[0]->excerpt;
-            $reviewRating = $result->reviews[0]->rating;
+            if(isset($result->image_url)){
+                $restaurantImg = $result->image_url;
+            };
+            if(isset($result->reviews[0]->user->name)) {
+                $reviewUser = $result->reviews[0]->user->name;
+            };
+            if(isset($result->reviews[0]->excerpt)){
+                $reviewExcerpt = $result->reviews[0]->excerpt;
+            };
+            if(isset($result->reviews[0]->rating)){
+                $reviewRating = $result->reviews[0]->rating;
+            }
+           
 
 
     				}
@@ -141,7 +158,7 @@ showHeader("", false); ?>
                 <?php print $restaurantCity; ?> <br />
                 <?php print $restaurantCountry; ?><br /><br />
                 <?php print $restaurantPhone; ?> <br / >
-                <?php    if(isset($restaurantCategory)) {
+                <?php    if(isset($restaurantCategory) && $restaurantCategory > 0) {
                         $tags = count($restaurantCategory);
 
                         for($j = 0; $j < $tags; ++$j){
@@ -184,6 +201,7 @@ showHeader("", false); ?>
 
 
 					Reviews from our site <br />
+                    <!--<?php print_r($result) ?>-->
 					<br />
 				</p>
         </div>
