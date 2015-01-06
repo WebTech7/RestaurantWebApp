@@ -8,5 +8,5 @@ foreach($xml->result->address_component as $component){
 	}
 }
 
-echo $geodata['postcode'][0];
+echo ( $xml->result[0]->formatted_address  );
 ?>
