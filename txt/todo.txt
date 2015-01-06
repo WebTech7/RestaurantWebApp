@@ -92,3 +92,4 @@ Yelp helemaal integreren -> alle nodige informatie uit JSON in variabelen zetten
 Nadat Enzo klaar is, Max -> In nextpage.php variabelen gebruiken -> Max
 Header voor iedere pagina bruikbaar maken -> Coen
 Eigen reviews database maken, misschien dat mensen het al kunnen intypen, dat het automisch in de database wordt gezet -> Max en Coen
+

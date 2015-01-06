@@ -1,4 +1,8 @@
 <?php ob_start(); session_start();
+//ini_set('display_errors',1);
+//ini_set('display_startup_errors',1);
+//error_reporting(-1);
+require_once("fb.php");
 
 $errorRestaurantId = 1;  //De boolean die nodig is voor het checken of alles klopt
 $restaurantName = "";
@@ -19,7 +23,7 @@ $restaurantDeals  = "";
 $testing5 = "Json geen error"; //Aangezien ik nog geen valid json heb is deze ervoor om het voor nu goed te laten werken
 IF (isset($_GET['id']) ) { 
 //$testing = "Id is uit url gehaald";									//Checkt of er een ID is meegegeven
-	IF (preg_match("/^[a-zA-Z\-]*$/",$_GET['id'])) { 		//Checkt of de ID alleen uit spaties, dashes (-) en letters bestaat.
+	IF (preg_match("/^[a-zA-Z\-]*$/",$_GET['id']) || true) { 		//Checkt of de ID alleen uit spaties, dashes (-) en letters bestaat.
 		//$testing2 = "Id is alleen letters of spaties";
 		$restaurantID = $_GET['id']; 						//Geeft de variable de ID waarde mee, zodat je met deze variable de yelp api kan benaderen.
 		$json = '{"error": {"text": "One or more parameters are missing in request", "id": "MISSING_PARAMETER", "field": "oauth_consumer_key"}}'; // Hier moet de json output data van de api komen. Ik heb hier nu een standaard foutmelding in gezet die yelps api geeft, omdat we hier ook een check voor nodig hebben. 
@@ -36,7 +40,7 @@ IF (isset($_GET['id']) ) {
             $unsigned_url = $url . $restaurantID;
 
             // Enter the path that the oauth library is in relation to the php file
-            require_once('/OAuth.php');
+            require_once('OAuth.php');
             // Set your OAuth credentials here  
             // These credentials can be obtained from the 'Manage API Access' page in the
             // developers documentation (http://www.yelp.com/developers)
@@ -106,10 +110,10 @@ $errorMessage = "Something went wrong";
 
 } IF ($errorRestaurantId == TRUE ){ 
 require_once("functions.php");
-showHeader(""); ?>
+showHeader("", false); ?>
 
     <div class="container-fluid">
-      <div class="row">
+      <div class="row result-content-main">
         <div class="col-sm-3 col-md-2 sidebar">
 			<p><?php print $restaurantName ?><br /></p>
                 <div>
@@ -131,7 +135,7 @@ showHeader(""); ?>
                                     } }
                                         ?>
                                 
-                </div><br / >
+                </div><br />
             <p><br />
                 <?php print $restaurantAdres; ?><br />
                 <?php print $restaurantCity; ?> <br />

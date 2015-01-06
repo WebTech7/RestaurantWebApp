@@ -1,6 +1,8 @@
-<?php
+<?php 
 session_start();
 require("lib/autoload.php");
+
+require("lib/facebook.php");
 
 $host = "http://localhost:8000/RestaurantWebApp/";
 $app_id = "1033735633321196";
@@ -20,26 +22,19 @@ use Facebook\FacbeookCurlHttpClient;
 use Facebook\GraphUser;
 use Facebook\FacebookRequestException;
 use Facebook\GraphSessionInfo;
+use Facebook\FacebookThrottleException;
+use Facebook\GraphLocation;
+use Facebook\GraphPage;
+use Facebook\GraphUserPage;
 
-FacebookSession::setDefaultApplication($app_id, $app_secret);
+$facebook = new Facebook(array(
+    'appId'  => $app_id,
+    'secret' => $app_secret
+)); 
 
-$helper = new FacebookRedirectLoginHelper($redirecturl);
-
-try {
-  $session = $helper->getSessionFromRedirect();
-  //var_dump($session);
-} catch(FacebookRequestException $ex) {
-} catch(\Exception $ex) {
-}
-if ($session) {
-    //var_dump($session);
-    $request = new FacebookRequest($session, 'GET', '/me');
-    $response = $request->execute();
-    $grap = $response->getGraphObject(GraphUser::classname());
-    $username=$grap->getName();
-    $fbLoggedIn = true;
-} else {
-    $fbLoggedIn = false;
-}
-
-?>
+$token = $facebook->getAccessToken();
+$url = 'https://www.facebook.com/logout.php?next=' . $redirecturl .
+  '&access_token='.$token;
+session_destroy();
+header('Location: '.$url);
+?>a

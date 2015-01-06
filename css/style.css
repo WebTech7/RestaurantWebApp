@@ -46,6 +46,13 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 @media (max-width: 767px) {
+    .top-form {
+        overflow:hidden;
+    }
+    .top-form input, .top-form div{
+        float:left;
+        margin-left:10px;
+    }
     .sidebar {
         top:0 !important;
         border-bottom:1px solid #222 !important;
@@ -236,6 +243,9 @@ input[type="image"] {
     border:none;
     border-right:#BBB 1px solid;
 }
+.specify p {
+    padding-left:15px;
+}
 
 .specify-content {
     padding-left: 10px;
@@ -279,7 +289,7 @@ input[type="image"] {
 }
 
 .result-box:hover {
-    background:rgba(213, 117, 15, 0.7);
+    background:#e09d55;
 }
 
 .result-image {
@@ -299,7 +309,12 @@ input[type="image"] {
     padding:0 10px;
 }
 
-.result-content h4, p, {
+.result-content-search h4, .result-content-search p {
+    color:#FFF;
+    padding-left:15px;
+}
+
+.result-content-main h4, .result-content-main p {
     position:relative;
     left:15px;
 }
@@ -558,6 +573,7 @@ input[type="image"] {
     margin-top:1px;
 }
 
+<<<<<<< Updated upstream
 #EnzoLeft{
     float:left;
 }
@@ -567,7 +583,53 @@ input[type="image"] {
     padding-left: 1200px;
 }
 
-#EnzoRight img{
+#EnzoRight img {
     width: 200px;
     height:200px;
+}
+
+.fb-login-button {
+    width:100%;
+    padding:12px 0;
+    border-radius:30px;
+    background:#3a5795;
+    cursor:pointer;
+    transition:background 0.3s;
+}
+
+.fb-login-button:hover {
+    background:#133783;
+    transition:background 0.3s;
+}
+
+.fb-login-button h3 {
+    color:#FFF;
+    font-weight:600;
+    font-size:20px;
+}
+
+.info-main-page-header {
+    padding:15px 20px;
+    background:#DDD;
+    border-radius:0 0 10px 10px;
+    margin-bottom:-10px;
+    float:left;
+    width:100%;
+}
+
+.info-main-page {
+    padding:70px 20px 15px 20px;
+    background:#EEE;
+    border-radius:0 0 10px 10px;
+    width:100%;
+}
+
+.info-main-page p {
+    margin-left:-15px;
+    padding:0;
+    color:#222;
+}
+
+.image-in-text {
+    margin-bottom:2px;
 }

@@ -7,7 +7,7 @@ $app_id = "1033735633321196";
 $app_secret = "9639ebd18b9a0370c538c7f1aefb670f";
 $redirecturl = $host . "";
 
-use Facebook\FacebookSession;
+//use Facebook\FacebookSession;
 use Facebook\FacebookRedirectLoginHelper;
 use Facebook\FacebookRequest;
 use Facebook\FacebookResponse;
@@ -36,10 +36,13 @@ if ($session) {
     $request = new FacebookRequest($session, 'GET', '/me');
     $response = $request->execute();
     $grap = $response->getGraphObject(GraphUser::classname());
-    $username=$grap->getName();
-    $fbLoggedIn = true;
-} else {
-    $fbLoggedIn = false;
+    $name=$grap->getName();
+    echo "hi $name";
 }
-
+else
+{
+  $loginUrl = $helper->getLoginUrl();
+  header("location:".$loginUrl);
+  exit;
+}
 ?>

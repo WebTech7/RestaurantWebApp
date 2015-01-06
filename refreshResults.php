@@ -31,7 +31,7 @@ function makeInputSafe2($string) {
     } else {
         $q = $_COOKIE["q"];
     }
-
+$get = "";
 if(isset($_GET["useq"])){
     $q = makeInputSafe2($_GET["q"]);
     setcookie("q", $q);
@@ -39,8 +39,10 @@ if(isset($_GET["useq"])){
 if(isset($_GET["usecookieget"]) && $_GET["usecookieget"] == 1 && isset($_COOKIE["get"])){
     $get = $_COOKIE["get"];
 } else {
-$get = "&term=restaurant ".urlencode($q);
-setcookie("get", $get);
+    if(!(isset($_GET["kindofrest"]) && trim($_GET["kindofrest"]) != "")){
+    $get = trim("&term=restaurants ".urlencode($q));
+    setcookie("get", $get);
+ }
 }
 if(isset($_GET["sort"]) && trim($_GET["sort"]) != ""){
     $get .= "&sort=".urlencode($_GET["sort"]);
@@ -53,6 +55,14 @@ if(isset($_GET["rating"]) && trim($_GET["rating"]) != ""){
 } else {
     $rating = 0;
 }
+if(isset($_GET["order"]) && trim($_GET["order"]) != ""){
+    $order = $_GET["order"];
+} else {
+    $order = "niks";
+}
+ if(isset($_GET["kindofrest"]) && trim($_GET["kindofrest"]) != ""){
+    $get .= "&radius_filter=40000&category_filter=".strtolower(urlencode($_GET["kindofrest"]));
+ }
 if(!isset($_COOKIE["get"])){
     setcookie("get", $get);
 }
@@ -61,10 +71,10 @@ if(!isset($_COOKIE["get"])){
 }
 $_COOKIE["get"] = $get;
 $url = "http://api.yelp.com/v2/search?$get&location=";
-$unsigned_url = $url . $place;
+$unsigned_url = $url . urlencode($place);
 // Enter the path that the oauth library is in relation to the php file
 require_once('OAuth.php');
-// Set your OAuth credentials here  
+// Set your OAuth credentials here
 // These credentials can be obtained from the 'Manage API Access' page in the
 // developers documentation (http://www.yelp.com/developers)
 $consumer_key = 'i7bZJazfcVtcYOVQMiiiDQ';
@@ -95,13 +105,27 @@ $token = new OAuthToken($token, $token_secret);
         $result = json_decode($json_string);
         $countBoxes = 0;echo "<div id='list'><div class='row'>";
         for($i=0;$i<count($result->businesses);$i++){
-            if($rating <= $result->businesses[$i]->rating){
+            $go = false;
+            if($order == ""){
+                $go = true;
+            } else if($order == "orderorpickup") {
+                $go = false;
+            } else if($order == "order") {
+                $go = false;
+            } else if($order == "pickup") {
+                $go = false;
+            } else if($order == "no") {
+                $go = true;
+            } else {
+                $go = true;
+            }
+            if($rating <= $result->businesses[$i]->rating && $go){
                 $countBoxes++;
             ?>
                     <div class="col-lg-6">
                         <div class="result-box" onclick="document.location.href='restaurant.php?id=<?php echo $result->businesses[$i]->id; ?>';">
                             <div class="result-image" style="background:url(<?php if($result->businesses[$i]->image_url != ""){ echo $result->businesses[$i]->image_url; } else { echo "https://cdn4.iconfinder.com/data/icons/home-sweet-home-2/120/cafe-512.png"; } ?>) #FFF;background-size:cover;background-position:center;"></div>
-                            <div class="result-content">
+                            <div class="result-content result-content-search">
                                 <h4 style="height:20px;overflow:hidden;"><?php echo $result->businesses[$i]->name;
  ?></h4>
                                 <p class="description-short">
@@ -120,7 +144,7 @@ $token = new OAuthToken($token, $token_secret);
                                 </p>
                                 <div style="float:left;margin-top:15px;">
                                     <p><?php $review_count = $result->businesses[$i]->review_count; echo $review_count; if($review_count == 1){echo " review";} else {echo " reviews";} ?> &bull;</p></div>
-                                    <div style="float:left;margin-left:17px;width:100px;overflow:hidden">
+                                    <div style="float:left;margin-left:3px;width:100px;overflow:hidden">
                                     <?php
         $outOfFiveStars = $result->businesses[$i]->rating;
         $pxWidthOfStar = 13;
@@ -135,10 +159,10 @@ $token = new OAuthToken($token, $token_secret);
                                     ?>
                                         <div class="star-wrapper"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_full.png" class="star"/></div>
                                     <?php } } else {
-                                        ?> <div class="star-wrapper"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" class="star"/></div> <?php   
+                                        ?> <div class="star-wrapper"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" class="star"/></div> <?php
                                     } }
                                         ?></div>
-                                
+
                         </div></div>
                             </div>
                         <?php

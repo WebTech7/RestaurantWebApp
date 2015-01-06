@@ -17,18 +17,18 @@ $(window).resize(function(){
 });
 
             loginScreen = false;
-            
+
             function showLogin(){
                 $("#login-form").show();
-                $("#signup-form").hide();      
+                $("#signup-form").hide();
                 $("#login-without-fb").show();
                 $("#signup-without-fb").hide();
                 $(".login-button").css('background', '#CCC');
                 $(".signup-button").css('background', '#e6e6e6');
-                $(".login-button").css('pointer-events', 'none');                
+                $(".login-button").css('pointer-events', 'none');
                 $(".signup-button").css('pointer-events', 'auto');
             }
-            
+
             function showSignUp(){
                 $("#signup-form").show();
                 $("#login-form").hide();
@@ -39,7 +39,7 @@ $(window).resize(function(){
                 $(".signup-button").css('pointer-events', 'none');
                 $(".login-button").css('pointer-events', 'auto');
             }
-            
+
             function openLogin(type){
                 $("#login-screen-wrapper").show();
                 if(type == 'login'){
@@ -48,21 +48,21 @@ $(window).resize(function(){
                     showSignUp();
                 }
             }
-            
+
             $("#login-screen-wrapper").on('click', function() {
               $("#login-screen-wrapper").hide();
             }).children().on('click',function(){
                 return false;
             });
-            
+
              $(".login-screen-cross").on('click', function() {
                 $("#login-screen-wrapper").hide();
             })
-            
+
             $(document).ready(function(){
                 $("#login-screen-wrapper").hide();
             });
-            
+
             function checkEmail(email) {
                 if(email.length > 1){
                     return true;
@@ -70,18 +70,18 @@ $(window).resize(function(){
                     return false;
                 }
             }
-            
-            function submitSignUp(){
-                if(checkEmail($("#signup-email").val())){
-                    document.getElementById("signup-feedback-success").innerHTML = 'A verification email has been sent to your email address. Click the verification link in the email, set your password and you\'re done.';
-                    $("#signup-feedback-success").show();
-                    $("#signup-feedback-danger").hide();
-                } else {
-                   document.getElementById("signup-feedback-danger").innerHTML = 'This is not a valid email address.';
-                    $("#signup-feedback-danger").show();
-                    $("#signup-feedback-success").hide();
-                }
-            }
+
+//            function submitSignUp(){
+//                if(checkEmail($("#signup-email").val())){
+//                    document.getElementById("signup-feedback-success").innerHTML = 'A verification email has been sent to your email address. Click the verification link in the email, set your password and you\'re done.';
+//                    $("#signup-feedback-success").show();
+//                    $("#signup-feedback-danger").hide();
+//                } else {
+//                   document.getElementById("signup-feedback-danger").innerHTML = 'This is not a valid email address.';
+//                    $("#signup-feedback-danger").show();
+//                    $("#signup-feedback-success").hide();
+//                }
+//            }
 
             function loginSuccess(){
                 if($("#login-email").val() == 'success'){
@@ -90,11 +90,11 @@ $(window).resize(function(){
                     return false;
                 }
             }
-            
+
             function login(){
                 //some AJAX
             }
-            
+
             function submitLogin(){
                 if(loginSuccess()){
                     $("#login-screen-wrapper").hide();
@@ -118,7 +118,7 @@ $(window).resize(function(){
                 $("#hidden-rating").html("0");
                 $(".star-large-none").hide();
             });
-            
+
             $(".star-large").click(function(){
                 $(".star-large-none").show();
                 clicked = 0;
@@ -159,10 +159,11 @@ $(window).resize(function(){
                 }
             });
 
-
 function submitTopSearch(){
     $("#sort-by").val(0);
     $("#radius").val("");
+    $("#kind-of-rest").val("");
+    $("#order").val("");
     var askedArray = new Array();
     askedArray["q"] = $("#top-search-q").val();
     askedArray["place"] = $("#top-search-place").val();
@@ -192,6 +193,8 @@ function refreshResults(askedArray){
     get = get + "&radius_filter=" + $("#radius").val();
     get = get + "&rating=" + $("#hidden-rating").html();
     get = get + "&sort=" + $("#sort-by").val();
+    get = get + "&order=" + $("#order").val();
+    get = get + "&kindofrest=" + $("#kind-of-rest").val();
     if(askedArray.hasOwnProperty("q")){
         get = get + "&q="+askedArray["q"];
     }
@@ -208,6 +211,14 @@ function refreshResults(askedArray){
     }
     if(askedArray.hasOwnProperty("rating")){
         get = get + "&rating=" + askedArray["rating"];
+        get = get + "&q=" + document.getElementById("current-q").innerHTML;
+    }
+    if(askedArray.hasOwnProperty("kindofrest")){
+        get = get + "&kindofrest=" + (askedArray["kindofrest"]);
+        get = get + "&q=" + document.getElementById("current-q").innerHTML;
+    }
+    if(askedArray.hasOwnProperty("order")){
+        get = get + "&order=" + (askedArray["order"]);
         get = get + "&q=" + document.getElementById("current-q").innerHTML;
     }
     if(askedArray.hasOwnProperty("usecookieget")){
@@ -227,7 +238,7 @@ function refreshResults(askedArray){
             $("#results-loading").css('opacity', 0);
             height = $("#specify").outerHeight() - $("#results-for-header").outerHeight();
             $("#map").css('height', height);
-            
+
 myCenter=new google.maps.LatLng(51.508742,-0.120850);
 
 google.maps.event.addDomListener(window, 'load', function(){var mapProp = {
@@ -266,6 +277,20 @@ $("#sort-by").on("change", function(){
     refreshResults(askedArray);
 });
 
+$("#kind-of-rest").on("change", function(){
+    var askedArray = new Array();
+    askedArray["kindofrest"] = $("#kind-of-rest").val();
+    askedArray["usecookieget"] = 1;
+    refreshResults(askedArray);
+});
+
+$("#order").on("change", function(){
+    var askedArray = new Array();
+    askedArray["order"] = $("#order").val();
+    askedArray["usecookieget"] = 1;
+    refreshResults(askedArray);
+});
+
 $("#radius").on("change", function(){
     var askedArray = new Array();
     askedArray["radius_filter"] = $("#radius").val();
@@ -285,7 +310,7 @@ function topSearchLocation() {
     if (navigator.geolocation) {
         $("#location-or-load").attr('src', 'http://www.ballarat.vic.gov.au/media/2651383/loading.gif');
         navigator.geolocation.getCurrentPosition(showTopPosition);
-    } else { 
+    } else {
         alert("Geolocation is not supported by this browser.");
     }
 }
