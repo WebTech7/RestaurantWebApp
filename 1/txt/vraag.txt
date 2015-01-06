@@ -1,0 +1,44 @@
+zouden jullie je telefoonnummers even door kunnen geven?
+
+misschien kunnen jullie dan gelijk helpen dit op te lossen,
+ik moet een array hebben die geen naam heeft, dit ziet er dan zo uit in JSON (bijlage).
+Hoe het nu werkt is dat je eerst alle business langsgaat (dan naam e.d. laat zien),
+dan kan je op eenzelfde manier categories aanvragen maar daarbinnen heeft de array geen
+naam en kan ik de tags niet krijgen.
+Als iemand weet hoe je dit kan fixen, laat het weten
+
+Antwoord Coen:
+Mijn telefoonnummer is 0611410491.
+
+Ik denk dat ik begrijp wat je bedoelt. Als normaal zo de rating zou opvragen:
+
+echo $businesses[0]['rating'];
+
+Dan vraag laat je hem zo Soul food teruggeven:
+
+echo $businesses[0][categories][0][0];
+
+Enzo:
+bedankt voor de reactie, hellas werkt het alleen niet.
+Als je dit doet zegt hij: trying to get property of non-object.
+
+als je rating wil hebben dan doe je nu:
+echo "rating: " . $result->businesses[$i]->rating;
+
+ik wil alleen dat hij alle tags pakt van categories, dit lijkt me noodzakelijk voor een 
+goede zoekfunctie, daarom zet ik het in een for loop:
+
+for($i = 0; $i < count($result->businesses); ++$i){
+        echo "<li>";
+        echo $result->businesses[$i]->name;
+        echo "<br>";
+        echo "rating: " . $result->businesses[$i]->rating;
+        echo "<br>";
+        for($j = 0; $j < count($result->businesses->categories); ++$j){
+                echo "tags: " . $result->businesses[$i]->categories[$j][0];
+        };
+        echo "</li>";
+        };
+echo ' </ol>';
+
+dit werkt helaas niet, ziet iemand wat er misgaat?
