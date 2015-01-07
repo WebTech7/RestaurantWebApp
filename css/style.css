@@ -579,7 +579,6 @@ input[type="image"] {
 }
 #EnzoRight {
     float:right;
-    position: absolute;
     padding-left: 1200px;
 }
 
