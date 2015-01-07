@@ -1,5 +1,7 @@
 <?php
-session_start();
+if(!isset($_SESSION)) {
+    session_start();
+} 
 require("lib/autoload.php");
 
 $host = "http://localhost:8000/RestaurantWebApp/";

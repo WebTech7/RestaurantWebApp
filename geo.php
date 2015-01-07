@@ -4,9 +4,12 @@ $xml = simplexml_load_file($geo);
 
 foreach($xml->result->address_component as $component){
 	if($component->type=='postal_code'){
-		$geodata['postcode'] = $component->long_name;
-	}
+		$returnPlace = $component->long_name;
+	} else {
+        $returnPlace = $xml->result[0]->formatted_address;
+    }
 }
 
-echo ( $xml->result[0]->formatted_address  );
+//echo ( $xml->result[0]->formatted_address  );
+echo $returnPlace;
 ?>

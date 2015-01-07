@@ -5,6 +5,12 @@ $(document).ready(function(){
     height = $("#specify").outerHeight() - $("#results-for-header").outerHeight();
     $("#map").css('height', height);
     $("#googleMap").css('height', height);
+    $("#sort-wrap").css('margin-top', 0);
+    if($("#results-for-header").outerHeight() != 73){
+        $("#sort-wrap").css('margin-top', 20);
+    } else {
+        $("#sort-wrap").css('margin-top', 0);
+    }
 });
 
 $(window).resize(function(){
@@ -14,6 +20,12 @@ $(window).resize(function(){
     height = $("#specify").outerHeight() - $("#results-for-header").outerHeight();
     $("#map").css('height', height);
     $("#googleMap").css('height', height);
+    $("#sort-wrap").css('margin-top', 0);
+    if($("#results-for-header").outerHeight() != 73){
+        $("#sort-wrap").css('margin-top', 20);
+    } else {
+        $("#sort-wrap").css('margin-top', 0);
+    }
 });
 
             loginScreen = false;
@@ -27,6 +39,7 @@ $(window).resize(function(){
                 $(".signup-button").css('background', '#e6e6e6');
                 $(".login-button").css('pointer-events', 'none');
                 $(".signup-button").css('pointer-events', 'auto');
+                        $(".fb-login-button").html("<h3>FACEBOOK LOGIN</h3>");
             }
 
             function showSignUp(){
@@ -38,6 +51,7 @@ $(window).resize(function(){
                 $(".login-button").css('background', '#e6e6e6');
                 $(".signup-button").css('pointer-events', 'none');
                 $(".login-button").css('pointer-events', 'auto');
+                        $(".fb-login-button").html("<h3>FACEBOOK SIGN UP</h3>");
             }
 
             function openLogin(type){
@@ -64,24 +78,26 @@ $(window).resize(function(){
             });
 
             function checkEmail(email) {
-                if(email.length > 1){
-                    return true;
-                } else {
-                    return false;
-                }
+                var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(email);
             }
 
-//            function submitSignUp(){
-//                if(checkEmail($("#signup-email").val())){
-//                    document.getElementById("signup-feedback-success").innerHTML = 'A verification email has been sent to your email address. Click the verification link in the email, set your password and you\'re done.';
-//                    $("#signup-feedback-success").show();
-//                    $("#signup-feedback-danger").hide();
-//                } else {
-//                   document.getElementById("signup-feedback-danger").innerHTML = 'This is not a valid email address.';
-//                    $("#signup-feedback-danger").show();
-//                    $("#signup-feedback-success").hide();
-//                }
-//            }
+            function submitSignUp(){
+                    $("#signup-feedback-success").hide();
+                    $("#signup-feedback-danger").hide();
+                    $("#ajax-response").show();
+                if(checkEmail($("#signup-email").val())){
+                    $.post( "signup.php", {email: $("#signup-email").val()} , function( data ) {
+                      $( "#ajax-response" ).html( data );
+                        $(".remove-signup").hide();
+                    });
+                } else {
+                   document.getElementById("signup-feedback-danger").innerHTML = 'This is not a valid email address.';
+                    $("#signup-feedback-danger").show();
+                    $("#signup-feedback-success").hide();
+                    $("#ajax-response").hide();
+                }
+            }
 
             function loginSuccess(){
                 if($("#login-email").val() == 'success'){
@@ -264,6 +280,11 @@ marker.setMap(map);});
             setTimeout(function(){
                 $("#results-loading").css('z-index', -20);
             }, 500);
+            if($("#results-for-header").outerHeight() != 73){
+                $("#sort-wrap").css('margin-top', 20);
+            } else {
+                $("#sort-wrap").css('margin-top', 0);
+            }
         }
     }
     xmlhttp.open("GET", "refreshResults.php?"+get, true);

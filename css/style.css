@@ -633,3 +633,110 @@ input[type="image"] {
 .image-in-text {
     margin-bottom:2px;
 }
+
+.image-background {
+    background:none;
+    background-position: top;
+    width:100%;
+    position:relative;
+    background:url('dance.jpg');
+    background-size:100%;
+    background-position:center;
+    background-size:cover;
+}
+
+.image-background h1 {
+    text-shadow: #000 0 0 10px;
+    color: #fff;
+}
+
+.image-background .lead {
+    text-shadow: #000 0 0 5px;
+    color: #FFF;
+    padding-bottom:30px;
+}
+
+
+.form-signin {
+    width:270px;
+    margin:0 auto;
+    padding: 15px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius:15px;
+    box-shadow:0 0 10px #000;
+    text-align:center;
+    margin:auto auto;
+}
+
+.form-signin p, .form-signin h3 {
+    text-shadow:0 0 4px #FFF;
+    text-align:center;
+    color:#000;
+}
+
+.form-signin p {
+    font-size:16px;
+}
+
+.form-signin p a {
+    text-decoration:underline;
+}
+
+.form-signin p a:hover {
+    text-decoration:none;
+}
+
+.form-signin input[type="text"], .form-signin input[type="password"] {
+    padding: 7px 14px;
+    font-size:17px;
+    border:none;
+    box-shadow: 0 0 10px #000;
+    border-radius:22px;
+    outline:none;
+    width:100%;
+}
+
+.form-signin input[type="radio"] {
+    padding-bottom:15px;
+}
+
+.submit-auth {
+    padding: 7px 14px;
+    font-size:17px;
+    border:none;
+    box-shadow: 0 0 10px #000;
+    border-radius:22px;
+    outline:none;
+    width:100%;
+    background:#6572b6;
+    border:none;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -ms-transition:all 0.5s;
+    -o-transition:all 0.5s;
+    cursor:pointer;
+    color:#FFF;
+}
+
+.submit-auth:hover {
+    background-color: #3e4a72;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -ms-transition:all 0.5s;
+    -o-transition:all 0.5s;
+}
+
+.choice-field {
+    float:left;
+    width:calc(50% - 10px);
+    background:rgba(255, 255, 255, 0.7);
+    padding:13px 0 10px 0;
+    border-radius:10px;
+}
+
+.choice-field p {
+    margin:0 5px;
+}
