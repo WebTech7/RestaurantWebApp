@@ -3,6 +3,7 @@
 //ini_set('display_startup_errors',1);
 //error_reporting(-1);
 require_once("fb.php");
+require_once("functions.php");
 
 $errorRestaurantId = 1;  //De boolean die nodig is voor het checken of alles klopt
 $restaurantName = "";
@@ -37,7 +38,7 @@ IF (isset($_GET['id']) ) {
 					$restaurantName = "All good indeed";
 
             $url = "http://api.yelp.com/v2/business/";
-            $unsigned_url = $url . $restaurantID;
+            $unsigned_url = stripAccents($url . $restaurantID);
 
             // Enter the path that the oauth library is in relation to the php file
             require_once('OAuth.php');
@@ -126,7 +127,6 @@ IF ($errorRestaurantId == FALSE) { // als er dus iets fout is gegaan heeft is $e
 $errorMessage = "Something went wrong";
 
 } IF ($errorRestaurantId == TRUE ){ 
-require_once("functions.php");
 showHeader("", false); ?>
 
     <div class="container-fluid">
@@ -172,7 +172,7 @@ showHeader("", false); ?>
             </P>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header"><?php print $restaurantName ?></h1>
+          <h1 class="page-header"><?php print $restaurantName; ?></h1>
             <div id="EnzoLeft">
 				<p> Reviews from Yelp: <br /><br />
                     Review from: <?php print $reviewUser; ?> <br / >

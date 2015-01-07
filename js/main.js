@@ -371,3 +371,13 @@ function showMap(){
     $("#results-content-wrapper").css('padding', 0);
     $(".results").css('padding-bottom', 0);
 }
+
+$(".top-search-input").on("keypress", function(e){
+    if(e.keyCode == 13){
+        if($(location).attr('pathname').split("/").pop() == "index.php" || $(location).attr('pathname').split("/").pop() == ""){
+            submitTopSearch();
+        } else {
+            document.location.href = "index.php?q="+$("#top-search-q").val()+"&place="+$("#top-search-place").val();
+        }
+    }
+});
