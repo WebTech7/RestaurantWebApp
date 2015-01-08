@@ -243,22 +243,15 @@ $conn = mysqli_connect($servername, $username, $password, $db) or die("No connec
     <![endif]-->
     <script src="http://maps.googleapis.com/maps/api/js"></script>
 <script>
-var myCenter=new google.maps.LatLng(51.508742,-0.120850);
-
-
-google.maps.event.addDomListener(window, 'load', function(){var mapProp = {
-  center:myCenter,
-  zoom:5,
-  mapTypeId:google.maps.MapTypeId.ROADMAP
+function initialize() {
+  var mapProp = {
+    center:new google.maps.LatLng(51.508742,-0.120850),
+    zoom:5,
+    mapTypeId:google.maps.MapTypeId.ROADMAP
   };
-
-var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-
-var marker=new google.maps.Marker({
-  position:myCenter,
-  });
-
-marker.setMap(map);});
+  var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+}
+google.maps.event.addDomListener(window, 'load', initialize);
 </script>
       
   </head>

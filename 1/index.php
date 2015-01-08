@@ -1,20 +1,4 @@
 <?php
-require_once("fb.php");
-
-
-use Facebook\FacebookSession;
-use Facebook\FacebookRedirectLoginHelper;
-use Facebook\FacebookRequest;
-use Facebook\FacebookResponse;
-use Facebook\FacebookSDKException;
-//use Facebook\FacebookRequestException;
-use Facebook\FacebookAuthorizationException;
-use Facebook\GraphObject;
-use Facebook\FacebookHttpable;
-use Facebook\FacbeookCurlHttpClient;
-use Facebook\GraphUser;
-use Facebook\FacebookRequestException;
-use Facebook\GraphSessionInfo;
 ob_start();
 require_once("functions.php");
 if(!isset($_GET["place"]) && !isset($_COOKIE["place"])){
@@ -42,6 +26,9 @@ if(!isset($_GET["place"]) && !isset($_COOKIE["place"])){
         header("Location: index.php");
     }
     showHeader($title, true);
+ini_set('display_errors',1);
+ini_set('display_startup_errors',1);
+error_reporting(-1);
 ?>
 
     <div class="container-fluid">
@@ -49,7 +36,7 @@ if(!isset($_GET["place"]) && !isset($_COOKIE["place"])){
         <div class="col-sm-3 col-md-2 sidebar specify" id="specify">
             <div class="header">
                 <h3>
-                    Specify<?php echo phpversion(); ?>
+                    Specify
                 </h3>
             </div>
             <div class="specify-content">
@@ -186,7 +173,7 @@ if(!isset($_GET["place"]) && !isset($_COOKIE["place"])){
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main results">
             <div id="results-loading"></div>
-            <div class="header" id="results-for-header" style="overflow:hidden;"><h3 style="float:left !important;margin-right:20px;font-size:13px;margin-top:7px;">Results for <span id="results-for"><?php if(isset($q) && trim($q)!=""){echo "<i>" . $q . "</i> around ";} echo "<i>".$place."</i>"; ?></span></h3>
+            <div class="header" id="results-for-header" style="overflow:hidden;"><h3 style="float:left !important;margin-right:20px;">Results for <span id="results-for"><?php if(isset($q) && trim($q)!=""){echo "<i>" . $q . "</i> around ";} echo "<i>".$place."</i>"; ?></span></h3>
 
                 <div style="float:left;">
                     <div id="sort-wrap"><div class="sort-by-div"></div>
@@ -220,22 +207,20 @@ if(!isset($_GET["place"]) && !isset($_COOKIE["place"])){
       <div id="login-screen-wrapper" class="content-when-not-logged-in" onclick="closeLogin();">
           <div id="login-screen" class="container">
               <div class="something-absolute something-0"><div class="login-screen-cross"><img src="https://cdn0.iconfinder.com/data/icons/slim-square-icons-basics/100/basics-22-32.png" width="15"/></div></div>
-              <div class="fb-login-button" style="" target="_blank" onclick="document.location.href= '<?php echo $helper->getLoginUrl(); ?>';"><h3 style="">FACEBOOK LOGIN</h3></div>
-
-                <hr />
-                    <h4><span id="login-without-fb">Log in</span><span id="signup-without-fb">Sign up</span> without Facebook</h4>
-                <br />
                 <div><div class="btn-group" role="group" aria-label="...">
                   <button type="button" onclick="showLogin();" class="btn btn-default login-button">Log in</button>
                   <button type="button" onclick="showSignUp();" class="btn btn-default signup-button">Sign up</button>
                 </div>
-                        <br />
+                    <br /><br />
+              <div class="fb-login-button" style="" target="_blank" onclick="document.location.href= '<?php echo $helper->getLoginUrl(); ?>';"><h3>FACEBOOK LOGIN</h3></div>
 
-                <br />
+                <hr />
+                    <h4><span id="login-without-fb">Log in</span><span id="signup-without-fb">Sign up</span> without Facebook</h4>
+                
                   <form role="form" id="login-form">
-                    <div class="form-group">
+                    <div class="form-group"><br />
                         <div class="alert alert-danger" role="alert" id="login-feedback-danger"></div>
-                      <label for="login-email">Email:</label>
+                      <label for="login-email">Email/username:</label>
                       <input type="email" class="form-control" id="login-email" placeholder="Enter email">
                     </div>
                     <div class="form-group">
@@ -244,34 +229,20 @@ if(!isset($_GET["place"]) && !isset($_COOKIE["place"])){
                     </div>
                     <button type="submit" onclick="submitLogin();" value="login" class="btn btn-default">Log in</button>
                   </form>
-                    <form role="form" id="signup-form" method="post" action="signup.php">
+                   
+                    <form role="form" method="post" id="signup-form" action="signup.php">
                     <div class="form-group">
-                      <label for="signup-email">Email:</label>
-                        <span id="signup-alert"></span>
-                      <input id="signup-email" type="email" class="form-control" id="signup-email" placeholder="Enter email">
+                         <br /><div id="ajax-response"></div>
+                        <div class="alert alert-danger remove-signup" role="alert" id="signup-feedback-danger"></div>
+                        <div class="alert alert-success remove-signup" role="success" id="signup-feedback-success"></div>
                         
+                      <label class="remove-signup" for="signup-email">Email:</label>
+                        <span id="signup-alert" class="remove-signup"></span>
+                      <input id="signup-email" type="email" class="remove-signup form-control" id="signup-email" placeholder="Enter email"><br />
+                      <button type="submit" id="signup-submit" onclick="submitSignUp();" class="remove-signup btn btn-default">Sign up</button>
                     </div>
-                       
-                    <button type="submit" id="signup-submit" onclick="ajaxSubmit();" class="btn btn-default">Sign up</button>
                   </form>
-                    <script>
-//                        function validateEmail(email) { 
-//                                var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-//                                return re.test(email);
-//                            } 
-//                        function ajaxSubmit(){function(e){
-//                            $("#signup-form").submit();
-//                            e.preventDefault();
-//                            if(validateEmail($("#signup-email").val())){
-//                                
-//                            } else {
-//                                $("#signup-alert").html('<div class="alert-message alert alert-success"><p>A verification email has been sent. Click the verification link in the email, set your name, a password and you\'re done!</p></div>');
-//                            }
-//                           
-//                            
-//                            alert("a");
-//                    }});
-                    </script>
+                    
       </div>
 
 

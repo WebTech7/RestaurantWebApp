@@ -334,6 +334,13 @@ input[type="image"] {
     padding:0 2px;
 }
 
+.star-large-a {
+    height: 20px;
+    margin-top: 5px;
+    cursor: pointer;
+    padding:0 2px;
+}
+
 .star-large-none {
     height: 20px;
     margin-top: 5px;
@@ -573,13 +580,12 @@ input[type="image"] {
     margin-top:1px;
 }
 
-<<<<<<< Updated upstream
 #EnzoLeft{
     float:left;
 }
+<<<<<<< Updated upstream
 #EnzoRight {
     float:right;
-    position: absolute;
     padding-left: 1200px;
 }
 
@@ -587,6 +593,8 @@ input[type="image"] {
     width: 200px;
     height:200px;
 }
+=======
+>>>>>>> Stashed changes
 
 .fb-login-button {
     width:100%;
@@ -632,4 +640,206 @@ input[type="image"] {
 
 .image-in-text {
     margin-bottom:2px;
+}
+
+.image-background {
+    background:none;
+    background-position: top;
+    width:100%;
+    position:relative;
+    background:url('dance.jpg');
+    background-size:100%;
+    background-position:center;
+    background-size:cover;
+}
+
+.image-background h1 {
+    text-shadow: #000 0 0 10px;
+    color: #fff;
+}
+
+.image-background .lead {
+    text-shadow: #000 0 0 5px;
+    color: #FFF;
+    padding-bottom:30px;
+}
+
+
+.form-signin {
+    width:270px;
+    margin:0 auto;
+    padding: 15px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius:15px;
+    box-shadow:0 0 10px #000;
+    text-align:center;
+    margin:auto auto;
+}
+
+.form-signin p, .form-signin h3 {
+    text-shadow:0 0 4px #FFF;
+    text-align:center;
+    color:#000;
+}
+
+.form-signin p {
+    font-size:16px;
+}
+
+.form-signin p a {
+    text-decoration:underline;
+}
+
+.form-signin p a:hover {
+    text-decoration:none;
+}
+
+.form-signin input[type="text"], .form-signin input[type="password"] {
+    padding: 7px 14px;
+    font-size:17px;
+    border:none;
+    box-shadow: 0 0 10px #000;
+    border-radius:22px;
+    outline:none;
+    width:100%;
+}
+
+.form-signin input[type="radio"] {
+    padding-bottom:15px;
+}
+
+.submit-auth {
+    padding: 7px 14px;
+    font-size:17px;
+    border:none;
+    box-shadow: 0 0 10px #000;
+    border-radius:22px;
+    outline:none;
+    width:100%;
+    background:#6572b6;
+    border:none;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -ms-transition:all 0.5s;
+    -o-transition:all 0.5s;
+    cursor:pointer;
+    color:#FFF;
+}
+
+.submit-auth:hover {
+    background-color: #3e4a72;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -ms-transition:all 0.5s;
+    -o-transition:all 0.5s;
+}
+
+.choice-field {
+    float:left;
+    width:calc(50% - 10px);
+    background:rgba(255, 255, 255, 0.7);
+    padding:13px 0 10px 0;
+    border-radius:10px;
+}
+
+.choice-field p {
+    margin:0 5px;
+}
+.review-top {
+    overflow:hidden;
+    height:36px;
+}
+
+.review-wrapper {
+    margin-bottom:10px;
+    width: 100%;
+}
+
+.review-title {
+    float:left;
+    height:36px;
+    vertical-align: bottom;
+    background:#64baf9;
+    padding:5px;
+    border-radius:5px 5px 0 0;
+    width:160px;
+    border-top:1px solid #DDD;
+    border-left:1px solid #DDD;
+    border-right:1px solid #DDD;
+}
+
+.review-title h3 {
+    font-size:26px;
+    color:#FFF;
+}
+
+.review-user h4 {
+    font-size:18px;
+    margin: 0;
+    padding: 0;
+    margin-left:-15px;
+    color:#222;
+    text-align:left;
+}
+
+.review-user {
+    border-radius:0 5px 0 0;
+    text-align:left;
+    float:left;
+    height:36px;
+    margin-top:5px;
+    padding:6px 23px 5px 7px;
+    vertical-align: bottom;
+    background:#afdaf9;
+    overflow: hidden;
+    border-top:1px solid #DDD;
+    border-right:1px solid #DDD;
+}
+
+.review-content {
+    width: 100%;
+    border:1px solid #DDD;
+    background:#f5f5f5;
+    padding:15px;
+    width:100%;
+}
+.information-box {
+    margin:0 15px 15px 15px;width:calc(100% - 30px);padding:10px;border-radius:5px;background:#FFF;border:2px solid #DDD;
+}
+
+.review-content-textarea {
+    min-width:100%;
+    max-width:100%;
+    height:100px;
+    max-height:150px;
+    outline: none;
+    margin-bottom:-5px;
+}
+
+.review-submit {
+    margin: 0;
+    width: 180px;
+    float:right;
+    text-align: center;
+    background:#afdaf9;
+    border:1px solid #DDD;
+    border-top:none;
+    border-radius:0 0 5px 5px;
+    padding:5px 0;
+    margin-bottom: 10px;
+    outline: none;
+    transition:background 0.5s;
+}
+
+.review-submit:hover {
+    background:#68A6C4;
+    transition:background 0.5s;
+}
+
+.review-submit h4 {
+    margin-left:-27px;
+    text-align:center;
 }

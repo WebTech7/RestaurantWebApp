@@ -11,6 +11,12 @@ $(document).ready(function(){
     } else {
         $("#sort-wrap").css('margin-top', 0);
     }
+    if($(window).width() > 767){
+        width = $("#restaurant-small").outerWidth();
+        $("#restaurant-broad").css("width", "calc(100vw - "+width+"px");
+    } else {
+        $("#restaurant-broad").css("width", "100vw");
+    }
 });
 
 $(window).resize(function(){
@@ -25,6 +31,12 @@ $(window).resize(function(){
         $("#sort-wrap").css('margin-top', 20);
     } else {
         $("#sort-wrap").css('margin-top', 0);
+    }
+    if($(window).width() > 767){
+        width = $("#restaurant-small").outerWidth();
+        $("#restaurant-broad").css("width", "calc(100vw - "+width+"px");
+    } else {
+        $("#restaurant-broad").css("width", "100vw");
     }
 });
 
@@ -153,6 +165,45 @@ $(window).resize(function(){
                 $("#hidden-rating").html($(this).val());
             });
             $(".star-large").hover(function(){
+                emptySrc = 'https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png';
+                    this.src = emptySrc;
+                    for(a=0;a<=5;a++){
+                        $("#"+a+"").attr("src", emptySrc);
+                    }
+                fullSrc = 'https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_full.png';
+                this.src = fullSrc;
+                for(a=1;a<=$(this).val();a++){
+                    $("#"+a+"").attr("src", fullSrc);
+                }
+            }, function(){
+                    fullSrc = 'https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_full.png';
+                    emptySrc = 'https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png';
+                    for(a=0;a<=5;a++){
+                        if(a > parseInt(clicked)){
+                            $("#"+a+"").attr("src", emptySrc);
+                        } else {
+                            $("#"+a+"").attr("src", fullSrc);
+                        }
+                }
+            });
+
+                $(".star-large-a").click(function(e){
+                    e.preventDefault();
+                clicked = 0;
+                emptySrc = 'https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png';
+                    this.src = emptySrc;
+                    for(a=0;a<=5;a++){
+                        $("#"+a+"").attr("src", emptySrc);
+                    }
+                fullSrc = 'https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_full.png';
+                this.src = fullSrc;
+                for(a=0;a<$(this).val();a++){
+                    $("#"+a+"").attr("src", fullSrc);
+                }
+                clicked = $(this).val();
+                $("#hidden-rating").val($(this).val());
+            });
+            $(".star-large-a").hover(function(){
                 emptySrc = 'https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png';
                     this.src = emptySrc;
                     for(a=0;a<=5;a++){
@@ -328,11 +379,13 @@ function refineRating(rating){
 
 var points = 0;
 function topSearchLocation() {
+        $("#location-or-load").attr('src', 'http://www.ballarat.vic.gov.au/media/2651383/loading.gif');
     if (navigator.geolocation) {
         $("#location-or-load").attr('src', 'http://www.ballarat.vic.gov.au/media/2651383/loading.gif');
         navigator.geolocation.getCurrentPosition(showTopPosition);
     } else {
         alert("Geolocation is not supported by this browser.");
+        $("#location-or-load").attr('src', 'https://cdn2.iconfinder.com/data/icons/flat-ui-icons-24-px/24/location-24-48.png');
     }
 }
 
