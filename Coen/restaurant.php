@@ -166,11 +166,9 @@ showHeader($restaurantName, false); ?>
       <div class="row result-content-main">
         <div class="col-sm-3 col-md-2 sidebar" id="restaurant-small" style="padding:0;margin:0;">
             <br />
-            <a href="#" id="top-ref">
-                <div class="information-box">
-                    <img height="15" style="margin-top:-3px;margin-right:5px;" src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678085-house-32.png" alt=""/><?php echo "<i>" . $restaurantName . "</i> in $restaurantCity"; ?>
-                </div>
-            </a>
+            <div class="information-box">
+                <?php echo "<i>" . $restaurantName . "</i> in $restaurantCity"; ?>
+            </div>
                 <div class="information-box"><img height="15" style="margin-top:-3px;" src="https://cdn0.iconfinder.com/data/icons/20-flat-icons/128/location-pointer.png" alt=""/>
                 <?php print $restaurantAdres; ?><br />
                 <?php print $restaurantCity; ?>, 
@@ -181,7 +179,7 @@ showHeader($restaurantName, false); ?>
                 <?php print '<a href="callto:'.str_replace(" ","", str_replace("+", "", $restaurantPhone)).'">'.$restaurantPhone."</a>"; ?>
             </div><?php } ?>
             <div class="information-box">
-                <img height="15" style="margin-top:-3px;" src="https://cdn0.iconfinder.com/data/icons/20-flat-icons/128/paste.png" alt=""/> Categories:
+                Categories:
                 <?php    if(isset($restaurantCategory) && $restaurantCategory > 0) {
                         $tags = count($restaurantCategory);
 
@@ -202,12 +200,6 @@ showHeader($restaurantName, false); ?>
                         echo "None ";    
                 }; ?>
             </div>
-            <a href="#jumptomenu"><div class="information-box">
-                Menu <img src="https://cdn0.iconfinder.com/data/icons/slim-square-icons-basics/100/basics-02-48.png" height="30" style="float:right;margin-top:-5px;margin-right:-5px;" />
-                </div></a>
-            <a href="#jumptoreviews"><div class="information-box">
-                Reviews <img src="https://cdn0.iconfinder.com/data/icons/slim-square-icons-basics/100/basics-02-48.png" height="30" style="float:right;margin-top:-5px;margin-right:-5px;" />
-                </div></a>
              <div class="information-box" style="padding:0;background:url(http://maps.google.com/maps/api/staticmap?center=51.49,-0.12&zoom=8&size=400x300&sensor=false);height:200px;background-position:center;">
             </div>
             
@@ -257,109 +249,7 @@ $obj = json_decode($json);$photo = ($obj->photos->photo[0]);
                         </div></div>
                 </div>
             <div id="EnzoLeft" style="padding:10px 10px 0 10px;width:100%;">
-                <div id="jumptomenu" class="jumpto"></div>
-                <?php
-    $onlineMenuAvailable = false;
-    $sql = "SELECT * FROM `restaurantwebapp`.`dishes` WHERE `id` = '".$_GET["id"]."'";
-    
-    $dishArray = array();
-    if($res = $conn->query($sql)){
-        $onlineMenuAvailable = true;
-        while($row = $res->fetch_object()){
-            $price = $row->dish_price;
-            $price = $price * 100;
-                $price = str_replace(".", "," ,($price)/100); $explodeArray = explode(",", $price); if(count($explodeArray) == 1){$price .= ",00";}else if(strlen($explodeArray[1]) == 1){$price .= "0";}$price = "€ " . $price;
-            $dishArray[count($dishArray)] = array("dish_id" => $row->unique_ID, "title" => $row->dish_name, "price" => $price, "description" => $row->dish_descr, "cat_id" => $row->categories);
-        }
-    }
-    $total = 0;
-        if($onlineMenuAvailable){ echo '<form action="order.php" method="post"><h3 style="margin-bottom:10px;padding-bottom:2px;" class="page-header">Menu:</h3>';
-            $sql = "SELECT * FROM `menu_categories`";
-            $catArray = array();
-            if($res = $conn->query($sql)){
-                while($row = $res->fetch_object()){
-                    for($a=0;$a<count($dishArray);$a++){
-                        if($dishArray[$a]["cat_id"] == $row->unique_ID){
-                            $go = true;
-                            for($b=0;$b<count($catArray);$b++){
-                                if($catArray[$b]["cat_id"] == $row->unique_ID){
-                                    $go = false;
-                                }
-                            }
-                            if($go){
-                                $catArray[count($catArray)] = array("cat_id" => $row->unique_ID, "title" => $row->categorie);
-                            }
-                        }
-                    }
-                }
-            }
-            for($a=0;$a<count($catArray);$a++){
-                ?>
-                    <div class="dish-cat-wrapper">
-                        <div class="dish-cat-title">
-                            <?php echo $catArray[$a]["title"]; ?>
-                        </div>
-                            <?php
-                for($b=0;$b<count($dishArray);$b++){
-                    if($dishArray[$b]["cat_id"] == $catArray[$a]["cat_id"]){
-                        if(isset($_COOKIE["dish-".$dishArray[$b]["dish_id"]])){ $am = $_COOKIE["dish-".$dishArray[$b]["dish_id"]]; } else {  $am = "0"; }
-                        $priceExplode = explode(" ", $dishArray[$b]["price"]);
-                        $priceExplode = explode(",", $priceExplode[1]);
-                        $price = ($priceExplode[0])*100 + $priceExplode[1];
-                        $total = $total + $price * $am;
-                        ?>
-                        <div class="dish-wrapper">
-                            <div class="dish-title">
-                                <?php echo $dishArray[$b]["title"]; ?>
-                            </div>
-                            <div class="dish-price-add">
-                                <div class="dish-price">
-                                    <?php echo $dishArray[$b]["price"]; ?>
-                                </div>
-                                
-                                <div class="dish-add"><img onclick="addDish(<?php echo $dishArray[$b]["dish_id"]; ?>)" src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678092-sign-add-128.png" alt="+" /></div>
-                                <div class="dish-add" <?php if(isset($_COOKIE["dish-".$dishArray[$b]["dish_id"]]) && $_COOKIE["dish-".$dishArray[$b]["dish_id"]]==0){ ?>style="display:none;"<?php } ?> id="remove-dish-<?php echo $dishArray[$b]["dish_id"]; ?>"><img onclick="removeDish(<?php echo $dishArray[$b]["dish_id"]; ?>)" src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678069-sign-error-48.png" alt="+" /></div>
-                                
-                            </div>
-                            <div class="dish-amount-wrapper">
-                                <div class="dish-amount">
-                                    <img src="https://cdn2.iconfinder.com/data/icons/flat-ui-free/128/bag.png" alt="In your food bag:" height="17" /> <span id="amount-dishes-<?php echo $dishArray[$b]["dish_id"]; ?>"><?php if(isset($_COOKIE["dish-".$dishArray[$b]["dish_id"]])){ echo $_COOKIE["dish-".$dishArray[$b]["dish_id"]]; } else echo "0"; ?></span>
-                                    <input type="hidden" id="amount-dishes-<?php echo $dishArray[$b]["dish_id"]; ?>-hidden" name="amount-dishes-<?php echo $dishArray[$b]["dish_id"]; ?>" value="<?php if(isset($_COOKIE["dish-".$dishArray[$b]["dish_id"]])){ echo $_COOKIE["dish-".$dishArray[$b]["dish_id"]]; } else { echo "0"; } ?>" />
-                                    <input type="hidden" id="get-price-<?php echo $dishArray[$b]["dish_id"]; ?>" value="<?php echo $price; ?>"/>
-                                </div>
-                            </div>
-                            <div class="dish-description">
-                                <?php echo $dishArray[$b]["description"]; ?>
-                            </div>
-                        </div>  
-                        <?php
-                    }
-                }
-                ?>
-                    </div>
-                <?php
-            }
-                ?>
-                                    <input type="hidden" id="get-total" value="<?php echo $total; ?>"/><input type="hidden" name="restaurant-id" value="<?php echo $_GET["id"] ?>" />
-                
-                <div class="order-conclusion-wrapper">
-                    <div style="width:200px;float:right;">
-                            <div id="error"></div>
-                        <div class="order-conclusion-top">
-                            <div class="total">
-                                Total: € <span id="total-script"><?php echo str_replace(".", "," ,($total)/100); $explodeArray = explode(".", $total/100); if(count($explodeArray) == 1){echo ",00";}else if(strlen($explodeArray[1]) == 1){echo "0";} ?>
-                            </div>
-                        </div>
-                                <button class="order-conclusion-bottom">Order this!</button>
-                    </div>
-                </div>
-                
-                </form>
-                <?php
-        } else echo '<h3 style="margin-bottom:10px;padding-bottom:2px;" class="page-header">No online menu available.</h3>';
-    ?>
-            
-                <div id="jumptoreviews" class="jumpto"></div>
+            <h3 style="margin-bottom:10px;padding-bottom:2px;" class="page-header">Menu:</h3>
                 <?php
     $reviewArray = array();
     if(isset($reviewExcerpt) && $reviewExcerpt != ""){
@@ -379,21 +269,13 @@ $obj = json_decode($json);$photo = ($obj->photos->photo[0]);
                 }
             }
             $displayTime = getDisplayTime($row->gmt_date_time_published);
-            $same = false;
-            if($row->summary == $row->full_comment){
-                $same = true;
-            }
-            if(!$same){
             $reviewContent = '<span style="display:none;" id="comment-full-content-'.$row->comment_id.'">'.$row->full_comment.' <span class="read-more" onclick="showLessOfComment('.$row->comment_id.');">Show less</span></span><span style="display:none;" id="comment-summary-'.$row->comment_id.'">'.$row->summary.'... <span class="read-more" onclick="showMoreOfComment('.$row->comment_id.');">Read more</span></span><span class="comment-content" id="comment-'.$row->comment_id.'">'.$row->summary.'... <span class="read-more" onclick="showMoreOfComment('.$row->comment_id.');">Read more</span>';
-            } else {
-                $reviewContent = $row->full_comment;
-            }
             $reviewContent = "<strong>" . $displayTime . "</strong> - " . $reviewContent;
             $reviewArray[count($reviewArray)] =  array("reviewRating" => $row->rating, "onYelp" => false, "reviewUser" => $displayName, "reviewContent" => $reviewContent, "reviewContentFull" => $row->full_comment);
 
         }
     }
-    if(count($reviewArray) != 0){echo '<h3 style="padding-top:20px;margin-bottom:10px;padding-bottom:2px;" class="page-header">Reviews:</h3>';} else {echo '<h3 style="margin-bottom:-18px;font-style:italic;">No reviews yet.</h3>';} 
+    if(count($reviewArray) != 0){echo '<h3 style="margin-bottom:10px;padding-bottom:2px;" class="page-header">Reviews:</h3>';} else {echo '<h3 style="margin-bottom:-18px;font-style:italic;">No reviews yet.</h3>';} 
                     
     for($a=0;$a<count($reviewArray);$a++){ $onYelp = true;
                 
@@ -487,11 +369,11 @@ ELSE {
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+    <script src="../../assets/js/docs.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="js/ie10-viewport-bug-workaround.js"></script>
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
      <script src="js/main.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/cookies.js"></script>
   </body>
 </html>
 

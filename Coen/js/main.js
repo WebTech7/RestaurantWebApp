@@ -245,6 +245,9 @@ function submitTopSearch(){
     if($("#top-search-place").val() != ""){
         resultsfor = resultsfor + "<i>" + $("#top-search-place").val() + "</i>";
         title = title + $("#top-search-place").val();
+    } else {
+        resultsfor = resultsfor + "<i>" + $.cookie("place") + "</i>";
+        title = title + $.cookie("place");
     }
     document.getElementById("results-for").innerHTML = resultsfor;
     $(document).prop('title', title + ' | RestaurantWebApp');
@@ -439,63 +442,3 @@ function showLessOfComment(commentId){
 function showMoreOfComment(commentId){
     document.getElementById('comment-'+commentId).innerHTML = document.getElementById('comment-full-content-'+commentId).innerHTML;
 }
-
-function addDish(id){
-    if(typeof $.cookie("dish-"+id) !== "undefined"){
-        $.cookie("dish-"+id, parseInt($.cookie("dish-"+id)) + 1);
-    } else {
-        $.cookie("dish-"+id, 1);
-    }
-    if($.cookie("dish-"+id) == 0){
-        $("#remove-dish-"+id).hide();
-    } else {
-        $("#remove-dish-"+id).show();
-    }
-    total = parseInt($("#get-total").val());
-    total = total + parseInt($("#get-price-"+id).val());
-    $("#get-total").val(total);
-    refreshDishes(id);
-}
-
-function removeDish(id){
-    if(typeof $.cookie("dish-"+id) !== "undefined"){
-        if($.cookie("dish-"+id) > 0){
-            $.cookie("dish-"+id, parseInt($.cookie("dish-"+id)) - 1);
-        }
-    }
-    if($.cookie("dish-"+id) == 0){
-        $("#remove-dish-"+id).hide();
-    } else {
-        $("#remove-dish-"+id).show();
-    }
-    total = parseInt($("#get-total").val());
-    total = total - parseInt($("#get-price-"+id).val());
-    $("#get-total").val(total);
-    refreshDishes(id);
-}
-
-function refreshDishes(id){
-    $("#amount-dishes-"+id).html($.cookie("dish-"+id));
-    $("#amount-dishes-"+id+"-hidden").val($.cookie("dish-"+id));
-    total = $("#get-total").val();
-    total = total / 100;total1 = total;
-    total = total.toString().replace('.', ',');
-    if(total == total1){
-        total = total + ",00";
-    } else {
-        arr = total.split(",");
-        if(arr[1].length == 1){
-            total = total + "0";
-        }
-    }
-    $("#total-script").html(total);
-    $("#error").html("");
-}
-
-$(".order-conclusion-bottom").on("click", function(e){
-    total = parseInt($("#get-total").val());
-    if(total == 0){
-        e.preventDefault();
-        $("#error").html('<div class="alert alert-danger" role="alert">Please, choose at least one dish.</div>');
-    }
-});

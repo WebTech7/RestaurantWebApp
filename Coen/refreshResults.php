@@ -127,7 +127,7 @@ $token = new OAuthToken($token, $token_secret);
                 $countBoxes++;
             ?>
                     <div class="col-lg-6">
-                        <div class="result-box" onclick="document.location.href='restaurant.php?id=<?php echo urlencode($result->businesses[$i]->id); ?>';">
+                        <div class="result-box" onclick="document.location.href='restaurant.php?id=<?php echo $result->businesses[$i]->id; ?>';">
                             <div class="result-image" style="background:url(<?php if(isset($result->businesses[$i]->image_url) && $result->businesses[$i]->image_url != ""){ echo $result->businesses[$i]->image_url; } else { echo "https://cdn4.iconfinder.com/data/icons/home-sweet-home-2/120/cafe-512.png"; } ?>) #FFF;background-size:cover;background-position:center;"></div>
                             <div class="result-content result-content-search">
                                 <h4 style="height:20px;overflow:hidden;"><?php echo $result->businesses[$i]->name;

@@ -337,10 +337,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
               <div class="btn btn-regular" id="top-search-button"><img onclick='<?php if(!$formsubmit){ echo 'document.location.href="index.php?q="+$("#top-search-q").val()+"&place="+$("#top-search-place").val();'; } else echo 'submitTopSearch();'; ?>' src="https://cdn0.iconfinder.com/data/icons/slim-square-icons-basics/100/basics-02-48.png" height="30"/></div>
                   </form>
               </li>
-              <?php if(isset($_SESSION["logged_in"]) && $_SESSION["logged_in"]){ $sql = "SELECT * FROM restaurants WHERE user_id = '".$_SESSION["user_id"]."'"; 
-$result = $conn->query($sql);	if ($result->num_rows > 0) { echo '<li><a href="editrestaurant.php">My restaurant</a></li>'; } else {?>
-            <li><a href="restaurantowner.php">I'm an owner!</a></li><?php } } else {?>
-            <li><a href="restaurantowner.php">I'm an owner!</a></li><?php } ?>
+            <li><a href="signupowner.php">I'm an owner!</a></li>
             <li><a href="postalcode.php">Front Page</a></li>
             <li><a href="contact.php">Contact</a></li>
             <li><a href="about.php">About</a></li><?php
