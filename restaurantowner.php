@@ -18,7 +18,7 @@
 	
 	<?php 
 require 'functions.php';
-showHeader("title",false)
+
 session_start();
 if (isset($_SESSION["logged_in"])){
 $loggedIn= $_SESSION["logged_in"];
@@ -203,6 +203,10 @@ if ($conn->query($sql) === TRUE) {
 ?>
   </head>
   <body>
+  <?php
+  showHeader("title",false);
+  
+  ?>
  <div class="container"> 
  <?php 
 if (isset($_SESSION["logged_in"])){ ?> 
