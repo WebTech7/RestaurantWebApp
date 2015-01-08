@@ -64,6 +64,9 @@ if(isset($_POST["username-or-email-login"])){
         } else {
             $_SESSION["logged_in"] = true;
             $_SESSION["user_id"] = $user_id;
+            if(isset($_GET["redirectUrl"])){
+                header('Location: '.$_GET["redirectUrl"]);
+            }
         }
 }
 
@@ -72,7 +75,9 @@ showHeader("Log in", false);
 ?>
 <div class="image-background jumbotron" style="background:url(http://www.restaurantampersand.nl/wp-content/uploads/2013/10/restaurant.jpeg) !important;background-size:cover !important;background-position:center !important;min-height:calc(100vh - 50px);margin-bottom:0;" id="image-background">
     <div class="container">
-      <form id="form-signin" method="post" action="login.php" class="form-signin" role="form">
+      <form id="form-signin" method="post" action="login.php<?php if(isset($_GET["redirectUrl"])){
+                echo "?redirectUrl=".$_GET["redirectUrl"];
+            } ?>" class="form-signin" role="form">
             <h3>Log in</h3><br />
           <?php
 if(isset($_POST["username-or-email-login"])){

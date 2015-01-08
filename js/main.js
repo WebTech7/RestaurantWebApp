@@ -434,3 +434,11 @@ $(".top-search-input").on("keypress", function(e){
         }
     }
 });
+
+function showLessOfComment(commentId){
+    document.getElementById('comment-'+commentId).innerHTML = document.getElementById('comment-summary-'+commentId).innerHTML;
+}
+
+function showMoreOfComment(commentId){
+    document.getElementById('comment-'+commentId).innerHTML = document.getElementById('comment-full-content-'+commentId).innerHTML;
+}

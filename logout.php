@@ -36,5 +36,5 @@ $token = $facebook->getAccessToken();
 $url = 'https://www.facebook.com/logout.php?next=' . $redirecturl .
   '&access_token='.$token;
 session_destroy();
-header('Location: '.$url);
+header('Location: '.$_SERVER["HTTP_REFERER"]);
 ?>a

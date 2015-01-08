@@ -18,7 +18,7 @@ if(isset($_POST["rating"]) && isset($_SESSION["logged_in"]) && ($_SESSION["logge
     $id = addslashes(($_POST["id"]));
     $user_id = $_SESSION["user_id"];
     $reviewcontent = trim(addslashes(makeInputSafe($_POST["reviewcontent"])));
-    $summary = substr($reviewcontent, 0, 50);
+    $summary = substr($reviewcontent, 0, 200);
     if(strlen($reviewcontent) <= 6){
         $go = false;
         if($alertMessage != ""){
@@ -34,7 +34,7 @@ if(isset($_POST["rating"]) && isset($_SESSION["logged_in"]) && ($_SESSION["logge
         $alertMessage .= "<img src='https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/bullet_deny.png' height='14' style='margin-bottom:4px;' alt='!' /> Please, give a rating.";
     }
     if($go){
-        $sql = "INSERT INTO `restaurantwebapp`.`reviews` (`comment_id`, `user_id`, `id`, `gmt_date_time_published`, `summary`, `full_comment`, `rating`) VALUES (NULL, '$user_id', '$id', '2015-01-08 00:00:00', '$summary', '$reviewcontent', '$rating');";
+        $sql = "INSERT INTO `restaurantwebapp`.`reviews` (`comment_id`, `user_id`, `id`, `gmt_date_time_published`, `summary`, `full_comment`, `rating`) VALUES (NULL, '$user_id', '$id', '".gmdate('Y-m-d H:i:s')."', '$summary', '$reviewcontent', '$rating');";
         $conn->query($sql);
     }
 }
@@ -249,9 +249,8 @@ $obj = json_decode($json);$photo = ($obj->photos->photo[0]);
                         </div></div>
                 </div>
             <div id="EnzoLeft" style="padding:10px 10px 0 10px;width:100%;">
-            
-                <h3 style="margin-bottom:10px;">Reviews:</h3>
-                    <?php
+                <h3 style="margin-bottom:10px;padding-bottom:2px;" class="page-header">Menu:</h3>
+                <?php
     $reviewArray = array();
     if(isset($reviewExcerpt) && $reviewExcerpt != ""){
         $reviewArray[count($reviewArray)] = array("reviewRating" => $reviewRating, "onYelp" => true, "reviewUser" => $reviewUser, "reviewContent" => $reviewExcerpt);
@@ -269,10 +268,15 @@ $obj = json_decode($json);$photo = ($obj->photos->photo[0]);
                     }
                 }
             }
-            $reviewArray[count($reviewArray)] =  array("reviewRating" => $row->rating, "onYelp" => false, "reviewUser" => $displayName, "reviewContent" => $row->summary, "reviewContentFull" => $row->full_comment);
+            $displayTime = getDisplayTime($row->gmt_date_time_published);
+            $reviewContent = '<span style="display:none;" id="comment-full-content-'.$row->comment_id.'">'.$row->full_comment.' <span class="read-more" onclick="showLessOfComment('.$row->comment_id.');">Show less</span></span><span style="display:none;" id="comment-summary-'.$row->comment_id.'">'.$row->summary.'... <span class="read-more" onclick="showMoreOfComment('.$row->comment_id.');">Read more</span></span><span class="comment-content" id="comment-'.$row->comment_id.'">'.$row->summary.'... <span class="read-more" onclick="showMoreOfComment('.$row->comment_id.');">Read more</span>';
+            $reviewContent = "<strong>" . $displayTime . "</strong> - " . $reviewContent;
+            $reviewArray[count($reviewArray)] =  array("reviewRating" => $row->rating, "onYelp" => false, "reviewUser" => $displayName, "reviewContent" => $reviewContent, "reviewContentFull" => $row->full_comment);
         }
-    }
-    
+    } ?>
+                <?php if(count($reviewArray) != 0){echo '<h3 style="margin-bottom:10px;padding-bottom:2px;" class="page-header">Reviews:</h3>';} else {echo '<h3 style="margin-bottom:-18px;font-style:italic;">No reviews yet.</h3>';} ?>
+                    
+    <?php 
     for($a=0;$a<count($reviewArray);$a++){ $onYelp = true;
                 
                 ?>
@@ -325,6 +329,9 @@ $obj = json_decode($json);$photo = ($obj->photos->photo[0]);
                     <button type="submit" class="review-submit"><h4>Post my review!</h4></button>
                     
                 </div></form>
+                <?php } else { ?>
+                <hr />
+                <h3 style="margin-bottom:15px;">Have you been here? <a href="login.php<?php echo "?redirectUrl=".urlencode($_SERVER["REQUEST_URI"]); ?>">Login</a> or <a href="signup.php">sign up</a> to write a review. Don't worry, it'll only take a minute.</h3>
                 <?php } ?>
                 
         </div>

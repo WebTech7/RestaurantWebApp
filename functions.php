@@ -30,6 +30,54 @@ $unwanted_array = array(    'Š'=>'S', 'š'=>'s', 'Ž'=>'Z', 'ž'=>'z', 'À'=>'A
 return $str = strtr( $stripAccents, $unwanted_array );
 }
 
+function getDisplayTime($GMTDateTimePublished){
+    $secondsAgo = strtotime(gmdate('Y-m-d H:i:s')) - strtotime($GMTDateTimePublished);
+        if($secondsAgo < 60){
+            $s = "s";
+            if($secondsAgo == 1){
+                $s = "";
+            }
+            $displayTime = "$secondsAgo second$s ago";
+        } else if($secondsAgo < (60 * 60)){
+            $s = "s";
+            if(round($secondsAgo / 60, 0) == 1){
+                $s = "";
+            }
+            $displayTime = round($secondsAgo / 60, 0) . " minute$s ago";
+        } else if($secondsAgo < (60 * 60 * 24)){
+            $s = "s";
+            if(round($secondsAgo / 60 / 60, 0) == 1){
+                $s = "";
+            }
+            $displayTime = round($secondsAgo / 60 / 60, 0) . " hour$s ago";
+        } else if($secondsAgo < (60 * 60 * 24 * 7)){
+            $s = "s";
+            if(round($secondsAgo / 60 / 60 / 24,0) == 1){
+                $s = "";
+            }
+            $displayTime = round($secondsAgo / 60 / 60 / 24,0) . " day$s ago";
+        } else if($secondsAgo < (60 * 60 * 24 * 30)){
+            $s = "s";
+            if(round($secondsAgo / 60 / 60 / 24 / 7,0) == 1){
+                $s = "";
+            }
+            $displayTime = round($secondsAgo / 60 / 60 / 24 / 7,0) . " week$s ago";
+        } else if($secondsAgo < (60 * 60 * 24 * 365)){
+            $s = "s";
+            if(round($secondsAgo / 60 / 60 / 24 / 30,0) == 1){
+                $s = "";
+            }
+            $displayTime = round($secondsAgo / 60 / 60 / 24 / 30,0) . " month$s ago";
+        } else {
+            $s = "s";
+            if(round($secondsAgo / 60 / 60 / 24 / 365,0) == 1){
+                $s = "";
+            }
+            $displayTime = round($secondsAgo / 60 / 60 / 24 / 365,0) . " year$s ago";
+        }
+    return $displayTime;
+}
+
 function emailAlreadyExists($email, $conn){
     $returnArray = array("exists" => false, "verificated" => 0);
     $sql = "SELECT * FROM `restaurantwebapp`.`accounts`";
@@ -295,7 +343,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
     if(!$loggedIn){
     ?>
             <li><a class="login-link" id="login-link" href="signup.php">Sign up</a></li>
-              <li><a class="login-link" id="login-link" href="login.php">Login <img src="https://www.facebook.com/images/fb_icon_325x325.png" class="small-facebook-logo" /></a></li>
+              <li><a href="login.php<?php echo "?redirectUrl=".urlencode($_SERVER["REQUEST_URI"]); ?>">Login <img src="https://www.facebook.com/images/fb_icon_325x325.png" class="small-facebook-logo" /></a></li>
               <?php } else { ?>
               <li><a style="color:#222 !important;">Bon Appetit, <?php $sql = "SELECT * FROM `restaurantwebapp`.`accounts` WHERE `user_id` = ".$_SESSION["user_id"].";";
                             if($res = $conn->query($sql)){

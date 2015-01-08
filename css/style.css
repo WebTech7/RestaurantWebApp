@@ -843,3 +843,12 @@ input[type="image"] {
     margin-left:-27px;
     text-align:center;
 }
+
+.read-more {
+    color:#68A6C4;
+    cursor: pointer;
+}
+
+.read-more:hover {
+    text-decoration: underline;
+}
