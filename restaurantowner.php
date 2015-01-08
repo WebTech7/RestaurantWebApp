@@ -17,6 +17,8 @@
     <![endif]-->
 	
 	<?php 
+require 'functions.php';
+showHeader("title",false)
 session_start();
 if (isset($_SESSION["logged_in"])){
 $loggedIn= $_SESSION["logged_in"];
