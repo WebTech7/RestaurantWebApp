@@ -24,6 +24,7 @@
  $descriptionError="";
  $check="";
  $loggedIn="";
+ $allGood="";
 session_start();
 if (isset($_SESSION["logged_in"]) ){
 $loggedIn = TRUE;
@@ -125,7 +126,7 @@ showHeader("titel",false);
 	
 	
 <?php
-if ($loggedIn == TRUE ){
+if ($loggedIn == TRUE AND $allGood == TRUE ){
 ?>	
 <form method= "POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" role="form" class="form-horizontal">
 <fieldset>
