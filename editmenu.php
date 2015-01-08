@@ -97,12 +97,17 @@ $number = $number-1;
 
 
 for($i=0; $i <= $number; $i++){
+
+$sql = "SELECT * FROM menu_categories WHERE id = '$id' AND categorie='$categories[$i]' ";
+$result=$conn->query($sql);
+if ($result->num_rows == 0) {
 $sql = "INSERT INTO menu_categories (id, categorie) VALUES ('$id', '$categories[$i]')";
 $conn->query($sql);
-$sql = "SELECT unique_ID FROM menu_categories WHERE categorie='$categories[$i]'"; 
+}
+$sql = "SELECT unique_ID FROM menu_categories WHERE categorie='$categories[$i]' AND id='$id'"; 
 $uniqueIdFirst=$conn->query($sql);
-$uniqueIdSecond=mysqli_fetch_assoc($idFirst);
-$uniqueId=$idSecond["unique_ID"];
+$uniqueIdSecond=mysqli_fetch_assoc($uniqueIdFirst);
+$uniqueId=$uniqueIdSecond["unique_ID"];
 $sql = "INSERT INTO dishes (id, categories, dish_name, dish_descr, dish_price) VALUES ('$id', '$uniqueId', '$names[$i]', '$descriptions[$i]', '$prices[$i]')"; 
  $conn->query($sql);
  }
