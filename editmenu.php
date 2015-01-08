@@ -68,7 +68,7 @@ if (empty($_POST["categories"])) {
 	
 	}
 	
-if (empty($_POST["price"])) {
+if (empty($_POST["price"]) AND preg_match ('/[0-9. ]/', $_POST["price"])) {
 	$priceError= "Required";
 	$allGood= false;
 	
@@ -86,7 +86,7 @@ die("Connection failed: " . $conn->connect_error);
 $sql = "SELECT unique_ID FROM restaurants WHERE user_id='$userId'"; //$userId
 $idFirst=$conn->query($sql);
 $idSecond=mysqli_fetch_assoc($idFirst);
-$id=$idSecond["id"];
+$id=$idSecond["unique_ID"];
 $names = $_POST["dish_name"];
 $descriptions = $_POST["dish_descr"];
 $categories = $_POST["categories"];
