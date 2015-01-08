@@ -25,9 +25,9 @@
  $check="";
  $loggedIn="";
 session_start();
-if (isset($_SESSION["logged_in"]) or 1==1){
-//$loggedIn = TRUE;
-//$userId= $_SESSION["user_id"];
+if (isset($_SESSION["logged_in"]) ){
+$loggedIn = TRUE;
+$userId= $_SESSION["user_id"];
 $allGood = true;
 
 
@@ -69,7 +69,7 @@ $conn = new mysqli($servername, $username, $password, $db);
 if ($conn->connect_error) {
 die("Connection failed: " . $conn->connect_error);
 }
-$sql = "SELECT id FROM restaurants WHERE user_id='12'"; //$userId
+$sql = "SELECT id FROM restaurants WHERE user_id='$userId'"; //$userId
 $idFirst=$conn->query($sql);
 $idSecond=mysqli_fetch_assoc($idFirst);
 $id=$idSecond["id"];
@@ -105,7 +105,7 @@ $loggedIn = false;
 	
 <?php
 showHeader("titel", false);
-if ($loggedIn == TRUE or 1==1){
+if ($loggedIn == TRUE ){
 ?>	
 <form method= "POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" role="form" class="form-horizontal">
 <fieldset>
