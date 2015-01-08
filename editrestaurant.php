@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap 101 Template</title>
+    <title>Restaurant wep app</title>
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -19,8 +19,8 @@
 <?php
 session_start();
 if (isset($_SESSION["logged_in"]) OR 1==1){ //testing purpose
-//$loggedIn = $_SESSION["logged_in"];
-//$userId = $_SESSION["user_id"];
+$loggedIn = $_SESSION["logged_in"];
+$userId = $_SESSION["user_id"];
 $servername = "www.db4free.net";
 $username = "webtech7";
 $password = "W€btek678";
@@ -51,7 +51,7 @@ $conn = new mysqli($servername, $username, $password, $db);
 if ($conn->connect_error) {
 die("Connection failed: " . $conn->connect_error);
 }
-$sql = "SELECT * FROM restaurants WHERE user_id = '12'"; //$userId
+$sql = "SELECT * FROM restaurants WHERE user_id = '$userId'"; 
 $result = $conn->query($sql);	
 	
 	
@@ -560,7 +560,7 @@ $sql = "UPDATE restaurants SET
 							address_street='$addressStreet', 
 							address_number='$addressNumber', 
 							city='$city', 
-							country_code='$country'  WHERE user_id='12'"; //$userId
+							country_code='$country'  WHERE user_id='$userId'"; 
 
 if ($conn->query($sql) === TRUE) {
     echo "Record updated successfully, refresh the page to see your new information";
