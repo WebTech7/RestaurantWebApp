@@ -28,8 +28,24 @@ session_start();
 if (isset($_SESSION["logged_in"]) ){
 $loggedIn = TRUE;
 $userId= $_SESSION["user_id"];
-$allGood = true;
 
+$servername = "www.db4free.net";
+$username = "webtech7";
+$password = "W€btek678";
+$db = "restaurantwebapp";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $db);
+// Check connection
+if ($conn->connect_error) {
+die("Connection failed: " . $conn->connect_error);
+}
+
+$sql = "SELECT id FROM restaurants where user_id='$userId'";
+$result=$conn->query($sql);
+if ($result->num_rows > 0) {
+$allGood = true;
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	
@@ -59,10 +75,7 @@ if (empty($_POST["price"])) {
 
 
 if ($allGood == true){
-$servername = "www.db4free.net";
-$username = "webtech7";
-$password = "W€btek678";
-$db = "restaurantwebapp";
+
 // Create connection
 $conn = new mysqli($servername, $username, $password, $db);
 // Check connection
@@ -83,7 +96,13 @@ $number = $number-1;
 
 
 for($i=0; $i <= $number; $i++){
-$sql = "INSERT INTO dishes (id, categories, dish_name, dish_descr, dish_price) VALUES ('$id', '$categories[$i]', '$names[$i]', '$descriptions[$i]', '$prices[$i]')"; 
+$sql = "INSERT INTO menu_categories (id, categorie) VALUES ('$id', '$categories[$i]')";
+$conn->query($sql);
+$sql = "SELECT unique_ID FROM restaurants WHERE categorie='$categories[$i]'"; 
+$uniqueIdFirst=$conn->query($sql);
+$uniqueIdSecond=mysqli_fetch_assoc($idFirst);
+$uniqueId=$idSecond["unique_ID"];
+$sql = "INSERT INTO dishes (id, categories, dish_name, dish_descr, dish_price) VALUES ('$id', '$uniqueId', '$names[$i]', '$descriptions[$i]', '$prices[$i]')"; 
  $conn->query($sql);
  }
 
@@ -98,13 +117,14 @@ $loggedIn = false;
 ?> 
   </head>
   <body>
-    
+ <?php
+showHeader("titel",false);
+?> 
 	<div class="container">
 	<div class="jumbotron">
 	
 	
 <?php
-showHeader("titel", false);
 if ($loggedIn == TRUE ){
 ?>	
 <form method= "POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" role="form" class="form-horizontal">
@@ -167,7 +187,7 @@ if ($loggedIn == TRUE ){
 echo $check;
 } else{ // if ingelogged 
 
-echo "Please log in first";
+echo "Please log in first and own a restaurant";
 
 ?>	
 	
