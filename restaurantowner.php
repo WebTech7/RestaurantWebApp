@@ -17,13 +17,14 @@
     <![endif]-->
 	
 	<?php 
-require 'functions.php';
-
 session_start();
-if (isset($_SESSION["logged_in"])){
+if (isset($_SESSION["logged_in"]) ){
 $loggedIn= $_SESSION["logged_in"];
 $userId = $_SESSION["user_id"];
-}
+$alreadyOwner="";
+$alreadyOwnerError="";
+$nameExists="";
+$nameExistsError="";
 $dbinsert="";
 $name ="";
 $nameError ="";
@@ -190,6 +191,26 @@ $conn = new mysqli($servername, $username, $password, $db);
 if ($conn->connect_error) {
 die("Connection failed: " . $conn->connect_error);
 }
+$sql = "SELECT id FROM restaurants where user_id='$userId'";
+$result=$conn->query($sql);
+if ($result->num_rows > 0) {
+$alreadyOwner=true;
+$alreadyOwnerError="You are already an owner"
+} else {
+$alreadyOwner=false;
+$alreadyOwnerError=""
+
+}
+$sql = "SELECT id FROM restaurants where id='$id'";
+$result=$conn->query($sql);
+if ($result->num_rows > 0) {
+$nameExists=true;
+$nameExistsError="The name already exists";
+}else {
+$nameExists=false;
+$nameExistsError="";
+}
+if (alreadyOwner==false AND $nameExists ==false){ 
 $sql = "INSERT INTO restaurants (user_id, id, phone, postal_code, online_orders, address_street, address_number, city, country_code)
 VALUES ('$userId','$id', '$phone', '$postalCode', '$orderOnline', '$addressStreet', '$addressNumber', '$city', '$country')";
 if ($conn->query($sql) === TRUE) {
@@ -200,16 +221,14 @@ if ($conn->query($sql) === TRUE) {
 
 
 }
+}
+}
 ?>
   </head>
   <body>
-  <?php
-  showHeader("title",false);
-  
-  ?>
  <div class="container"> 
  <?php 
-if (isset($_SESSION["logged_in"])){ ?> 
+if (isset($_SESSION["logged_in"]) ){ ?> 
 <div class="jumbotron">
     <form method= "POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" role="form" class="form-horizontal">
 <fieldset>
@@ -547,7 +566,7 @@ if (isset($_SESSION["logged_in"])){ ?>
 </div>
 </fieldset>
 </form>
-<?php echo $dbinsert; 
+<?php echo $dbinsert . "<br />" . $nameExistsError . "<br />" . $alreadyOwnerError; 
 } // voor logged in if af te sluiten
 else {
 echo "<div class='jumbotron'>Please log in and try again";
