@@ -99,7 +99,7 @@ $number = $number-1;
 for($i=0; $i <= $number; $i++){
 $sql = "INSERT INTO menu_categories (id, categorie) VALUES ('$id', '$categories[$i]')";
 $conn->query($sql);
-$sql = "SELECT unique_ID FROM restaurants WHERE categorie='$categories[$i]'"; 
+$sql = "SELECT unique_ID FROM menu_categories WHERE categorie='$categories[$i]'"; 
 $uniqueIdFirst=$conn->query($sql);
 $uniqueIdSecond=mysqli_fetch_assoc($idFirst);
 $uniqueId=$idSecond["unique_ID"];
