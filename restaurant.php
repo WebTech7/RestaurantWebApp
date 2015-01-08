@@ -264,8 +264,8 @@ $obj = json_decode($json);$photo = ($obj->photos->photo[0]);
     
     $dishArray = array();
     if($res = $conn->query($sql)){
-        $onlineMenuAvailable = true;
         while($row = $res->fetch_object()){
+            $onlineMenuAvailable = true;
             $price = $row->dish_price;
             $price = $price * 100;
                 $price = str_replace(".", "," ,($price)/100); $explodeArray = explode(",", $price); if(count($explodeArray) == 1){$price .= ",00";}else if(strlen($explodeArray[1]) == 1){$price .= "0";}$price = "€ " . $price;
