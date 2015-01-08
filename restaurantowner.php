@@ -188,8 +188,8 @@ $conn = new mysqli($servername, $username, $password, $db);
 if ($conn->connect_error) {
 die("Connection failed: " . $conn->connect_error);
 }
-$sql = "INSERT INTO restaurants (user_id, id, phone, online_orders, address_street, address_number, city, country_code)
-VALUES ('$userId','$id', '$phone', '$orderOnline', '$addressStreet', '$addressNumber', '$city', '$country')";
+$sql = "INSERT INTO restaurants (user_id, id, phone, postal_code, online_orders, address_street, address_number, city, country_code)
+VALUES ('$userId','$id', '$phone', '$postalCode', '$orderOnline', '$addressStreet', '$addressNumber', '$city', '$country')";
 if ($conn->query($sql) === TRUE) {
     $dbinsert="Everything went well";
 } else {
