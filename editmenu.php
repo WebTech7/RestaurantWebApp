@@ -83,7 +83,7 @@ $conn = new mysqli($servername, $username, $password, $db);
 if ($conn->connect_error) {
 die("Connection failed: " . $conn->connect_error);
 }
-$sql = "SELECT id FROM restaurants WHERE user_id='$userId'"; //$userId
+$sql = "SELECT unique_ID FROM restaurants WHERE user_id='$userId'"; //$userId
 $idFirst=$conn->query($sql);
 $idSecond=mysqli_fetch_assoc($idFirst);
 $id=$idSecond["id"];
