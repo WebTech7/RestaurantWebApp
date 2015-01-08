@@ -17,8 +17,9 @@
     <![endif]-->
  
 <?php
-session_start();
 require "functions.php";
+$allGood="";
+session_start();
 if (isset($_SESSION['logged_in'])){
 
 $allGood = true;
@@ -45,16 +46,16 @@ $alreadyOwner=true;
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 $dishId=$_POST['submit'];
 $sql = "DELETE FROM dishes WHERE unique_ID = '$dishId'";
-conn->query($sql);
+$conn->query($sql);
 
 }
-
+}
 ?>
  </head>
   
   
   <body>
-  <?php 
+  <?php
   showHeader("titel",false);
   ?>
   <div class= "container">
@@ -74,7 +75,7 @@ if ($result->num_rows > 0) {
    
     while($row = $result->fetch_assoc()) {
         echo "Dish id: " . $row["unique_ID"]. " - Name: " . $row["dish_name"]. " - Dish description: " . $row["dish_descr"]. " - Price " .$row["dish_price"] . " 
-		<form method= "POST" action=" . htmlspecialchars($_SERVER["PHP_SELF"]); . ">
+		<form method= 'POST' action=" . htmlspecialchars($_SERVER["PHP_SELF"]) . ">
 		<input id='submit' type='submit' name='submit'    value = '".$row["unique_ID"]."'>
 		</form>
 		<br />";
