@@ -240,10 +240,15 @@ $conn = mysqli_connect($servername, $username, $password, $db) or die("No connec
             setcookie("place", $place);
          }
              $_COOKIE["place"] = $place;
-    } else if(isset($_COOKIE["place"])) {
-        $place = $_COOKIE["place"];
+    } else if(isset($_COOKIE["place"]) && $_COOKIE["place"] != NULL) {
+         $place = $_COOKIE["place"];
     } else {
-        header("Location: index.php");
+         $explode = explode("/", $_SERVER["PHP_SELF"]);
+         if($explode[count($explode)-1] == "index.php"){
+            header("Location: postalcode.php");
+         } else {
+            $place = ""; 
+         }
     }
     $title = $place;
     if(isset($_GET["q"])){
@@ -302,7 +307,7 @@ function initialize() {
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 </script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
       <script>
       $(function() {
   $('a[href*=#]:not([href=#])').click(function() {
@@ -341,7 +346,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.php?<?php if(isset($_COOKIE["q"])){echo "q=".$_COOKIE["q"]."&";} ?>place=<?php echo $_COOKIE["place"]; ?>">RestaurantWebApp</a>
+          <a class="navbar-brand" href="index.php">RestaurantWebApp</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -388,7 +393,7 @@ $result = $conn->query($sql);	if ($result->num_rows > 0) { ?><li style="margin-t
                                     echo $obj->first_name; 
                                 }
                             }
-                  ?>!</a><div class="user-drop-info-wrapper"><div class="user-drop-info" >a</div></div></li>
+                  ?>!</a><div class="user-drop-info-wrapper"><div class="user-drop-info" >a</div></div>
               <li><a href="logout.php">Logout</a></li>
               <?php } ?>
           </ul>

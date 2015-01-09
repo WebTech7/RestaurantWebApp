@@ -49,7 +49,6 @@ $restaurantPhone  = "";
 $restaurantCurrency  = "";
 $restaurantCategory  = "";
 $restaurantDeals  = "";
-
 //$testing ="";  			Deze lines checken waar er iets fout gaat in de code, puur voor testen.
 //$testing2 ="";
 //$testing3 ="";
@@ -69,10 +68,8 @@ IF (isset($_GET['id']) ) {
 				ELSE {
 					//$testing4 = "Alles ging goed";
 					$restaurantName = "All good indeed";
-
             $url = "http://api.yelp.com/v2/business/";
             $unsigned_url = stripAccents($url . $restaurantID);
-
             // Enter the path that the oauth library is in relation to the php file
             require_once('OAuth.php');
             // Set your OAuth credentials here  
@@ -83,29 +80,20 @@ IF (isset($_GET['id']) ) {
             $token = 'sbOK5g3X_9JiYjIibXPOPB9aN9yh4GKR';
             $token_secret = 'oViN5ngntd0Ctb2qeAcwKd9fAOM';
             $token = new OAuthToken($token, $token_secret);
-
             $consumer = new OAuthConsumer($consumer_key, $consumer_secret);
-
             $signature_method = new OAuthSignatureMethod_HMAC_SHA1();
-
             $oauthrequest = OAuthRequest::from_consumer_and_token($consumer, $token, 'GET', $unsigned_url);
-
             $oauthrequest->sign_request($signature_method, $consumer, $token);
-
             $signed_url = $oauthrequest->to_url();
-
             $ch = curl_init($signed_url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HEADER, 0);
-
             $data = curl_exec($ch);
             curl_close($ch);
-
             $response = json_decode($data);
             $json_string = file_get_contents($signed_url);
             $result = json_decode($json_string);									
             //Hier kunnen alle gegevens uit de api in variables gezet worden.
-
             $restaurantName = $result->name;
             $restaurantLogo  = "";
             $restaurantCountry  = $result->location->display_address[2];
@@ -140,25 +128,19 @@ IF (isset($_GET['id']) ) {
                 $reviewRating = $result->reviews[0]->rating;
             }
            
-
-
     				}
     	} 
 		ELSE 
 		{ 
 		$errorRestaurantId = 0;
 		}
-
 }
-
 ELSE { // Zo niet wordt er een fout waarde gegeven. 
 $errorRestaurantId = 0;
 }
-
 IF ($errorRestaurantId == FALSE) { // als er dus iets fout is gegaan heeft is $errorRestaurantId false en geeft het een foutmelding
 //echo $testing . $testing2 . $testing3 . $testing4 ;
 $errorMessage = "Something went wrong";
-
 } IF ($errorRestaurantId == TRUE ){ 
 showHeader($restaurantName, false); ?>
 
@@ -184,7 +166,6 @@ showHeader($restaurantName, false); ?>
                 <img height="15" style="margin-top:-3px;" src="https://cdn0.iconfinder.com/data/icons/20-flat-icons/128/paste.png" alt=""/> Categories:
                 <?php    if(isset($restaurantCategory) && $restaurantCategory > 0) {
                         $tags = count($restaurantCategory);
-
                         $cat = $restaurantCategory; 
                                     for($j=0;$j<count($cat);$j++){
                                         $categorie = $cat[$j][0];
@@ -215,21 +196,17 @@ showHeader($restaurantName, false); ?>
         <div class="col-sm-9 col-sm-offset-3 col-md-12 col-md-offset-2 main" style="padding:0;overflow:hidden" id="restaurant-broad">
             <div style="box-shadow: inset 0 -100px 100px -100px #000;;width:100%;padding:200px 15px 15px 15px;color:#FFF;text-shadow:0 0 5px #222;background:<?php
     $json = file_get_contents('https://api.flickr.com/services/rest/?method=flickr.photos.search&text='.urlencode($restaurantName . " food " . $restaurantCity).'&api_key=dea84f665d9878fe3bec4d20219a672c&safe_search=1&format=json&nojsoncallback=1');
-
 $obj = json_decode($json);$photo = ($obj->photos->photo[0]);
     if($photo->id == NULL || $photo->id == ""){
         $json = file_get_contents('https://api.flickr.com/services/rest/?method=flickr.photos.search&text='.urlencode($restaurantName . " restaurant " . $restaurantCity).'&api_key=dea84f665d9878fe3bec4d20219a672c&safe_search=1&format=json&nojsoncallback=1');
-
 $obj = json_decode($json);$photo = ($obj->photos->photo[0]);
     }
     if($photo->id == NULL || $photo->id == ""){
         $json = file_get_contents('https://api.flickr.com/services/rest/?method=flickr.photos.search&text='.urlencode($restaurantName . " " . $restaurantCity).'&api_key=dea84f665d9878fe3bec4d20219a672c&safe_search=1&format=json&nojsoncallback=1');
-
 $obj = json_decode($json);$photo = ($obj->photos->photo[0]);
     }
     if($photo->id == NULL || $photo->id == ""){
         $json = file_get_contents('https://api.flickr.com/services/rest/?method=flickr.photos.search&text='.urlencode($restaurantCity).'&api_key=dea84f665d9878fe3bec4d20219a672c&safe_search=1&format=json&nojsoncallback=1');
-
 $obj = json_decode($json);$photo = ($obj->photos->photo[0]);
     }
     $flickrImageUrl = 'https://farm'.$photo->farm.'.staticflickr.com/'.$photo->server.'/'.$photo->id.'_'.$photo->secret.'_b.jpg';
@@ -405,7 +382,6 @@ $obj = json_decode($json);$photo = ($obj->photos->photo[0]);
             }
             $reviewContent = "<strong>" . $displayTime . "</strong> - " . $reviewContent;
             $reviewArray[count($reviewArray)] =  array("reviewRating" => $row->rating, "onYelp" => false, "reviewUser" => $displayName, "reviewContent" => $reviewContent, "reviewContentFull" => $row->full_comment);
-
         }
     }
     if(count($reviewArray) != 0){echo '<h3 style="padding-top:20px;margin-bottom:10px;padding-bottom:2px;" class="page-header">Reviews:</h3>';} else {echo '<h3 style="margin-bottom:-18px;font-style:italic;padding-top:10px;">No reviews yet.</h3>';} 
@@ -472,7 +448,6 @@ $obj = json_decode($json);$photo = ($obj->photos->photo[0]);
       </div>
     </div>
 <?php 
-
 } 
 ELSE {
 ?>
@@ -494,9 +469,7 @@ ELSE {
     </div>
 
 <?php 
-
 }
-
 ?>
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -509,6 +482,3 @@ ELSE {
 <script src="js/cookies.js"></script>
   </body>
 </html>
-
-
-

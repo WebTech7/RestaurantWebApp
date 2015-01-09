@@ -9,12 +9,12 @@ function makeInputSafe2($string) {
 
     if(isset($_GET["place"]) && $_GET["place"] != ""){
         $place = makeInputSafe2($_GET["place"]);
-        setcookie("place", $place);
          if(!isset($_COOKIE["place"])){
             setcookie("place", $place);
          }
-             $_COOKIE["place"] = $place;
-    } else if(isset($_COOKIE["place"])) {
+          $_COOKIE["place"] = $place;
+    }
+    if(isset($_COOKIE["place"])) {
         $place = $_COOKIE["place"];
     } else {
         header("Location: index.php");
