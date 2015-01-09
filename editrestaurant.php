@@ -42,8 +42,10 @@ $result = $conn->query($sql);
   require "functions.php";
   showHeader("Edit your restaurant",false);
   ?>
+  <div class="image-background jumbotron" style="background:url(http://www.restaurantampersand.nl/wp-content/uploads/2013/10/restaurant.jpeg) !important;background-size:cover !important;background-position:center !important;min-height:calc(100vh - 50px);margin-bottom:0;" id="image-background">
  <div class="container"> 
- <div class="jumbotron">
+ 	<div id='EnzoJumbo'>
+ 		
  <?php
  if ($result->num_rows > 0) {
     echo ' <form method= "POST" action="' . htmlspecialchars($_SERVER["PHP_SELF"]) .'" role="form" class="form-horizontal"><fieldset><legend>Update Restaurant Data</legend>';
@@ -56,7 +58,7 @@ $result = $conn->query($sql);
 	}
 $name = replace_dashes($data["id"]);
 echo '
-
+<div id="EnzoJumbo2">
 <div class="control-group">
   <label class="control-label" for="name">Restaurant name</label>
   <div class="controls">
@@ -559,6 +561,7 @@ echo "Please log in";
 }
 ?>
  
+ </div>
  </div>
  </div>
  
