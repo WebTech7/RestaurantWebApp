@@ -13,11 +13,15 @@ $(document).ready(function(){
     }
     if($(window).width() > 767){
         width = $("#restaurant-small").outerWidth();
-        $("#restaurant-broad").css("width", "calc(100vw - "+width+"px");
+        $("#restaurant-broad").css("width", "calc(100vw - "+width+"px)");
+        $("#EnzoLeft").css("width", "calc(100vw - "+width+"px");
     } else {
         $("#restaurant-broad").css("width", "100vw");
+        $("#EnzoLeft").css("width", "100vw");
     }
+    
 });
+
 
 $(window).resize(function(){
     height = $(".navbar").outerHeight();
@@ -34,9 +38,11 @@ $(window).resize(function(){
     }
     if($(window).width() > 767){
         width = $("#restaurant-small").outerWidth();
-        $("#restaurant-broad").css("width", "calc(100vw - "+width+"px");
+        $("#restaurant-broad").css("width", "calc(100vw - "+width+"px)");
+        $("#EnzoLeft").css("width", "calc(100vw - "+width+"px");
     } else {
         $("#restaurant-broad").css("width", "100vw");
+        $("#EnzoLeft").css("width", "100vw");
     }
 });
 

@@ -996,7 +996,7 @@ input[type="image"] {
 #EnzoJumbo{
     width:900px;
     margin:0 auto;
-    padding: 15px;
+    padding: 25px;
     margin: 0 auto;
     background: rgba(255, 255, 255, 0.6);
     border-radius:15px;
@@ -1011,6 +1011,27 @@ input[type="image"] {
 }
 #EnzoJumbo2{
     width: 200px;
+}
+
+#EnzoJumbo2 label, #EnzoJumbo2 label {
+    margin-bottom: 5px;
+    margin-top: 0;
+    padding:0;
+    padding-left: 15px;
+}
+
+#EnzoJumbo2 input, #EnzoJumbo2 select, #EnzoJumbo2 button, #EnzoJumbo input, #EnzoJumbo select, #EnzoJumbo button {
+    padding:5px 15px;
+    border-radius: 16px;
+    border: none;
+    border:1px solid #DDD;
+    margin-bottom:0px !important;
+    outline:0;
+    width:200px;
+}
+
+.radio {
+    margin-left:15px;
 }
 
 #Enzodiv {
@@ -1065,6 +1086,5 @@ right: 0;
 }  
 
 #Enzodiv2 {
-font: 150%/100% Arial, Helvetica, sans-serif;  
-    }
->>>>>>> update + about en contact in main directory
+    font: 150%/100% Arial, Helvetica, sans-serif;  
+}
