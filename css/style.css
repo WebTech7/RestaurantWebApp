@@ -990,3 +990,23 @@ input[type="image"] {
 #user-info-li:hover > .user-drop-info {
     display:block
 }
+
+#EnzoJumbo{
+    width:900px;
+    margin:0 auto;
+    padding: 15px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius:15px;
+    box-shadow:0 0 10px #000;
+    margin:auto auto;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+#EnzoJumbo legend{
+    font-size: 60px;
+    text-align: center;
+
+}
+#EnzoJumbo2{
+    width: 200px;
+}
