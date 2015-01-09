@@ -965,3 +965,28 @@ input[type="image"] {
     background:#68A6C4;
     transition: all 0.3s;
 }
+
+.dropdown button {
+    background: #f7deb5;
+}
+
+.user-drop-info-wrapper {
+    position:absolute;
+    height:0;
+    width:0;
+}
+
+.user-drop-info {
+    display:none;
+    z-index: 1;
+    position:relative;
+    top:1px;
+    left:10px;
+    background:#f7deb5;
+    width:50px;
+    padding:5px;
+}
+
+#user-info-li:hover > .user-drop-info {
+    display:block
+}

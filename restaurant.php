@@ -260,10 +260,22 @@ $obj = json_decode($json);$photo = ($obj->photos->photo[0]);
                 <div id="jumptomenu" class="jumpto"></div>
                 <?php
     $onlineMenuAvailable = false;
-    $sql = "SELECT * FROM `restaurantwebapp`.`dishes` WHERE `id` = '".$_GET["id"]."'";
+    $sql = "SELECT * FROM `restaurantwebapp`.`restaurants` WHERE `id` = '".$_GET["id"]."'";
+    if($res = $conn->query($sql)){
+        while($row = $res->fetch_object()){
+            $uniqueID = $row->unique_ID;
+            if($row->online_orders == "Y"){
+                $online_orders = true;
+            } else { 
+                $online_orders = false;
+            }
+        }
+    }
+    $sql = "SELECT * FROM `restaurantwebapp`.`dishes` WHERE `id` = '".$_GET["id"]."' OR `id` = '$uniqueID'";
     
     $dishArray = array();
     if($res = $conn->query($sql)){
+        if(isset($uniqueID) && $uniqueID != ""){
         while($row = $res->fetch_object()){
             $onlineMenuAvailable = true;
             $price = $row->dish_price;
@@ -271,6 +283,7 @@ $obj = json_decode($json);$photo = ($obj->photos->photo[0]);
                 $price = str_replace(".", "," ,($price)/100); $explodeArray = explode(",", $price); if(count($explodeArray) == 1){$price .= ",00";}else if(strlen($explodeArray[1]) == 1){$price .= "0";}$price = "€ " . $price;
             $dishArray[count($dishArray)] = array("dish_id" => $row->unique_ID, "title" => $row->dish_name, "price" => $price, "description" => $row->dish_descr, "cat_id" => $row->categories);
         }
+    }
     }
     $total = 0;
         if($onlineMenuAvailable){ echo '<form action="order.php" method="post"><h3 style="margin-bottom:10px;padding-bottom:2px;" class="page-header">Menu:</h3>';
@@ -280,13 +293,13 @@ $obj = json_decode($json);$photo = ($obj->photos->photo[0]);
                 while($row = $res->fetch_object()){
                     for($a=0;$a<count($dishArray);$a++){
                         if($dishArray[$a]["cat_id"] == $row->unique_ID){
-                            $go = true;
+                            $go2 = true;
                             for($b=0;$b<count($catArray);$b++){
                                 if($catArray[$b]["cat_id"] == $row->unique_ID){
-                                    $go = false;
+                                    $go2 = false;
                                 }
                             }
-                            if($go){
+                            if($go2){
                                 $catArray[count($catArray)] = array("cat_id" => $row->unique_ID, "title" => $row->categorie);
                             }
                         }
@@ -312,20 +325,22 @@ $obj = json_decode($json);$photo = ($obj->photos->photo[0]);
                             <div class="dish-title">
                                 <?php echo $dishArray[$b]["title"]; ?>
                             </div>
-                            <div class="dish-price-add">
-                                <div class="dish-price">
-                                    <?php echo $dishArray[$b]["price"]; ?>
+                            <div <?php if(!$online_orders){echo 'style="display:none"';} ?>>
+                                <div class="dish-price-add">
+                                    <div class="dish-price">
+                                        <?php echo $dishArray[$b]["price"]; ?>
+                                    </div>
+
+                                    <div class="dish-add"><img onclick="addDish(<?php echo $dishArray[$b]["dish_id"]; ?>)" src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678092-sign-add-128.png" alt="+" /></div>
+                                    <div class="dish-add" <?php if(isset($_COOKIE["dish-".$dishArray[$b]["dish_id"]]) && $_COOKIE["dish-".$dishArray[$b]["dish_id"]]==0){ ?>style="display:none;"<?php } ?> id="remove-dish-<?php echo $dishArray[$b]["dish_id"]; ?>"><img onclick="removeDish(<?php echo $dishArray[$b]["dish_id"]; ?>)" src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678069-sign-error-48.png" alt="+" /></div>
+
                                 </div>
-                                
-                                <div class="dish-add"><img onclick="addDish(<?php echo $dishArray[$b]["dish_id"]; ?>)" src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678092-sign-add-128.png" alt="+" /></div>
-                                <div class="dish-add" <?php if(isset($_COOKIE["dish-".$dishArray[$b]["dish_id"]]) && $_COOKIE["dish-".$dishArray[$b]["dish_id"]]==0){ ?>style="display:none;"<?php } ?> id="remove-dish-<?php echo $dishArray[$b]["dish_id"]; ?>"><img onclick="removeDish(<?php echo $dishArray[$b]["dish_id"]; ?>)" src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678069-sign-error-48.png" alt="+" /></div>
-                                
-                            </div>
-                            <div class="dish-amount-wrapper">
-                                <div class="dish-amount">
-                                    <img src="https://cdn2.iconfinder.com/data/icons/flat-ui-free/128/bag.png" alt="In your food bag:" height="17" /> <span id="amount-dishes-<?php echo $dishArray[$b]["dish_id"]; ?>"><?php if(isset($_COOKIE["dish-".$dishArray[$b]["dish_id"]])){ echo $_COOKIE["dish-".$dishArray[$b]["dish_id"]]; } else echo "0"; ?></span>
-                                    <input type="hidden" id="amount-dishes-<?php echo $dishArray[$b]["dish_id"]; ?>-hidden" name="amount-dishes-<?php echo $dishArray[$b]["dish_id"]; ?>" value="<?php if(isset($_COOKIE["dish-".$dishArray[$b]["dish_id"]])){ echo $_COOKIE["dish-".$dishArray[$b]["dish_id"]]; } else { echo "0"; } ?>" />
-                                    <input type="hidden" id="get-price-<?php echo $dishArray[$b]["dish_id"]; ?>" value="<?php echo $price; ?>"/>
+                                <div class="dish-amount-wrapper">
+                                    <div class="dish-amount">
+                                        <img src="https://cdn2.iconfinder.com/data/icons/flat-ui-free/128/bag.png" alt="In your food bag:" height="17" /> <span id="amount-dishes-<?php echo $dishArray[$b]["dish_id"]; ?>"><?php if(isset($_COOKIE["dish-".$dishArray[$b]["dish_id"]])){ echo $_COOKIE["dish-".$dishArray[$b]["dish_id"]]; } else echo "0"; ?></span>
+                                        <input type="hidden" id="amount-dishes-<?php echo $dishArray[$b]["dish_id"]; ?>-hidden" name="amount-dishes-<?php echo $dishArray[$b]["dish_id"]; ?>" value="<?php if(isset($_COOKIE["dish-".$dishArray[$b]["dish_id"]])){ echo $_COOKIE["dish-".$dishArray[$b]["dish_id"]]; } else { echo "0"; } ?>" />
+                                        <input type="hidden" id="get-price-<?php echo $dishArray[$b]["dish_id"]; ?>" value="<?php echo $price; ?>"/>
+                                    </div>
                                 </div>
                             </div>
                             <div class="dish-description">
@@ -342,7 +357,7 @@ $obj = json_decode($json);$photo = ($obj->photos->photo[0]);
                 ?>
                                     <input type="hidden" id="get-total" value="<?php echo $total; ?>"/><input type="hidden" name="restaurant-id" value="<?php echo $_GET["id"] ?>" />
                 
-                <div class="order-conclusion-wrapper">
+                <div class="order-conclusion-wrapper" <?php if(!$online_orders){echo 'style="display:none"';} ?>>
                     <div style="width:200px;float:right;">
                             <div id="error"></div>
                         <div class="order-conclusion-top">
@@ -393,7 +408,7 @@ $obj = json_decode($json);$photo = ($obj->photos->photo[0]);
 
         }
     }
-    if(count($reviewArray) != 0){echo '<h3 style="padding-top:20px;margin-bottom:10px;padding-bottom:2px;" class="page-header">Reviews:</h3>';} else {echo '<h3 style="margin-bottom:-18px;font-style:italic;">No reviews yet.</h3>';} 
+    if(count($reviewArray) != 0){echo '<h3 style="padding-top:20px;margin-bottom:10px;padding-bottom:2px;" class="page-header">Reviews:</h3>';} else {echo '<h3 style="margin-bottom:-18px;font-style:italic;padding-top:10px;">No reviews yet.</h3>';} 
                     
     for($a=0;$a<count($reviewArray);$a++){ $onYelp = true;
                 
@@ -423,8 +438,8 @@ $obj = json_decode($json);$photo = ($obj->photos->photo[0]);
                 <?php } ?>
                 <?php if(isset($_SESSION["logged_in"]) && $_SESSION["logged_in"]){ ?>                
                     <hr />
-                <h3 id="spring-to-here">Have you been here? Share your opinion about it, by writing a review:</h3>
-                <form action="#spring-to-here" method="post">
+                <h3 id="jump-to-here">Have you been here? Share your opinion about it, by writing a review:</h3>
+                <form action="#jump-to-here" method="post">
                     <?php if(!$go){echo '<br /><div class="alert alert-danger" role="alert">' . $alertMessage . '</div>';} ?>
                 <div class="review-wrapper" style="margin-top:10px;">
                     <div class="review-top">

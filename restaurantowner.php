@@ -193,7 +193,7 @@ $nameExistsError="The name already exists";
 $nameExists=false;
 $nameExistsError="";
 }
-if (alreadyOwner==false AND $nameExists ==false){ 
+if ($alreadyOwner==false AND $nameExists ==false){ 
 $sql = "INSERT INTO restaurants (user_id, id, phone, postal_code, online_orders, address_street, address_number, city, country_code)
 VALUES ('$userId','$id', '$phone', '$postalCode', '$orderOnline', '$addressStreet', '$addressNumber', '$city', '$country')";
 if ($conn->query($sql) === TRUE) {

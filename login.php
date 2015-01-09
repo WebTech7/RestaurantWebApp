@@ -27,7 +27,7 @@ if(isset($_POST["username-or-email-login"])){
                     if($obj->hash_code_email_password == $hash){
                         $loginSuccess = true;
                         $alertMessage = "Logged in successfully. <a href='index.php'>Click here to go back to the home page.</a>";
-                        $user_id = $row->user_id;
+                        $user_id = $obj->user_id;
                     }
                 }
             }

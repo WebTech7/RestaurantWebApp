@@ -302,7 +302,23 @@ function initialize() {
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 </script>
-      
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+      <script>
+      $(function() {
+  $('a[href*=#]:not([href=#])').click(function() {
+    if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+      var target = $(this.hash);
+      target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+      if (target.length) {
+        $('html,body').animate({
+          scrollTop: target.offset().top
+        }, 1000);
+        return false;
+      }
+    }
+  });
+});
+      </script>
   </head>
 
   <body>
@@ -338,7 +354,24 @@ google.maps.event.addDomListener(window, 'load', initialize);
                   </form>
               </li>
               <?php if(isset($_SESSION["logged_in"]) && $_SESSION["logged_in"]){ $sql = "SELECT * FROM restaurants WHERE user_id = '".$_SESSION["user_id"]."'"; 
-$result = $conn->query($sql);	if ($result->num_rows > 0) { echo '<li><a href="editrestaurant.php">My restaurant</a></li>'; } else {?>
+$result = $conn->query($sql);	if ($result->num_rows > 0) { ?><li style="margin-top:8px;margin-left:10px;"><div class="dropdown">
+  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+    My restaurant
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="restaurant.php?id=<?php $sql = "SELECT * FROM `restaurantwebapp`.`restaurants` WHERE `user_id`=".$_SESSION["user_id"].";";
+                               if($res = $conn->query($sql)){
+                                  while($row = $res->fetch_object()){
+                                      echo $row->id;
+                                  }
+                               }
+                               ?>">View my restaurant's page</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="editrestaurant.php">Edit my restaurant</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="editmenu.php">Add a dish</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="deletedish.php">Remove a dish</a></li>
+  </ul>
+              </div></li><?php } else {?>
             <li><a href="restaurantowner.php">I'm an owner!</a></li><?php } } else {?>
             <li><a href="restaurantowner.php">I'm an owner!</a></li><?php } ?>
             <li><a href="postalcode.php">Front Page</a></li>
@@ -349,13 +382,13 @@ $result = $conn->query($sql);	if ($result->num_rows > 0) { echo '<li><a href="ed
             <li><a class="login-link" id="login-link" href="signup.php">Sign up</a></li>
               <li><a href="login.php<?php echo "?redirectUrl=".urlencode($_SERVER["REQUEST_URI"]); ?>">Login <img src="https://www.facebook.com/images/fb_icon_325x325.png" class="small-facebook-logo" /></a></li>
               <?php } else { ?>
-              <li><a style="color:#222 !important;"><img src="https://cdn0.iconfinder.com/data/icons/20-flat-icons/128/user.png" height="20" style="margin-top:-5px;margin-right:7px;"/>Bon Appetit, <?php $sql = "SELECT * FROM `restaurantwebapp`.`accounts` WHERE `user_id` = ".$_SESSION["user_id"].";";
+              <li id="user-info-li"><a style="cursor:pointer;"><img src="https://cdn0.iconfinder.com/data/icons/20-flat-icons/128/user.png" height="20" style="margin-top:-5px;margin-right:7px;"/>Bon Appetit, <?php $sql = "SELECT * FROM `restaurantwebapp`.`accounts` WHERE `user_id` = ".$_SESSION["user_id"].";";
                             if($res = $conn->query($sql)){
                                 while($obj = $res->fetch_object()){
                                     echo $obj->first_name; 
                                 }
                             }
-                  ?>!</a></li>
+                  ?>!</a><div class="user-drop-info-wrapper"><div class="user-drop-info" >a</div></div></li>
               <li><a href="logout.php">Logout</a></li>
               <?php } ?>
           </ul>
