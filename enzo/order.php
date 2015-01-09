@@ -3,6 +3,10 @@ $servername = "www.db4free.net";
 $username = "webtech7";
 $password = "W€btek678";
 $db = "restaurantwebapp";
+if(isset($_POST['id'])){
+           $submit = $_POST['id'];
+          };
+
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $db);
@@ -23,7 +27,7 @@ $mailWorks = false;
 
 if(isset($_POST["firstName"])){
 $sql = "INSERT INTO orders (user_id, id, orders,  address_street, address_number, postal_code, city, name, last_name, pay_method, paid)
-VALUES ('1', '1', '$_POST[orders]', '$_POST[street]', '$_POST[number]', '$_POST[postal]', '$_POST[city]', '$_POST[firstName]', '$_POST[lastName]', 'test', 'y')";
+VALUES ('1', '$_SESSION[id]', '$_POST[orders]', '$_POST[street]', '$_POST[number]', '$_POST[postal]', '$_POST[city]', '$_POST[firstName]', '$_POST[lastName]', 'test', 'y')";
 
 
   if ($conn->query($sql) === TRUE) {
@@ -41,6 +45,13 @@ $conn->close();
 showHeader("Order", false);
 ?>
 <html>
+<?php
+// Start the session
+if(!isset($_SESSION)) 
+    { 
+        session_start(); 
+    } 
+?>
 <div class="image-background jumbotron" style="background:url(http://www.restaurantampersand.nl/wp-content/uploads/2013/10/restaurant.jpeg) !important;background-size:cover !important;background-position:center !important;min-height:calc(100vh - 50px);margin-bottom:0;" id="image-background">
     <div class="container">
       <form id="form-order" method="post" action="order.php" class="form-signin" role="form">
@@ -54,8 +65,12 @@ if($alertMessage != ""){
           <?php
 } if(!$submittedsuccess){
 ?>
-          <p>What would you like to order</p>
-          <input autocomplete="off" style="padding-right:43px;" type="text" name="orders" placeholder="Big Black Cock" /> <br /><br />
+          <p>What would you like to order 
+          <?php  if(isset($_POST['id'])){
+            $_SESSION["id"] = $_POST['id'];
+          };
+          if($_SESSION["id"]){echo $_SESSION["id"];}?></p>
+          <input autocomplete="off" style="padding-right:43px;" type="text" name="orders" placeholder="allerlei lekkers" /> <br /><br />
           <p>Where should we deliver</p>
           <input autocomplete="off" style="padding-right:43px;" type="text" name="street" placeholder="street" /><br /><br />
           <p>Where should we deliver</p>
