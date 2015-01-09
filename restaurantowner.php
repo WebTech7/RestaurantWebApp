@@ -209,10 +209,11 @@ if ($conn->query($sql) === TRUE) {
 ?>
   </head>
   <body>
+  	<div class="image-background jumbotron" style="background:url(http://www.restaurantampersand.nl/wp-content/uploads/2013/10/restaurant.jpeg) !important;background-size:cover !important;background-position:center !important;min-height:calc(100vh - 50px);margin-bottom:0;" id="image-background">
  <div class="container"> 
  <?php 
 if (isset($_SESSION["logged_in"]) ){ ?> 
-<div class="jumbotron">
+<div id='EnzoJumbo'>
     <form method= "POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" role="form" class="form-horizontal">
 <fieldset>
 
@@ -555,6 +556,7 @@ else {
 echo "<div class='jumbotron'>Please log in and try again";
 }
 ?>
+</div>
 </div>
 </div>
 

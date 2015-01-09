@@ -125,9 +125,9 @@ $loggedIn = false;
   <body>
  <?php
 showHeader("titel",false);
-?> 
+?> <div class="image-background jumbotron" style="background:url(http://www.restaurantampersand.nl/wp-content/uploads/2013/10/restaurant.jpeg) !important;background-size:cover !important;background-position:center !important;min-height:calc(100vh - 50px);margin-bottom:0;" id="image-background">
 	<div class="container">
-	<div class="jumbotron">
+	<div id='EnzoJumbo'>
 	
 	
 <?php
@@ -200,6 +200,7 @@ echo "Please log in first and own a restaurant";
 	
 	</div>
 	</div>
+</div>
 <?php
 } // else niet ingelogged
 ?>	

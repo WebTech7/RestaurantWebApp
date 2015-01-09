@@ -58,8 +58,9 @@ $conn->query($sql);
   <?php
   showHeader("titel",false);
   ?>
+  <div class="image-background jumbotron" style="background:url(http://www.restaurantampersand.nl/wp-content/uploads/2013/10/restaurant.jpeg) !important;background-size:cover !important;background-position:center !important;min-height:calc(100vh - 50px);margin-bottom:0;" id="image-background">
   <div class= "container">
-  <div class="jumbotron">
+  <div id='EnzoJumbo'>
   
 <?php
   if ($allGood==TRUE AND $alreadyOwner == TRUE){
@@ -89,7 +90,7 @@ echo "Log in or become a restaurant owner";
 
 ?>
 
-
+</div>
 </div>
 </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
