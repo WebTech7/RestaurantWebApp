@@ -643,6 +643,7 @@ input[type="image"] {
 }
 
 .image-background {
+    min-height: 100vh;
     background:none;
     background-position: top;
     width:100%;
