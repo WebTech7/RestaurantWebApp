@@ -1,3 +1,16 @@
+/--- Dingen die niet heel noodzakelijk zijn, maar zou wel netjes zijn als het zou gebeuren ---/
+
+- Inloggen en aanmelden met facebook
+- Zoeken naar eigen gemaakte restaurants verbeteren
+    - Als de categorieen toegevoegd kunnen worden aan restaurants, hiermee zoeken
+    - Nu wordt er alleen gekeken of de plaats van het restaurant de door de gebruiker gezochte plaats is, of ditzelfde voor de postcode. Maar hij zou alles in een radius van 40 kilometer moeten doen (default).
+    - Zoeken met de afstandsfilter.
+- Kaart geimplenteerd in refreshResults.php en restaurant.php
+- Categorieen kiezen bij het aanmaken/editen van een restaurant
+- Een aantal dingen komen zeer slecht uit op de mobiele site.
+    - Sterren in zoekresultaten op index.php
+    - Zoekbalk helemaal bovenaan iedere pagina
+
 /--- Alles wat nog moet gebeuren ---/
 
 1. Het specify-gedeelte (links op de pagina met zoekresultaten) {index.php}

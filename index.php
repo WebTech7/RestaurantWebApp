@@ -202,46 +202,6 @@ error_reporting(-1);
 <?php
 
     ?>
-      <div id="login-screen-wrapper" class="content-when-not-logged-in" onclick="closeLogin();">
-          <div id="login-screen" class="container">
-              <div class="something-absolute something-0"><div class="login-screen-cross"><img src="https://cdn0.iconfinder.com/data/icons/slim-square-icons-basics/100/basics-22-32.png" width="15"/></div></div>
-                <div><div class="btn-group" role="group" aria-label="...">
-                  <button type="button" onclick="showLogin();" class="btn btn-default login-button">Log in</button>
-                  <button type="button" onclick="showSignUp();" class="btn btn-default signup-button">Sign up</button>
-                </div>
-                    <br /><br />
-              <div class="fb-login-button" style="" target="_blank" onclick="document.location.href= '<?php echo $helper->getLoginUrl(); ?>';"><h3>FACEBOOK LOGIN</h3></div>
-
-                <hr />
-                    <h4><span id="login-without-fb">Log in</span><span id="signup-without-fb">Sign up</span> without Facebook</h4>
-                
-                  <form role="form" id="login-form">
-                    <div class="form-group"><br />
-                        <div class="alert alert-danger" role="alert" id="login-feedback-danger"></div>
-                      <label for="login-email">Email/username:</label>
-                      <input type="email" class="form-control" id="login-email" placeholder="Enter email">
-                    </div>
-                    <div class="form-group">
-                      <label for="pwd">Password:</label>
-                      <input type="password" class="form-control" id="login-pwd" placeholder="Enter password">
-                    </div>
-                    <button type="submit" onclick="submitLogin();" value="login" class="btn btn-default">Log in</button>
-                  </form>
-                   
-                    <form role="form" method="post" id="signup-form" action="signup.php">
-                    <div class="form-group">
-                         <br /><div id="ajax-response"></div>
-                        <div class="alert alert-danger remove-signup" role="alert" id="signup-feedback-danger"></div>
-                        <div class="alert alert-success remove-signup" role="success" id="signup-feedback-success"></div>
-                        
-                      <label class="remove-signup" for="signup-email">Email:</label>
-                        <span id="signup-alert" class="remove-signup"></span>
-                      <input id="signup-email" type="email" class="remove-signup form-control" id="signup-email" placeholder="Enter email"><br />
-                      <button type="submit" id="signup-submit" onclick="submitSignUp();" class="remove-signup btn btn-default">Sign up</button>
-                    </div>
-                  </form>
-                    
-      </div>
 
 
 

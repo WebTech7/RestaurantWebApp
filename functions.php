@@ -1,25 +1,4 @@
 <?php
-require_once("fb.php");
-
-use Facebook\FacebookSession;
-use Facebook\FacebookRedirectLoginHelper;
-use Facebook\FacebookRequest;
-use Facebook\FacebookResponse;
-use Facebook\FacebookSDKException;
-//use Facebook\FacebookRequestException;
-use Facebook\FacebookAuthorizationException;
-use Facebook\GraphObject;
-use Facebook\FacebookHttpable;
-use Facebook\FacbeookCurlHttpClient;
-use Facebook\GraphUser;
-use Facebook\FacebookRequestException;
-use Facebook\GraphSessionInfo;
-//require_once("connect.php");
-if(isset($_SESSION["logged_in"]) && $_SESSION["logged_in"]){
-    $loggedIn = true;
-} else {
-    $loggedIn = false;
-}
 
 function stripAccents($stripAccents){
 $unwanted_array = array(    'Š'=>'S', 'š'=>'s', 'Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E',
@@ -386,7 +365,7 @@ $result = $conn->query($sql);	if ($result->num_rows > 0) { ?><li style="margin-t
     if(!$loggedIn){
     ?>
             <li><a class="login-link" id="login-link" href="signup.php">Sign up</a></li>
-              <li><a href="login.php<?php echo "?redirectUrl=".urlencode($_SERVER["REQUEST_URI"]); ?>">Login <img src="https://www.facebook.com/images/fb_icon_325x325.png" class="small-facebook-logo" /></a></li>
+              <li><a href="login.php<?php echo "?redirectUrl=".urlencode($_SERVER["REQUEST_URI"]); ?>">Login <!--<img src="https://www.facebook.com/images/fb_icon_325x325.png" class="small-facebook-logo" />--></a></li>
               <?php } else { ?>
               <li id="user-info-li"><a style="cursor:pointer;"><img src="https://cdn0.iconfinder.com/data/icons/20-flat-icons/128/user.png" height="20" style="margin-top:-5px;margin-right:7px;"/>Bon Appetit, <?php $sql = "SELECT * FROM `restaurantwebapp`.`accounts` WHERE `user_id` = ".$_SESSION["user_id"].";";
                             if($res = $conn->query($sql)){

@@ -1,25 +1,4 @@
 <?php
-require_once("fb.php");
-
-use Facebook\FacebookSession;
-use Facebook\FacebookRedirectLoginHelper;
-use Facebook\FacebookRequest;
-use Facebook\FacebookResponse;
-use Facebook\FacebookSDKException;
-//use Facebook\FacebookRequestException;
-use Facebook\FacebookAuthorizationException;
-use Facebook\GraphObject;
-use Facebook\FacebookHttpable;
-use Facebook\FacbeookCurlHttpClient;
-use Facebook\GraphUser;
-use Facebook\FacebookRequestException;
-use Facebook\GraphSessionInfo;
-//require_once("connect.php");
-if(isset($_SESSION["logged_in"]) && $_SESSION["logged_in"]){
-    $loggedIn = true;
-} else {
-    $loggedIn = false;
-}
 
 function stripAccents($stripAccents){
 $unwanted_array = array(    'Š'=>'S', 'š'=>'s', 'Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E',

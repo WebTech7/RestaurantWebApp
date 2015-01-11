@@ -3,7 +3,6 @@ ob_start(); session_start();
 ini_set('display_errors',1);
 ini_set('display_startup_errors',1);
 error_reporting(-1);
-require_once("fb.php");
 require_once("functions.php");
 $servername = "www.db4free.net";
 $username = "webtech7";
@@ -92,7 +91,11 @@ if(isset($_POST["user_id"])){
         $postal_code = addslashes(makeInputSafe($_POST["postal_code"]));
 //        $sql = "INSERT INTO orders (user_id, id, orders,  address_street, address_number, postal_code, city, name, last_name, pay_method, paid) VALUES ('$_SESSION[user_id]', '$restaurantId', '".json_encode($orderedDishes)."', '$street_name', '$street_number', '$postal_code', '$city', '$name', '$last_name', 'cash', 'N')";
         $orders = json_encode($orderedDishes);
-        $sql = "INSERT INTO `restaurantwebapp`.`orders` (`order_id`, `user_id`, `id`, `orders`, `order_date`, `address_street`, `address_number`, `postal_code`, `city`, `name`, `last_name`, `pay_method`, `paid`) VALUES (NULL, '$_SESSION[user_id]', '$restaurantId', '$orders', CURRENT_TIMESTAMP, '$street_name', '$street_number', '$postal_code', '$city', '$name', '$last_name', 'cash', 'N');";
+        $user_id = 0;
+        if(isset($_SESSION["user_id"])){
+            $user_id = $_SESSION["user_id"];
+        }
+        $sql = "INSERT INTO `restaurantwebapp`.`orders` (`order_id`, `user_id`, `id`, `orders`, `order_date`, `address_street`, `address_number`, `postal_code`, `city`, `name`, `last_name`, `pay_method`, `paid`) VALUES (NULL, '$user_id', '$restaurantId', '$orders', CURRENT_TIMESTAMP, '$street_name', '$street_number', '$postal_code', '$city', '$name', '$last_name', 'cash', 'N');";
         $conn->query($sql);
         $orderId = mysqli_insert_id($conn);
     }

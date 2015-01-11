@@ -2,7 +2,6 @@
 //ini_set('display_errors',1);
 //ini_set('display_startup_errors',1);
 //error_reporting(-1);
-require_once("fb.php");
 require_once("functions.php");
 $servername = "www.db4free.net";
 $username = "webtech7";
@@ -428,7 +427,7 @@ $obj = json_decode($json);$photo = ($obj->photos->photo[0]);
                                     } }
                                         ?></h3></div>
                         <div class="review-user"><h4><?php print $reviewArray[$a]["reviewUser"]; if($reviewArray[$a]["onYelp"]){echo ' on <a target="_new" href="'.$restaurantUrl.'">Yelp</a>';} ?></h4></div></div>
-                    <div class="review-content"><?php if($reviewArray[$a]["onYelp"]){ print rtrim($reviewArray[$a]["reviewContent"], "...")."... <a target='_new' href='$restaurantUrl'>Read more</a>"; } else {echo $reviewArray[$a]["reviewContent"];} ?></div>
+                    <div class="review-content"><?php if($reviewArray[$a]["onYelp"]){ print str_replace("...", "", $reviewArray[$a]["reviewContent"])."... <a target='_new' href='$restaurantUrl'>Read more</a>"; } else {echo $reviewArray[$a]["reviewContent"];} ?></div>
                 </div>
                 <?php } ?>
                 <?php if(isset($_SESSION["logged_in"]) && $_SESSION["logged_in"]){ ?>                
