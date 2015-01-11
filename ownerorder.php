@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 if (isset($_SESSION["logged_in"]) or 1==1){
 //$loggedIn = $_SESSION["logged_in"];
 //$userId = $_SESSION["user_id"];
@@ -66,7 +67,7 @@ if ($result->num_rows > 0) {
 }
 
 else {
-echo "You are no restaurant owner";
+echo "You are not a restaurant owner.";
 
 }
 ?>

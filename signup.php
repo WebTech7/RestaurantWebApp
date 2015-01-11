@@ -14,7 +14,7 @@ error_reporting(-1);
 $submitted = false;
 $submittedsuccess = false;
 $alertMessage = "";
-$mailWorks = false;
+$mailWorks = true;
 
 if(isset($_GET["resend"]) && $_GET["resend"] == 1 && isset($_GET["email"])){
     $resendArray = resendVerification($_GET["email"], $conn);
@@ -42,7 +42,7 @@ if(isset($_GET["resend"]) && $_GET["resend"] == 1 && isset($_GET["email"])){
     } else {
         $verLinkUnique = false;
         $verificationLink = getVerificationLink($conn);
-        $sql = "INSERT INTO `restaurantwebapp`.`accounts` (`user_id`, `emailorfb`, `emailorfb_value`, `first_name`, `last_name`, `hash_code_email_password`, `verified`, `verification_link`, `bezorgadres`, `bezorgpostcode`, `bezorgwoonplaats`, `username`, `uses_name_or_username`) VALUES (NULL, '0', '$email', '', '', '', '0', '".$verificationLink."', '', '', '', '' , '0');";
+        $sql = "INSERT INTO `restaurantwebapp`.`accounts` (`user_id`, `emailorfb`, `emailorfb_value`, `first_name`, `last_name`, `hash_code_email_password`, `verified`, `verification_link`, `street_name`, `postal_code`, `city`, `username`, `uses_name_or_username`, `street_number`) VALUES (NULL, '0', '$email', '', '', '', '0', '$verificationLink', '', '', '', '', '0', '');";
         $res = $conn->query($sql);
         $mail = sendVerificationEmail($email, $verificationLink, $conn);
         $alertMessage .= "A verification email has been sent. Click the verification link in the email, set your name, a password and you're done!";

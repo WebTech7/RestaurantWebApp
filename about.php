@@ -7,7 +7,7 @@ error_reporting(-1);
 $submitted = false;
 $submittedsuccess = false;
 $alertMessage = "";
-$mailWorks = false
+$mailWorks = true
 
 ?>
       
