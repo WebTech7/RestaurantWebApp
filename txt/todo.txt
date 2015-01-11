@@ -10,6 +10,7 @@
 - Een aantal dingen komen zeer slecht uit op de mobiele site.
     - Sterren in zoekresultaten op index.php
     - Zoekbalk helemaal bovenaan iedere pagina
+    - De knop voor het kaartje naast sort-by
 
 /--- Alles wat nog moet gebeuren ---/
 
