@@ -27,7 +27,8 @@ $id=$idSecond["unique_ID"];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 $orderId=$_POST['Update'];
-$sql = "UPDATE orders SET status='Delivered' WHERE order_id='$orderId'";
+$orderStatus=$_POST['value'];
+$sql = "UPDATE orders SET status='$orderStatus' WHERE order_id='$orderId'";
 $conn->query($sql);
 
 }
@@ -47,6 +48,12 @@ if ($result->num_rows > 0) {
 		echo "  -- Order date: " . $row["order_date"] . "  -- Address : " . $row["address_street"]. " " . $row["address_number"]. " " . $row["postal_code"]. " " . $row["city"] . "  -- Person information: " .$row["name"] . " " . $row["last_name"] . " --  Pay method: " . $row["pay_method"] . "  -- Paid: " . $row["paid"]. "  -- Status: " . $row["status"] .
 		"<form method= 'POST' action=" . htmlspecialchars($_SERVER["PHP_SELF"]) . ">
 		<input type='hidden' name = 'Update' value='".$row["order_id"]."'>
+		<select name='value' >
+				<option value='New order'>New order</option>
+				<option value='Order seen'>Order seen</option>
+				<option value='Order sent away'>Order sent away</option>
+				<option value='Order done'>Order done</option>
+		</select>
 		<input type='submit' name='submit' value='Update'>
 		</form>";
     }
