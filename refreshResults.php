@@ -1,5 +1,13 @@
 <?php
 
+$servername = "www.db4free.net";
+$username = "webtech7";
+$password = "W€btek678";
+$db = "restaurantwebapp";
+
+// Create connection
+$conn = mysqli_connect($servername, $username, $password, $db) or die("No connection");
+
 function makeInputSafe2($string) {
     $string = trim($string);
     $string = stripslashes($string);
@@ -7,7 +15,7 @@ function makeInputSafe2($string) {
     return $string;
 }
 
-    if(isset($_GET["place"]) && $_GET["place"] != ""){
+    if(isset($_GET["place"]) && trim($_GET["place"]) != ""){
         $place = makeInputSafe2($_GET["place"]);
          if(!isset($_COOKIE["place"])){
             setcookie("place", $place);
@@ -87,53 +95,115 @@ $token = 'sbOK5g3X_9JiYjIibXPOPB9aN9yh4GKR';
 $token_secret = 'oViN5ngntd0Ctb2qeAcwKd9fAOM';
 $token = new OAuthToken($token, $token_secret);
 
-        $consumer = new OAuthConsumer($consumer_key, $consumer_secret);
+$consumer = new OAuthConsumer($consumer_key, $consumer_secret);
 
-        $signature_method = new OAuthSignatureMethod_HMAC_SHA1();
+$signature_method = new OAuthSignatureMethod_HMAC_SHA1();
 
-        $oauthrequest = OAuthRequest::from_consumer_and_token($consumer, $token, 'GET', $unsigned_url);
+$oauthrequest = OAuthRequest::from_consumer_and_token($consumer, $token, 'GET', $unsigned_url);
 
-        $oauthrequest->sign_request($signature_method, $consumer, $token);
+$oauthrequest->sign_request($signature_method, $consumer, $token);
 
-        $signed_url = $oauthrequest->to_url();
+$signed_url = $oauthrequest->to_url();
 
-        $ch = curl_init($signed_url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
+$ch = curl_init($signed_url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HEADER, 0);
 
-        $data = curl_exec($ch);
-        curl_close($ch);
+$data = curl_exec($ch);
+curl_close($ch);
 
-        $response = json_decode($data);
-        $json_string = file_get_contents($signed_url);
-        $result = json_decode($json_string);
-        $countBoxes = 0;echo "<div id='list'><div class='row'>";
-        for($i=0;$i<count($result->businesses);$i++){
+$response = json_decode($data);
+$json_string = file_get_contents($signed_url);
+$result = json_decode($json_string);
+$countBoxes = 0;echo "<div id='list'><div class='row'>";
+
+//own restaurants
+
+$ourRestaurants = array();
+$sql = "SELECT * FROM `restaurantwebapp`.`restaurants`";
+$qArray = explode(" ", $q);
+if($res = $conn->query($sql)){
+    while($row = $res->fetch_object()){
+        if((isset($q) && $q != "") || (isset($place) && $place != "")){
+            for($d=0;$d<count($qArray);$d++){
+                if (($q == "" || ($q != "" && ( preg_match(trim(strtolower('/'.$qArray[$d].'/')), trim(strtolower($row->id))) || trim(strtolower($row->id)) == trim(strtolower($qArray[$d])) ) ) ) && (preg_match(trim(strtolower('/'.$place.'/')), trim(strtolower($row->city))) || trim(strtolower($row->city)) == trim(strtolower($place)) || str_replace(" ", "", trim(strtolower($row->postal_code))) == str_replace(" ", "", trim(strtolower($place))))){
+                    $go3 = true;
+                    for($e=0;$e<count($ourRestaurants);$e++){
+                        if(json_decode(json_encode($row), true) == $ourRestaurants[$e]){
+                            $go3 = false;
+                        }
+                    }
+                    if($go3){
+                        $ourRestaurants[count($ourRestaurants)] = json_decode(json_encode($row), true);
+                    }
+                }
+            }
+        }
+    }
+}
+//                var_dump($ourRestaurants);
+$b=0;
+$i=-1;
+        for($a=0;$a<( count($result->businesses) + count($ourRestaurants) );$a++){
             $go = false;
+            if(count($ourRestaurants) > $b){
+                // our own
+                $resRating = 1;
+                $img = "https://cdn4.iconfinder.com/data/icons/home-sweet-home-2/120/cafe-512.png";
+                $name = $ourRestaurants[$b]["name"];
+                $id = $ourRestaurants[$b]["id"];
+                $city = $ourRestaurants[$b]["city"];
+                $categories = array();
+                $review_count = 0;
+                $sql = "SELECT * FROM reviews WHERE `id` = '".$ourRestaurants[$b]["id"]."'";
+                if($res = $conn->query($sql)){
+                    while($row = $res->fetch_object()){
+                        $review_count++;
+                    }
+                }
+                $rating1 = 3;
+                $orders = $ourRestaurants[$b]["online_orders"];
             if($order == ""){
                 $go = true;
-            } else if($order == "orderorpickup") {
-                $go = false;
             } else if($order == "order") {
-                $go = false;
-            } else if($order == "pickup") {
-                $go = false;
-            } else if($order == "no") {
-                $go = true;
+                if($orders == "Y"){
+                    $go = true;
+                } else {
+                    $go = false;
+                }
             } else {
                 $go = true;
             }
-            if($rating <= $result->businesses[$i]->rating && $go){
+                $b++;
+            } else {
+                // yelp
+                $i++;
+                if(isset($result->businesses[$i]->image_url) && $result->businesses[$i]->image_url != ""){ $img = $result->businesses[$i]->image_url; } else { $img = "https://cdn4.iconfinder.com/data/icons/home-sweet-home-2/120/cafe-512.png"; }
+                $name = $result->businesses[$i]->name;
+                $city = $result->businesses[$i]->location->city;
+                $review_count = $result->businesses[$i]->review_count;
+                $rating1 = $result->businesses[$i]->rating;
+                $id = urlencode($result->businesses[$i]->id);
+                if(isset($result->businesses[$i]->categories)){
+                    $categories = $result->businesses[$i]->categories;
+                } else {
+                    $categories = array();
+                }
+                if($order != "order") {
+                    $go = true;
+                }
+            }
+            if((isset($result->businesses[$i]->rating) && $i != -1 && $rating <= $rating1) || ($i == -1 && $rating <= $rating1 && $go)){
                 $countBoxes++;
             ?>
                     <div class="col-lg-6">
-                        <div class="result-box" onclick="document.location.href='restaurant.php?id=<?php echo urlencode($result->businesses[$i]->id); ?>';">
-                            <div class="result-image" style="background:url(<?php if(isset($result->businesses[$i]->image_url) && $result->businesses[$i]->image_url != ""){ echo $result->businesses[$i]->image_url; } else { echo "https://cdn4.iconfinder.com/data/icons/home-sweet-home-2/120/cafe-512.png"; } ?>) #FFF;background-size:cover;background-position:center;"></div>
+                        <div class="result-box" onclick="document.location.href='restaurant.php?id=<?php echo $id; ?>';">
+                            <div class="result-image" style="background:url(<?php echo $img; ?>) #FFF;background-size:cover;background-position:center;"></div>
                             <div class="result-content result-content-search">
-                                <h4 style="height:20px;overflow:hidden;"><?php echo $result->businesses[$i]->name;
+                                <h4 style="height:20px;overflow:hidden;"><?php echo $name;
  ?></h4>
                                 <p class="description-short">
-                                    <?php echo $result->businesses[$i]->location->city; $cat = $result->businesses[$i]->categories; if(count($cat) != 0){echo " | ";}
+                                    <?php echo $city; $cat = $categories; if(count($cat) != 0){echo " | ";}
                                     for($j=0;$j<count($cat);$j++){
                                         $categorie = $cat[$j][0];
                                         if($j == 0){
@@ -147,10 +217,10 @@ $token = new OAuthToken($token, $token_secret);
                                     ?><br />
                                 </p>
                                 <div style="float:left;margin-top:15px;">
-                                    <p><?php $review_count = $result->businesses[$i]->review_count; echo $review_count; if($review_count == 1){echo " review";} else {echo " reviews";} ?> &bull;</p></div>
+                                    <p><?php echo $review_count; if($review_count == 1){echo " review";} else {echo " reviews";} ?> &bull;</p></div>
                                     <div style="float:left;margin-left:3px;width:100px;overflow:hidden">
                                     <?php
-        $outOfFiveStars = $result->businesses[$i]->rating;
+        $outOfFiveStars = $rating1;
         $pxWidthOfStar = 13;
         $pxMarginLeft = 3;
         for($j=0;$j<5;$j++){

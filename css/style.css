@@ -1088,3 +1088,134 @@ right: 0;
 #Enzodiv2 {
     font: 150%/100% Arial, Helvetica, sans-serif;  
 }
+
+.order-check-wrapper {
+    width: 500px;
+    max-width: 100%;
+    overflow: hidden;
+    margin: 10px auto;
+}
+
+.order-check-table {
+    background:#f5f5f5;
+    overflow: hidden;
+    border-radius:5px;
+    border:1px solid #DDD;
+    width: 500px;
+    max-width: 100%;
+}
+
+.order-check-title {
+    width: 100%;
+    background:#64baf9;
+    padding:15px;
+    border-radius:5px 5px 0 0;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.order-check-item {
+    background:#afdaf9;
+    margin:15px 0;
+    overflow: hidden;
+    padding:15px;
+}
+
+.order-check-item-title {
+    font-weight: 500;
+    float:left;
+    font-size: 16px;
+}
+
+.order-check-item-description {
+    margin-top:23px;
+    width:100%;
+    color: #444;
+}
+
+.order-check-item-price-amount {
+    float:right;
+    overflow: hidden;
+}
+
+.order-check-item-price {
+    float: right;
+    border:1px solid #DDD;
+    border-radius:5px;
+    padding: 3px 7px;
+    background: #f5f5f5;
+}
+
+.order-check-item-amount {
+    float: right;
+    border:1px solid #f5f5f5;
+    border-radius:5px;
+    padding: 3px 7px;
+    margin-right: 5px;
+    background: #f5f5f5;
+}
+
+.order-step-wrapper {
+    width:100%;
+    margin-top:10px;
+    overflow: hidden;
+    border-bottom:3px solid #f5bb4d;
+    padding-bottom: 10px;
+}
+
+.order-step-count {
+    background:#f5bb4d;
+    width:70px;
+    height:70px;
+    border-radius: 70px;
+    float: left;
+    color: #222;
+    font-size:40px;
+    text-align: center;
+    padding-top:7px;
+    font-weight: bold;
+}
+
+.order-step-title {
+    float: left;
+    padding-top:18px;
+    font-size:25px;
+    margin-left: 16px;
+    color: #222;
+}
+
+.two-inputs {
+    overflow: hidden;
+    margin-top:10px;
+}
+
+.two-inputs-part-1 {    
+    float:left;
+    margin-right:10px;
+    margin-bottom:5px;
+}
+
+.two-inputs-part-2 {
+    float:left;
+    margin-left:10px;
+    margin-bottom:5px;
+}
+
+.order-submit {
+    width: 220px;
+    text-align:center;
+    background:#afdaf9;
+    border:1px solid #DDD;
+    border-top:none;
+    padding:5px 0;
+    margin-bottom: 10px;
+    outline: none;
+    transition:background 0.5s;
+    border-radius:5px;
+    margin-top:15px;
+}
+
+.order-submit:hover {
+    background:#68A6C4;
+    transition:background 0.5s;
+}

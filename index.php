@@ -144,9 +144,7 @@ error_reporting(-1);
                 <div class="specify-option-content">
                         <select class="form-control" name="order" id="order">
                             <option value="">No preference</option>
-                            <option value="orderorpickup">Order or pick up</option>
                             <option value="order">Order</option>
-                            <option value="pickup">Pick up</option>
                             <option value="no">No</option>
                     </select>
                 </div><br />

@@ -62,7 +62,7 @@ if(isset($_GET["link"])){
                 $hash = sha1($email . "fheuidns8723cssdio" . $pass);
                 $alertMessage .= "Your password has been reset. Click <a href='login.php'>here</a> to log in.";
                 $hasBeenReset = true;
-                echo $sql = "UPDATE `$db`.`accounts` SET `hash_code_email_password` = '$hash' WHERE `user_id` = $user_id;";
+                $sql = "UPDATE `$db`.`accounts` SET `hash_code_email_password` = '$hash' WHERE `user_id` = $user_id;";
                 $conn->query($sql);
                 $sql = "UPDATE `$db`.`resetpass` SET `used` = 1 WHERE `user_id` = $user_id;";
                 $conn->query($sql);

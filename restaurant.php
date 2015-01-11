@@ -60,12 +60,31 @@ IF (isset($_GET['id']) ) {
 		//$testing2 = "Id is alleen letters of spaties";
 		$restaurantID = $_GET['id']; 						//Geeft de variable de ID waarde mee, zodat je met deze variable de yelp api kan benaderen.
 		$json = '{"error": {"text": "One or more parameters are missing in request", "id": "MISSING_PARAMETER", "field": "oauth_consumer_key"}}'; // Hier moet de json output data van de api komen. Ik heb hier nu een standaard foutmelding in gezet die yelps api geeft, omdat we hier ook een check voor nodig hebben. 
+        $sql = "SELECT * FROM `restaurants` WHERE `id` = '".$_GET["id"]."'";
+        $res = $conn->query($sql);
 		$checkJson = explode('"',$json);
 			IF ($checkJson[1] == "error" AND $testing5 == "Json error" ) { // checkt of de json een error heeft gegeven. 
 				//$testing3 = "Json geeft een error";
 				$errorRestaurantId = 0;
 			} 
-				ELSE {
+        $been = false;
+        if($res){
+                    while($row = $res->fetch_object()){
+                        $been = true;
+                            $restaurantName = $row->name;
+                            $restaurantLogo  = "";
+                            $restaurantCountry  = $row->country_code;
+                            $restaurantAdres  = $row->address_street . " " . $row->address_number;
+                            $restaurantCity = $row->city;
+                            $restaurantRating  = "";
+                            $restaurantRatingStars  = "";
+                            $restaurantPhone  = $row->phone;
+                            $restaurantCurrency  = "";
+                            $restaurantCategory  = "";
+                            $restaurantDeals  = "";
+                          } 
+        }
+        if(!$been){
 					//$testing4 = "Alles ging goed";
 					$restaurantName = "All good indeed";
             $url = "http://api.yelp.com/v2/business/";
@@ -263,7 +282,7 @@ $obj = json_decode($json);$photo = ($obj->photos->photo[0]);
     }
     }
     $total = 0;
-        if($onlineMenuAvailable){ echo '<form action="order.php" method="post"><h3 style="margin-bottom:10px;padding-bottom:2px;" class="page-header">Menu:</h3>';
+        if($onlineMenuAvailable){ echo '<form action="order.php#order-wrapper" method="post"><h3 style="margin-bottom:10px;padding-bottom:2px;" class="page-header">Menu:</h3>';
             $sql = "SELECT * FROM `menu_categories`";
             $catArray = array();
             if($res = $conn->query($sql)){

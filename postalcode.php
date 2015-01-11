@@ -38,6 +38,9 @@
             <li>
                 <a href="about.php">About</a>
             </li>
+            <li>
+                <a href="restaurantowner.php">I'm an owner!</a>
+            </li>
             </ul></div>
         <!-- Bootstrap core JavaScript
     ================================================== -->

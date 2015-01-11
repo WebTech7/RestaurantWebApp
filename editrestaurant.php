@@ -56,7 +56,7 @@ $result = $conn->query($sql);
 	if ($data["online_orders"] == "N") {
 	$onlineOrdersN = "checked='checked'";
 	}
-$name = replace_dashes($data["id"]);
+$name = replace_dashes($data["name"]);
 echo '
 <div id="EnzoJumbo2">
 <div class="control-group">
@@ -534,6 +534,7 @@ die("Connection failed: " . $conn->connect_error);
 }
 
 $sql = "UPDATE restaurants SET  
+                            name='$name',
 							id='$id', 
 							phone='$phone', 
 							postal_code='$postalCode', 

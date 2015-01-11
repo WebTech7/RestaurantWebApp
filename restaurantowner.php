@@ -194,8 +194,8 @@ $nameExists=false;
 $nameExistsError="";
 }
 if ($alreadyOwner==false AND $nameExists ==false){ 
-$sql = "INSERT INTO restaurants (user_id, id, phone, postal_code, online_orders, address_street, address_number, city, country_code)
-VALUES ('$userId','$id', '$phone', '$postalCode', '$orderOnline', '$addressStreet', '$addressNumber', '$city', '$country')";
+$sql = "INSERT INTO restaurants (user_id, id, phone, postal_code, online_orders, address_street, address_number, city, country_code, name)
+VALUES ('$userId','$id', '$phone', '$postalCode', '$orderOnline', '$addressStreet', '$addressNumber', '$city', '$country', '$name')";
 if ($conn->query($sql) === TRUE) {
     $dbinsert="Everything went well";
 } else {
