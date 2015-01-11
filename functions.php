@@ -354,7 +354,7 @@ $result = $conn->query($sql);	if ($result->num_rows > 0) { ?><li style="margin-t
     <li role="presentation"><a role="menuitem" tabindex="-1" href="editrestaurant.php"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/edit.png" height="16" style="margin-top:-4px;" /> Edit my restaurant</a></li>
     <li role="presentation"><a role="menuitem" tabindex="-1" href="editmenu.php"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/bullet_add.png" height="16" style="margin-top:-4px;" /> Add a dish</a></li>
     <li role="presentation"><a role="menuitem" tabindex="-1" href="deletedish.php"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/bullet_deny.png" height="16" style="margin-top:-4px;" /> Remove a dish</a></li>
-      <li role="presentation"><a role="menuitem" tabindex="-1" href="ownerorders.php"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/arrow_refresh.png" height="16" style="margin-top:-4px;" /> Orders from customers</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="ownerorder.php"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/arrow_refresh.png" height="16" style="margin-top:-4px;" /> Orders from customers</a></li>
   </ul>
               </div></li><?php } else {?>
             <li><a href="restaurantowner.php">I'm an owner!</a></li><?php } } else {?>
