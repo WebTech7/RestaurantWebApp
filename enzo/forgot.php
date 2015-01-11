@@ -47,7 +47,7 @@ if(isset($_POST["username-or-email-login"])){
         }
     }
     if($userNameOrEmailExists && $auth){
-        $subject = "StayTuned reset password";
+        $subject = "RestaurantWebApp reset password";
 	    $from = "noreply@coen.pe.hu";
         // To send HTML mail, the Content-type header must be set
         $headers  = 'MIME-Version: 1.0' . "\r\n";
@@ -55,7 +55,7 @@ if(isset($_POST["username-or-email-login"])){
         // Additional headers
         $headers .= "From: $from\r\n";
         $resetPassLink = getResetPassLink($conn);
-        $host = "http://localhost:8000/RestaurantWebApp/";
+        $host = "http://$_SERVER[HTTP_HOST]/";
         $sql = "SELECT * FROM `$db`.`accounts`";
             $res = $conn->query($sql);
             while($row = $res->fetch_object()){
@@ -63,7 +63,7 @@ if(isset($_POST["username-or-email-login"])){
                     $user_id = $row->user_id;
                 }
             }
-	    $message = "On StayTuned, you asked to reset your password, because you forgot it.<br />Reset your password with this link: <a href='".$host."resetpass.php?link=$resetPassLink'>".$host."resetpass.php?link=$resetPassLink</a>";
+	    $message = "On RestaurantWebApp, you asked to reset your password, because you forgot it.<br />Reset your password with this link: <a href='".$host."resetpass.php?link=$resetPassLink'>".$host."resetpass.php?link=$resetPassLink</a>";
 	   mail($email,$subject,$message,$headers);
         if(!$mailWorks){
             echo "Our mail services currently don't work, so here is the original email: $message";

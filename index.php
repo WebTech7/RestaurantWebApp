@@ -1,5 +1,5 @@
 <?php
-ob_start();
+ob_start();session_start();
 require_once("functions.php");
 if(!isset($_GET["place"]) && !isset($_COOKIE["place"])){
     header("Location: postalcode.php");

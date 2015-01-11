@@ -11,6 +11,8 @@
     - Sterren in zoekresultaten op index.php
     - Zoekbalk helemaal bovenaan iedere pagina
     - De knop voor het kaartje naast sort-by
+- Er wordt geen rekening gehouden met sterren die gegeven zijn door onze eigen gebruikers (ipv yelp).
+- Restauranteigenaren kunnen hun restaurant koppelen aan yelp, zodat er niet twee dezelfde restaurants op staan.
 
 /--- Alles wat nog moet gebeuren ---/
 

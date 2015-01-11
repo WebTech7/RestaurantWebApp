@@ -4,7 +4,7 @@ require("lib/autoload.php");
 
 require("lib/facebook.php");
 
-$host = "http://localhost:8000/RestaurantWebApp/";
+$host = "http://$_SERVER[HTTP_HOST]/";
 $app_id = "1033735633321196";
 $app_secret = "9639ebd18b9a0370c538c7f1aefb670f";
 $redirecturl = $host . "";
