@@ -14,6 +14,7 @@
 - Er wordt geen rekening gehouden met sterren die gegeven zijn door onze eigen gebruikers (ipv yelp).
 - Restauranteigenaren kunnen hun restaurant koppelen aan yelp, zodat er niet twee dezelfde restaurants op staan.
 - Gebruiker kan zijn info wijzigen, bestellingen bekijken, als hij is ingelogd.
+- Alle images verwijzen nu naar andere websites. Ze moeten gedownload worden en naar een lokale locatie verwijzen.
 
 /--- Alles wat nog moet gebeuren ---/
 

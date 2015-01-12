@@ -267,9 +267,11 @@ function refreshResults(askedArray){
     get = get + "&kindofrest=" + $("#kind-of-rest").val();
     if(askedArray.hasOwnProperty("q")){
         get = get + "&q="+askedArray["q"];
+        $.cookie("q", askedArray["q"]);
     }
     if(askedArray.hasOwnProperty("place")){
         get = get + "&place="+askedArray["place"];
+        $.cookie("place", askedArray["place"]);
     }
     if(askedArray.hasOwnProperty("sort")){
         get = get + "&sort=" + askedArray["sort"];

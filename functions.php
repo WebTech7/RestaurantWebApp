@@ -153,13 +153,13 @@ function resendVerification($email, $conn){
                 if($row->verified == 0){
                     $verificationLink = getVerificationLink($conn);
                     $mail = sendVerificationEmail($email, $verificationLink,$conn);
-                    $sql = "UPDATE `restaurantwebapp`.`accounts` SET `verification_link` = '$verificationLink' WHERE `email` = '$email';";
-                    $conn->query($sql);
-                    $alertMessage = "The verification email has been resent successfully.";
+                    $sql2 = "UPDATE accounts SET `verification_link` = '$verificationLink' WHERE `emailorfb_value` = '$email';";
+                    $conn->query($sql2);
+                    $alertMessage .= "The verification email has been resent successfully.";
                     $submitted = true;
                     $submittedsuccess = true;
                 } else {
-                    $alertMessage = "Your account has been verificated already. Click <a href='login.php'>here</a> to log in.";
+                    $alertMessage = "Your account has been verified already. Click <a href='login.php'>here</a> to log in.";
                     $submitted = true;
                     $mail = "";
                 }

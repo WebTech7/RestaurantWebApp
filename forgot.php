@@ -72,7 +72,7 @@ if(isset($_POST["username-or-email-login"])){
         $conn->query($sql);
         $alertMessage .= "A link to change your password has been sent to your email.";
     } else if($userNameOrEmailExists){
-        $alertMessage .= "Your account has not been verificated yet. Start doing this by clicking <a href='signup.php'>here</a>.";
+        $alertMessage .= "Your account has not been verified yet. Start doing this by clicking <a href='signup.php'>here</a>.";
     } else {
         $alertMessage .= "The given username or email address is not known by us.";
     }

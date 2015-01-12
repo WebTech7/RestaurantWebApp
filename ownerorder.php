@@ -17,7 +17,7 @@ if ($conn->connect_error) {
 die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT unique_ID FROM restaurants where user_id='45'"; //$userId
+$sql = "SELECT unique_ID FROM restaurants where user_id='$userId'"; //
 $result=$conn->query($sql);
 if ($result->num_rows > 0) {
 $alreadyOwner=true;
@@ -34,7 +34,7 @@ $conn->query($sql);
 
 }
 }
-$sql = "SELECT * FROM orders WHERE user_id='45'"; //$userId
+$sql = "SELECT * FROM orders WHERE user_id='$userId'"; //$userId
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
