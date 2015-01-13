@@ -2,8 +2,8 @@
 session_start();
 
 if (isset($_SESSION["logged_in"]) or 1==1){
-//$loggedIn = $_SESSION["logged_in"];
-//$userId = $_SESSION["user_id"];
+$loggedIn = $_SESSION["logged_in"];
+$userId = $_SESSION["user_id"];
 $servername = "www.db4free.net";
 $username = "webtech7";
 $password = "W€btek678";
