@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (isset($_SESSION["logged_in"]) or 1==1){
+if (isset($_SESSION["logged_in"]) ){
 $loggedIn = $_SESSION["logged_in"];
 $userId = $_SESSION["user_id"];
 $servername = "www.db4free.net";
