@@ -553,7 +553,7 @@ if (isset($_SESSION["logged_in"]) ){ ?>
 <?php echo $dbinsert . "<br />" . $nameExistsError . "<br />" . $alreadyOwnerError; 
 } // voor logged in if af te sluiten
 else {
-echo "<div class='jumbotron'>Please log in and try again";
+echo "<div class='jumbotron'>Please log in and try again";header("Location: login.php");
 }
 ?>
 </div>

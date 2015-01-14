@@ -90,7 +90,11 @@ if(isset($_POST["user_id"])){
         $city = addslashes(makeInputSafe($_POST["city"]));
         $postal_code = addslashes(makeInputSafe($_POST["postal_code"]));
 //        $sql = "INSERT INTO orders (user_id, id, orders,  address_street, address_number, postal_code, city, name, last_name, pay_method, paid) VALUES ('$_SESSION[user_id]', '$restaurantId', '".json_encode($orderedDishes)."', '$street_name', '$street_number', '$postal_code', '$city', '$name', '$last_name', 'cash', 'N')";
-        $orders = json_encode($orderedDishes);
+        if(isset($_SESSION["ordered-dishes-json"])){
+            $orders = $_SESSION["ordered-dishes-json"];
+        } else {
+            $orders = json_encode($orderedDishes);
+        }
         $user_id = 0;
         if(isset($_SESSION["user_id"])){
             $user_id = $_SESSION["user_id"];
@@ -105,6 +109,7 @@ if(isset($_POST["user_id"])){
 }
 if($restaurantExists && !$rightForm){
     showHeader("Place your order", false);
+    $_SESSION["ordered-dishes-json"] = json_encode($orderedDishes);
 ?>
 
     <div class="container-fluid">

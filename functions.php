@@ -365,7 +365,7 @@ $result = $conn->query($sql);	if ($result->num_rows > 0) { ?><li style="margin-t
     if(!$loggedIn){
     ?>
             <li><a class="login-link" id="login-link" href="signup.php">Sign up</a></li>
-              <li><a href="login.php<?php echo "?redirectUrl=".urlencode($_SERVER["REQUEST_URI"]); ?>">Login <!--<img src="https://www.facebook.com/images/fb_icon_325x325.png" class="small-facebook-logo" />--></a></li>
+              <li><a href="login.php<?php $xpl = explode("/", $_SERVER["PHP_SELF"]); if($xpl[count($xpl)-1] == "order.php" && isset($_POST["restaurant-id"])){echo "?redirectUrl=restaurant.php?id=".urlencode($_POST["restaurant-id"]);} else { echo "?redirectUrl=".urlencode($_SERVER["REQUEST_URI"]); } ?>">Login <!--<img src="https://www.facebook.com/images/fb_icon_325x325.png" class="small-facebook-logo" />--></a></li>
               <?php } else { ?>
               <li id="user-info-li"><a style="cursor:pointer;"><img src="https://cdn0.iconfinder.com/data/icons/20-flat-icons/128/user.png" height="20" style="margin-top:-5px;margin-right:7px;"/>Bon Appetit, <?php $sql = "SELECT * FROM `restaurantwebapp`.`accounts` WHERE `user_id` = ".$_SESSION["user_id"].";";
                             if($res = $conn->query($sql)){
@@ -374,7 +374,7 @@ $result = $conn->query($sql);	if ($result->num_rows > 0) { ?><li style="margin-t
                                 }
                             }
                   ?>!</a><div class="user-drop-info-wrapper"><div class="user-drop-info" >a</div></div>
-              <li><a href="logout.php">Logout</a></li>
+              <li><a href="logout.php<?php $xpl = explode("/", $_SERVER["PHP_SELF"]); if($xpl[count($xpl)-1] == "order.php" && isset($_POST["restaurant-id"])){echo "?redirectUrl=restaurant.php?id=".urlencode($_POST["restaurant-id"]);} else { echo "?redirectUrl=".urlencode($_SERVER["REQUEST_URI"]); } ?>">Logout</a></li>
               <?php } ?>
           </ul>
           

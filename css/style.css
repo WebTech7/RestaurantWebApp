@@ -995,7 +995,7 @@ input[type="image"] {
 
 
 #EnzoJumbo{
-    width:900px;
+    width:100%;
     margin:0 auto;
     padding: 25px;
     margin: 0 auto;
@@ -1005,6 +1005,19 @@ input[type="image"] {
     margin:auto auto;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
+
+#EnzoJumbo3 {
+    width:100%;
+    margin:0 auto;
+    padding: 25px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius:15px;
+    box-shadow:0 0 10px #000;
+    margin:auto auto;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
 #EnzoJumbo legend{
     font-size: 60px;
     text-align: center;
@@ -1219,4 +1232,44 @@ right: 0;
 .order-submit:hover {
     background:#68A6C4;
     transition:background 0.5s;
+}
+
+.owner-order {
+    background:#f5f5f5;
+    overflow: hidden;
+    border-radius:5px;
+    border:1px solid #DDD;
+    padding: 0;
+    width: calc(100%);
+    margin:0 5px;
+    margin-bottom: 30px;
+}
+
+.owner-order-title {
+    width: 100%;
+    background:#64baf9;
+    padding:15px;
+    border-radius:5px 5px 0 0;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.owner-order-item {
+    background:#afdaf9;
+    margin:15px 0;
+    overflow: hidden;
+    padding:15px;
+}
+
+.margin-owner-order {
+    margin-top:3px;
+}
+
+.owner-order select {
+    margin-top:-10px;
+}
+
+.owner-order button {
+    margin-top: 10px;
+    width: 100%;
 }
