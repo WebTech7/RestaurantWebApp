@@ -25,7 +25,7 @@ if(isset($_GET["showstatus"])){
 } else {
     $showstatus = "All";
 }
-$statusArray = array("New order","Preparation","Order on its way","Delivered");
+$statusArray = array("New order","Preparation","Order on its way","Delivered", "Deleted");
 $_SESSION["showstatus"] = $showstatus;
 $sql = "SELECT unique_ID FROM restaurants where user_id='$userId'"; //
 $result=$conn->query($sql);
@@ -45,16 +45,15 @@ $conn->query($sql);
 }
 }
 $sql = "SELECT * FROM orders WHERE user_id='$userId' ORDER BY `order_date` DESC"; //$userId
-$result = $conn->query($sql);
+$result = $conn->query($sql);echo "<div style='margin-bottom:20px;margin-left:20px;margin-top:-5px;'>";
 ?>
-<button style="margin-left:20px;margin-bottom:20px;" class="btn <?php if("All" == $showstatus){echo "active";} ?> btn-default" onclick="refreshOrders('All');">All</button>
+<button style="margin-top:5px;" class="btn <?php if("All" == $showstatus){echo "active";} ?> btn-default" onclick="refreshOrders('All');">All</button>
 <?php
 foreach($statusArray as $status){
 ?>
-<button class="btn <?php if($status == $showstatus){echo "active";} ?> btn-default" style="margin-bottom:20px;" onclick="refreshOrders('<?php echo $status; ?>');"><?php echo $status; ?></button>
-<?php
-    $q=0;
-}echo '<span id="showloading"></span>';
+<button style="margin-top:5px;" class="btn <?php if($status == $showstatus){echo "active";} ?> btn-default" onclick="refreshOrders('<?php echo $status; ?>');"><?php echo $status; ?></button>
+<?php 
+}echo '</div>';$q=0;echo '<span id="showloading"></span>';
 if ($result->num_rows > 0) {
     while($row = $result->fetch_array()) {
         if($showstatus == "All" || $showstatus == $row["status"]){$tot = 0;

@@ -117,5 +117,6 @@ echo "You are not a restaurant owner.";
           });
       }
       </script>
+      <script src="js/main.js"></script>
   </body>
 </html>
