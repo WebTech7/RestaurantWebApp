@@ -31,6 +31,9 @@ $conn->query($sql);
 
 }
 }
+if(!isset($_SESSION["showstatus"])){
+    $_SESSION["showstatus"] = "All";
+}
 ?>
 
 </head>
@@ -59,7 +62,7 @@ echo "You are not a restaurant owner.";
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
     <script>
-        refreshOrders();
+        refreshOrders('<?php echo $_SESSION["showstatus"]; ?>');
         function goToByScroll(id){
                   // Remove "link" from the ID
                 id = id.replace("link", "");
@@ -70,10 +73,15 @@ echo "You are not a restaurant owner.";
             }
         
         $("document").ready(function(){
-            refreshOrders();
             refreshtimeout = setTimeout(function(){refreshOrders();}, 5000);
         });
-        function refreshOrders(){
+        function refreshOrders(showstatus){
+            if(typeof showstatus === 'undefined'){
+                showstatus = 'All';
+            }
+            if(showstatus != 'current'){
+                $("#showloading").html('<img src="http://scriptsteam.com/scripts/img/load.gif" alt="Loading..." style="margin-left:20px;margin-top:-20px;width:75px;" />');
+            }
             var xmlhttp;
             if (window.XMLHttpRequest)
               {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -88,11 +96,12 @@ echo "You are not a restaurant owner.";
               if (xmlhttp.readyState==4 && xmlhttp.status==200)
                 {
                     document.getElementById("refreshDiv").innerHTML="";
-                document.getElementById("refreshDiv").innerHTML=xmlhttp.responseText;
-                 refreshtimeout = setTimeout(function(){refreshOrders();}, 5000);
+                    document.getElementById("refreshDiv").innerHTML=xmlhttp.responseText;
+                    refreshtimeout = setTimeout(function(){refreshOrders('current');}, 5000);
+                    $("#showloading").html('');
                 }
               }
-            xmlhttp.open("GET","refreshorders.php",true);
+            xmlhttp.open("GET","refreshorders.php?showstatus="+showstatus,true);
             xmlhttp.send();
         }
     </script>
@@ -104,7 +113,7 @@ echo "You are not a restaurant owner.";
           var posting = $.post( 'updatestatusorder.php', { Update: id, value: status } );
           // Put the results in a div
             posting.done(function( data ) {
-                refreshOrders();
+                refreshOrders('current');
           });
       }
       </script>
