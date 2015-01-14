@@ -56,11 +56,10 @@ foreach($statusArray as $status){
 }echo '</div>';$q=0;echo '<span id="showloading"></span>';
 if ($result->num_rows > 0) {
     while($row = $result->fetch_array()) {
-        if($showstatus == "All" || $showstatus == $row["status"]){$tot = 0;
+        if(($showstatus == "All" && strtolower(trim($row["status"])) != trim(strtolower("Deleted"))) || $showstatus == $row["status"]){$tot = 0;
             $q++;
 	$jsonOrders=$row['orders'];
 	$jsonOrders=json_decode($jsonOrders,true);echo "<!--";var_dump($jsonOrders);echo "-->";
-        
         echo '<div class="col-lg-4 owner-order-wrapper">';
        
 ?>
