@@ -82,27 +82,12 @@ echo "You are not a restaurant owner.";
             if(showstatus != 'current'){
                 $("#showloading").html('<img src="http://scriptsteam.com/scripts/img/load.gif" alt="Loading..." style="margin-left:20px;margin-top:-20px;width:75px;" />');
             }
-            var xmlhttp;
-            if (window.XMLHttpRequest)
-              {// code for IE7+, Firefox, Chrome, Opera, Safari
-              xmlhttp=new XMLHttpRequest();
-              }
-            else
-              {// code for IE6, IE5
-              xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-              }
-            xmlhttp.onreadystatechange=function()
-              {
-              if (xmlhttp.readyState==4 && xmlhttp.status==200)
-                {
-                    document.getElementById("refreshDiv").innerHTML="";
-                    document.getElementById("refreshDiv").innerHTML=xmlhttp.responseText;
+            $.get( "refreshorders.php?showstatus="+showstatus, function(data) {
+                    $("#refreshDiv").html('');
+                    $("#refreshDiv").html(data);
                     refreshtimeout = setTimeout(function(){refreshOrders('current');}, 5000);
                     $("#showloading").html('');
-                }
-              }
-            xmlhttp.open("GET","refreshorders.php?showstatus="+showstatus,true);
-            xmlhttp.send();
+            });
         }
     </script>
       <script>
