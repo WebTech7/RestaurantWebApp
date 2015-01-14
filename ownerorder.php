@@ -1,6 +1,36 @@
 <?php 
-session_start();require "functions.php";
+session_start();require "functions.php"; 
+$loggedIn = $_SESSION["logged_in"];
+$userId = $_SESSION["user_id"];
+$servername = "www.db4free.net";
+$username = "webtech7";
+$password = "W€btek678";
+$db = "restaurantwebapp";
+$alreadyOwner="";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $db);
+// Check connection
+if ($conn->connect_error) {
+die("Connection failed: " . $conn->connect_error);
+}
   showHeader("Edit your restaurant",false);
+$sql = "SELECT unique_ID FROM restaurants where user_id='$userId'"; //
+$result=$conn->query($sql);
+if ($result->num_rows > 0) {
+$alreadyOwner=true;
+$idFirst=$conn->query($sql);
+$idSecond=mysqli_fetch_assoc($idFirst);
+$id=$idSecond["unique_ID"];
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+$orderId=$_POST['Update'];
+$orderStatus=$_POST['value'];
+$sql = "UPDATE orders SET status='$orderStatus' WHERE order_id='$orderId'";
+$conn->query($sql);
+
+}
+}
 ?>
 
 </head>
@@ -41,7 +71,7 @@ echo "You are not a restaurant owner.";
         
         $("document").ready(function(){
             refreshOrders();
-            setTimeout(function(){refreshOrders();}, 5000);
+            refreshtimeout = setTimeout(function(){refreshOrders();}, 5000);
         });
         function refreshOrders(){
             var xmlhttp;
@@ -59,12 +89,24 @@ echo "You are not a restaurant owner.";
                 {
                     document.getElementById("refreshDiv").innerHTML="";
                 document.getElementById("refreshDiv").innerHTML=xmlhttp.responseText;
-                 setTimeout(function(){refreshOrders();}, 5000);
+                 refreshtimeout = setTimeout(function(){refreshOrders();}, 5000);
                 }
               }
             xmlhttp.open("GET","refreshorders.php",true);
             xmlhttp.send();
         }
     </script>
+      <script>
+      function updateStatus(id, status){clearTimeout(refreshtimeout);
+          $("#status-"+id).html('<img src="http://scriptsteam.com/scripts/img/load.gif" alt="Loading..." height="15" style="margin-top:-2px;" />');
+          
+          // Send the data using post
+          var posting = $.post( 'updatestatusorder.php', { Update: id, value: status } );
+          // Put the results in a div
+            posting.done(function( data ) {
+                refreshOrders();
+          });
+      }
+      </script>
   </body>
 </html>

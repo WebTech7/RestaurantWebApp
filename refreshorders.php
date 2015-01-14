@@ -47,7 +47,7 @@ if ($result->num_rows > 0) {
         <div class="owner-order-title">
             <?php echo "Order id: " . $row["order_id"] . "<br />" .$row["order_date"]; ?>
         </div>
-            <form action='ownerorder.php#<?php echo $row[order_id]; ?>' method="post">
+            
         <?php for($a=0;$a<count($jsonOrders);$a++){ ?>
         <div class="order-check-item">
             <div class="order-check-item-price-amount">
@@ -85,18 +85,15 @@ if ($result->num_rows > 0) {
             </div>
         </div>
         <div class="order-check-item">
-            <div class="alert alert-warning" role="alert">Current status: <strong><?php
+            <div class="alert alert-warning" role="alert">Current status: <strong id="status-<?php echo $row["order_id"]; ?>"><?php
 		echo $row["status"];
         ?></strong></div>
             
-            
-		<input type='hidden' name = 'Update' value='<?php echo $row["order_id"]; ?>'>
             <div style="text-align:center;"><h4>Set status:</h4></div><br />
-				<?php $status = "New order"; ?><input name="value" style="width:100%;" type="submit" value="<?php echo $status; ?>" class="btn btn-default" />
-				<?php $status = "Preparation"; ?><input name="value" style="width:100%;" type="submit" value="<?php echo $status; ?>" class="btn btn-default" />
-				<?php $status = "Order on its way"; ?><input name="value" style="width:100%;" type="submit" value="<?php echo $status; ?>" class="btn btn-default" />
-				<?php $status = "Delivered"; ?><input name="value" style="width:100%;" type="submit" value="<?php echo $status; ?>" class="btn btn-default" />
-		</form>
+                <?php $status = "New order"; ?><button name="value" style="width:100%;" onclick="updateStatus(<?php echo $row["order_id"].", '".$status."'"; ?>);" id="" value="<?php echo $status; ?>" class="btn btn-default"><?php echo $status; ?></button>
+				<?php $status = "Preparation"; ?><button name="value" style="width:100%;" onclick="updateStatus(<?php echo $row["order_id"].", '".$status."'"; ?>);" id="" value="<?php echo $status; ?>" class="btn btn-default"><?php echo $status; ?></button>
+				<?php $status = "Order on its way"; ?><button name="value" style="width:100%;" onclick="updateStatus(<?php echo $row["order_id"].", '".$status."'"; ?>);" id="" value="<?php echo $status; ?>" class="btn btn-default"><?php echo $status; ?></button>
+				<?php $status = "Delivered"; ?><button name="value" style="width:100%;" onclick="updateStatus(<?php echo $row["order_id"].", '".$status."'"; ?>);" id="" value="<?php echo $status; ?>" class="btn btn-default"><?php echo $status; ?></button>
         </div>
         </div>
 </div>
@@ -106,5 +103,4 @@ if ($result->num_rows > 0) {
 } else {
     echo "0 results";
 }
-
-
+?>
