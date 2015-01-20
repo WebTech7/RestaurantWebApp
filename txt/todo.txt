@@ -13,6 +13,8 @@
 - Er wordt geen rekening gehouden met sterren die gegeven zijn door onze eigen gebruikers (ipv yelp).
 - Pretty JSON
 - API Documentatie
+- Nieuwe screencast op het einde maken
+- Report
 
 == Lagere prioriteit ==
 - Inloggen en aanmelden met facebook 
@@ -26,6 +28,7 @@
 - Eigen locatie in allebei de kaarten (op index.php en restaurant.php)
 - Embeddable "Order online" knop voor social media en websites van restauranteigenaren naar onze website
 - Andere naam, logo
+- Favicon
 
 == Gedaan ==
 - Gebruiker kan zijn info wijzigen, bestellingen bekijken, als hij is ingelogd.
