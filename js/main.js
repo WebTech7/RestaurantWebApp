@@ -2,6 +2,7 @@ $(document).ready(function(){
     height = $(".navbar").outerHeight();
     $("body").css('padding-top', height);
     $(".sidebar").css('top', height);
+    $(".user-drop-info").css('max-height', 'calc(100vh - '+height+'px - 20px)');
     height = $("#specify").outerHeight() - $("#results-for-header").outerHeight();
     $("#map").css('height', height);
     $("#googleMap").css('height', height);
@@ -27,6 +28,7 @@ $(window).resize(function(){
     height = $(".navbar").outerHeight();
     $("body").css('padding-top', height);
     $(".sidebar").css('top', height);
+    $(".user-drop-info").css('max-height', 'calc(100vh - '+height+'px - 20px)');
     height = $("#specify").outerHeight() - $("#results-for-header").outerHeight();
     $("#map").css('height', height);
     $("#googleMap").css('height', height);
@@ -237,6 +239,12 @@ function submitTopSearch(){
     $("#radius").val("");
     $("#kind-of-rest").val("");
     $("#order").val("");
+    $("#postal-wrapper").hide();
+    $(".star-large-none").hide();
+    emptySrc = 'https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png';
+    for(a=0;a<=5;a++){
+        $("#"+a+"").attr("src", emptySrc);
+    }
     var askedArray = new Array();
     askedArray["q"] = $("#top-search-q").val();
     askedArray["place"] = $("#top-search-place").val();
@@ -265,6 +273,7 @@ function refreshResults(askedArray){
     get = get + "&sort=" + $("#sort-by").val();
     get = get + "&order=" + $("#order").val();
     get = get + "&kindofrest=" + $("#kind-of-rest").val();
+    get = get + "&postalcode=" + $("#postal-code").val();
     if(askedArray.hasOwnProperty("q")){
         get = get + "&q="+askedArray["q"];
         $.cookie("q", askedArray["q"]);
@@ -310,22 +319,6 @@ function refreshResults(askedArray){
             $("#results-loading").css('opacity', 0);
             height = $("#specify").outerHeight() - $("#results-for-header").outerHeight();
             $("#map").css('height', height);
-
-myCenter=new google.maps.LatLng(51.508742,-0.120850);
-
-google.maps.event.addDomListener(window, 'load', function(){var mapProp = {
-  center:myCenter,
-  zoom:5,
-  mapTypeId:google.maps.MapTypeId.ROADMAP
-  };
-
-var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-
-var marker=new google.maps.Marker({
-  position:myCenter,
-  });
-
-marker.setMap(map);});
                 if($("#choose-list").hasClass("active")){
                     $("#list").show();
                     $("#map").hide();
@@ -333,6 +326,7 @@ marker.setMap(map);});
                     $("#list").hide();
                     $("#map").show();
                 }
+            $("#amount-results-show").html($("#amount-results-dont-show").html());
             setTimeout(function(){
                 $("#results-loading").css('z-index', -20);
             }, 500);
@@ -341,6 +335,16 @@ marker.setMap(map);});
             } else {
                 $("#sort-wrap").css('margin-top', 0);
             }
+//            addresses = new Array('Amsterdam', 'Eindhoven');contents = new Array('Stad');
+//            refreshMap($("#address-json-results").html(), $("#contents-json-results").html());
+//            $.cookie('contents-json-results','');
+//            $.cookie('addresses-json-results', $("#addresses-json-results").html());
+//            $.cookie('contents-json-results', $("#contents-json-results").html());
+//            $.cookie('contents2-json-results', $("#contents2-json-results").html());
+//            alert($.cookie('contents2-json-results'));
+            refreshMap();
+//            alert($("#contents2-json-results").html());
+//            refreshMap(addresses, contents);
         }
     }
     xmlhttp.open("GET", "refreshResults.php?"+get, true);
@@ -362,10 +366,12 @@ $("#kind-of-rest").on("change", function(){
 });
 
 $("#order").on("change", function(){
-    var askedArray = new Array();
-    askedArray["order"] = $("#order").val();
-    askedArray["usecookieget"] = 1;
-    refreshResults(askedArray);
+    if($("#order").val() != "order"){
+        var askedArray = new Array();
+        askedArray["order"] = $("#order").val();
+        askedArray["usecookieget"] = 1;
+        refreshResults(askedArray);
+    }
 });
 
 $("#radius").on("change", function(){
@@ -419,6 +425,7 @@ function showList(){
   $("#map").hide();
     $("#results-content-wrapper").css('padding', '0px 10px');
     $(".results").css('padding-bottom', 25);
+    $.cookie('showMap', 0);
 }
 
 function showMap(){
@@ -428,6 +435,7 @@ function showMap(){
   $("#map").show();
     $("#results-content-wrapper").css('padding', 0);
     $(".results").css('padding-bottom', 0);
+    $.cookie('showMap', 1);
 }
 
 $(".top-search-input").on("keypress", function(e){
@@ -506,4 +514,88 @@ $(".order-conclusion-bottom").on("click", function(e){
         e.preventDefault();
         $("#error").html('<div class="alert alert-danger" role="alert">Please, choose at least one dish.</div>');
     }
+});
+
+function refreshMap(addresses,contents){
+    document.getElementById("map-iframe").src = 'mapsiframe.php';//?addresses='+addresses+'&contents='+contents;
+}
+
+function showOrHideUserInfo(){
+    $("#user-drop-info-wrapper").show();
+}
+
+$("#user-info-li").hover(function(){
+    $("#user-drop-info").css('border-radius', '0 0 5px 5px');
+    $("#order-spec .user-drop-info").css('border-radius', '5px 0 0 5px');
+    $("#order-spec .user-drop-info").css('border-right', 'none');
+    $("#order-spec-wrap").hide();
+    $(".user-drop-info").html('<div class="user-drop-item"><img src="http://upload.wikimedia.org/wikipedia/commons/5/53/Loading_bar.gif" alt="Loading" width="100%" /></div>');
+                                    if($("#logged-in").html() == 1){
+    $.get("refreshuserorders.php?loggedin=1", function(data) {
+        $(".user-drop-info-wrapper-wrapper").html('');
+        $(".user-drop-info-wrapper").html(data);
+    });
+                                    } else {
+                                        $.get("refreshuserorders.php?loggedin-false", function(data) {
+        $(".user-drop-info-wrapper").html('');
+        $(".user-drop-info-wrapper").html(data);
+    });
+                                    }
+}, function(){$("#user-drop-info-wrap").hide();});
+//    alert($(this).attr('id'));
+
+function showOrderSpec(id){
+    $("#user-drop-info").css('border-radius', '0 0 5px 5px');
+    $("#order-spec .user-drop-info").css('border-radius', '5px 0 0 5px');
+    $("#order-spec .user-drop-info").css('border-right', 'none');
+    $("#order-spec").show();
+    $("#order-spec-content").html($("#order-"+id).html());
+    $("#order-spec").css('margin-top', $("#finished-order-"+id).position().top - $(".navbar").outerHeight() + 31);
+    if($("#finished-order-"+id).position().top + $("#order-spec").outerHeight() > $("#finished-wrap").outerHeight() && $("#order-spec").outerHeight() < $("#finished-wrap").outerHeight()){
+        $("#order-spec").css('margin-top', $("#finished-wrap").outerHeight() - $("#order-spec").outerHeight() - 18);
+        if($("#finished-wrap").outerHeight() + 5 > $("#user-drop-info").outerHeight()){
+            $("#user-drop-info").css('border-radius', '0 0 5px 0');
+        }
+    } else if($("#order-spec").outerHeight() > $("#finished-wrap").outerHeight()){
+        $("#order-spec .user-drop-info").css('border-radius', '5px 0 5px 5px');
+        if($("#finished-wrap").outerHeight() + 5 > $("#user-drop-info").outerHeight()){
+            $("#user-drop-info").css('border-radius', '0 0 5px 0');
+        }
+        $("#order-spec .user-drop-info").css('border-right', '1px solid #F2A003');
+        $("#order-spec .user-drop-info").css('left', '11px');
+    }
+}
+
+$("#order").on("change", function(){
+    if($("#order").val() == "order"){
+        $("#postal-wrapper").show();
+        var rege = /^[1-9][0-9]{3} ?(?!sa|sd|ss)[a-z]{2}$/i;
+        if(rege.test($("#top-search-place").val())){
+            $("#postal-code").val($("#top-search-place").val());
+        }
+        if(!rege.test($("#postal-code").val())){
+            $("#postal-code").css("background", "#f45656");
+            $("#postal-code").css("color", "#FFF");
+        } else {
+            $("#postal-code").css("background", "#FFF");
+            $("#postal-code").css("color", "#555");
+            var askedArray = new Array();
+            refreshResults(askedArray);
+        }
+    } else {
+        $("#postal-wrapper").hide();
+    }
+});
+
+$("#postal-code").on("keyup", function(){
+    var rege = /^[1-9][0-9]{3} ?(?!sa|sd|ss)[a-z]{2}$/i;
+    if(!rege.test($("#postal-code").val())){
+            $("#postal-code").css("background", "#f45656");
+            $("#postal-code").css("color", "#FFF");
+        } else {
+            $("#postal-code").css("background", "#FFF");
+            $("#postal-code").css("color", "#555");
+            var askedArray = new Array();
+            refreshResults(askedArray);
+        }
 });

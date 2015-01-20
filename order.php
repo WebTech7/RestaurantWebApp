@@ -242,11 +242,11 @@ if($restaurantExists && !$rightForm){
                     <div class="two-inputs">
                         <div class="two-inputs-part-1" style="width: calc(70% - 10px);">
                             <label for="street_name">Street name:</label>
-                            <input type="text" value="<?php if($alertMessage != ""){echo addslashes($_POST["street_name"]);}else if(isset($_SESSION["user_id"]) && $_SESSION["user_id"]!= ""){$sql = "SELECT * from accounts where user_id = $_SESSION[user_id];"; if($res = $conn->query($sql)){while($row = $res->fetch_object()){if(isset($row->street_name) && strlen($row->street_name) > 0){ $expl = explode(" ", $row->street_name);}else{$expl = array();} echo $expl[0];}}} ?>" class="form-control" id="street_name" name="street_name" />
+                            <input type="text" value="<?php if($alertMessage != ""){echo addslashes($_POST["street_name"]);}else if(isset($_SESSION["user_id"]) && $_SESSION["user_id"]!= ""){$sql = "SELECT * from accounts where user_id = $_SESSION[user_id];"; if($res = $conn->query($sql)){while($row = $res->fetch_object()){if(isset($row->street_name) && strlen($row->street_name) > 0){ $expl = explode(" ", $row->street_name);echo $expl[0];}else{$expl = array();} }}} ?>" class="form-control" id="street_name" name="street_name" />
                         </div>
                         <div class="two-inputs-part-2" style="width: calc(30% - 10px);">
                             <label for="street_number">Street number:</label>
-                            <input type="text" value="<?php if($alertMessage != ""){echo addslashes($_POST["street_number"]);}else if(isset($_SESSION["user_id"]) && $_SESSION["user_id"]!= ""){$sql = "SELECT * from accounts where user_id = $_SESSION[user_id];"; if($res = $conn->query($sql)){while($row = $res->fetch_object()){if(isset($row->street_name) && strlen($row->street_name) > 0){ $expl = explode(" ", $row->street_name);}else{$expl = array();} echo $expl[1];}}} ?>" class="form-control" id="street_number" name="street_number" />
+                            <input type="text" value="<?php if($alertMessage != ""){echo addslashes($_POST["street_number"]);}else if(isset($_SESSION["user_id"]) && $_SESSION["user_id"]!= ""){$sql = "SELECT * from accounts where user_id = $_SESSION[user_id];"; if($res = $conn->query($sql)){while($row = $res->fetch_object()){if(isset($row->street_name) && strlen($row->street_name) > 0){ $expl = explode(" ", $row->street_name);echo $expl[1];}else{$expl = array();}}}} ?>" class="form-control" id="street_number" name="street_number" />
                         </div>
                     </div>
                     <div class="two-inputs">

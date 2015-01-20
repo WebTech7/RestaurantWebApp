@@ -55,15 +55,15 @@ function emailAlreadyExists($email, $conn){
 
 function sendVerificationEmail($email, $verificationLink, $conn) {
     
-    $subject = "RestaurantWebApp verification";
+    $subject = "StayTuned verification";
 	$from = "noreply@coen.pe.hu";
         // To send HTML mail, the Content-type header must be set
         $headers  = 'MIME-Version: 1.0' . "\r\n";
         $headers .= 'Content-type: text/html ; charset=iso-8859-1' . "\r\n";
         // Additional headers
         $headers .= "From: $from\r\n";
-        $host = "http://$_SERVER[HTTP_HOST]/";
-    $message = "Thank you for your interest in RestaurantWebApp.<br />Verificate your email address with this link: <a href='".$host."auth.php?link=$verificationLink'>".$host."auth.php?link=$verificationLink</a>";
+        $host = "http://localhost:8000/RestaurantWebApp/";
+    $message = "Thank you for your interest in StayTuned.<br />Verificate your email address with this link: <a href='".$host."auth.php?link=$verificationLink'>".$host."auth.php?link=$verificationLink</a>";
 	   mail($email,$subject,$message,$headers);
 	    return $message;
     }

@@ -4,7 +4,7 @@ if(!isset($_SESSION)) {
 } 
 require("lib/autoload.php");
 
-$host = "http://$_SERVER[HTTP_HOST]/";
+$host = "http://localhost:8000/RestaurantWebApp/";
 $app_id = "1033735633321196";
 $app_secret = "9639ebd18b9a0370c538c7f1aefb670f";
 $redirecturl = $host . "";

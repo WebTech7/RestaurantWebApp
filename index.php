@@ -138,16 +138,33 @@ error_reporting(-1);
 <option value="Wok">Wok</option>
                       </select><br />
                 </div>
-                <label for="order"><p>
-                    Do you want to order or pick up?
-                    </p></label>
+                <label for="order">
+                    <p>
+                        Do you want to order or pick up?
+                    </p>
+                </label>
                 <div class="specify-option-content">
-                        <select class="form-control" name="order" id="order">
-                            <option value="">No preference</option>
-                            <option value="order">Order</option>
-                            <option value="no">No</option>
+                    <select class="form-control" name="order" id="order">
+                        <option value="">No preference</option>
+                        <option value="order">Order</option>
+                        <option value="no">No</option>
                     </select>
                 </div><br />
+                <div id="postal-wrapper" style="display:none;">
+                    <label for="postal-code">
+                        <p>
+                            What is your postal code?
+                        </p>
+                    </label>
+                    <div class="specify-option-content">
+                        <input type="text" id="postal-code" name="postal-code" class="form-control" value="<?php
+                            if(checkIfPostalCode($place)){
+                                echo $place;
+                            }
+                                                                                                           ?>"/>
+                    </div>
+                    <br />
+                </div>
                 <label for="radius"><p>
                     In what radius do you want to search?
                     </p></label>
@@ -171,7 +188,7 @@ error_reporting(-1);
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main results">
             <div id="results-loading"></div>
-            <div class="header" id="results-for-header" style="overflow:hidden;"><h3 style="float:left !important;margin-right:20px;">Results for <span id="results-for"><?php if(isset($q) && trim($q)!=""){echo "<i>" . $q . "</i> around ";} echo "<i>".$place."</i>"; ?></span></h3>
+            <div class="header" id="results-for-header" style="overflow:hidden;"><h3 style="float:left !important;margin-right:20px;"><span id="amount-results-show"></span> results for <span id="results-for"><?php if(isset($q) && trim($q)!=""){echo "<i>" . $q . "</i> around ";} echo "<i>".$place."</i>"; ?></span></h3>
 
                 <div style="float:left;">
                     <div id="sort-wrap"><div class="sort-by-div"></div>
@@ -193,6 +210,10 @@ error_reporting(-1);
             </div>
             <div id="results-content-wrapper" class="result-content-wrapper">
                         <?php require_once("refreshResults.php"); ?>
+                
+<div id="map" style="display:none;background:#f5f5f5;">
+    <iframe id="map-iframe" style="border:none;" width="100%" height="100%" src="mapsiframe.php"></iframe>
+</div>
                 </div>
               </div>
             </div>
@@ -214,6 +235,28 @@ error_reporting(-1);
     <script src="js/ie10-viewport-bug-workaround.js"></script>
     <script src="js/cookies.js"></script>
     <script src="js/main.js"></script>
+    <script>
+//            $.cookie('contents-json-results','');
+//            $.cookie('addresses-json-results', $("#addresses-json-results").html());
+//            $.cookie('contents-json-results', $("#contents-json-results").html());
+//            $.cookie('contents2-json-results', $("#contents2-json-results").html());
+            refreshMap();</script>
+    <script>
+        if(typeof $.cookie('showMap') != 'undefined'){
+            if($.cookie('showMap') == 1){
+                showMap();
+                hideList();
+            } else if($.cookie('showMap') == 0) {
+                showList();
+                hideMap();
+            }
+        }
+</script>
+<script>
+    $("document").ready(function(){
+       $("#amount-results-show").html($("#amount-results-dont-show").html()); 
+    });
+</script>
   </body>
 </html>
 <?php

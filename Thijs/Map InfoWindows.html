@@ -5,38 +5,19 @@
 
     <link rel="stylesheet" type="text/css" href="labels.css">
    
-     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
-     <script src="https://maps.googleapis.com/maps/api/geocode/output?parameters"></script>
-     <script type="text/javascript" src="markers.js"></script> 
-     <script type="text/javascript" src="MarkerWithLabel.js"></script>
-  
-	   <script>
-       var geocoder;
-       var map;
-	     function initialize() {
-        geocoder = new google.maps.Geocoder();
-        var myLatlng = new google.maps.LatLng(51.448610,5.490715); 
-        var mapOptions = {
-          zoom: 8,
-          center: myLatlng
-        }
-        map = new google.maps.Map(document.getElementById('map'), mapOptions);
-
-        var addresses = new Array("Amsterdam", "Domino's Pizza Rotterdam Centrum, Mariniersweg, Rotterdam", "Dordrecht", "Arnhem", "Breda", "Tilburg", "Groningen", "Leeuwarden", "Maastricht");
-        var contents = new Array("Chinees", "Pizza", "Villa", "Italian", "Fastfood", "Pizza", "Indisch", "Wok", "Gastronomisch", "Frans", "Italian", "Thais")  
-        for(i=0; i<addresses.length; i++){
-          codeAddress(addresses[i], contents[i]);
-
-        }
+      <script>
+          
+      function refreshMap(addresses,contents){
+          document.getElementById("map-iframe").src = 'mapsiframe.php?addresses='+JSON.stringify(addresses)+'&contents='+JSON.stringify(contents);
       }
-
-	     google.maps.event.addDomListener(window, 'load', initialize);
-	   </script>
+          
+      </script>
+     
   </head>
-
-  <body onload="initialize()"> 
+    <body>
+        <button onclick="addresses = new Array('Amsterdam', 'Eindhoven');contents = new Array('Stad');refreshMap(addresses, contents);">Refresh map</button>
     <br></br>
-    <div id="map" style="width:1000px;height:760px; margin-left: auto; margin-right: auto;"></div>
+    <iframe id="map-iframe" style="border:none;" width="100%" height="300" src="mapsiframe.php"></iframe>
   </body>
 </html>
 

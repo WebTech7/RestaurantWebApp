@@ -1,10 +1,9 @@
-<?php
-
+<?php if(!isset($_SESSION)){session_start();}
 $servername = "www.db4free.net";
 $username = "webtech7";
 $password = "W€btek678";
 $db = "restaurantwebapp";
-
+error_reporting(E_ERROR | E_PARSE);
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $db) or die("No connection");
 
@@ -118,7 +117,9 @@ $result = json_decode($json_string);
 $countBoxes = 0;echo "<div id='list'><div class='row'>";
 
 //own restaurants
-
+$addressArray = array();
+$contentsArray = array();
+$contentsArray2 = array();
 $ourRestaurants = array();
 $sql = "SELECT * FROM `restaurantwebapp`.`restaurants`";
 $qArray = explode(" ", $q);
@@ -153,6 +154,7 @@ $i=-1;
                 $name = $ourRestaurants[$b]["name"];
                 $id = $ourRestaurants[$b]["id"];
                 $city = $ourRestaurants[$b]["city"];
+                $addressArray[] = $ourRestaurants[$b]["city"]." ".$ourRestaurants[$b]["address_street"] . " " . $ourRestaurants[$b]["address_number"];
                 $categories = array();
                 $review_count = 0;
                 $sql = "SELECT * FROM reviews WHERE `id` = '".$ourRestaurants[$b]["id"]."'";
@@ -184,6 +186,7 @@ $i=-1;
                 $review_count = $result->businesses[$i]->review_count;
                 $rating1 = $result->businesses[$i]->rating;
                 $id = urlencode($result->businesses[$i]->id);
+                $addressArray[] = (addslashes($result->businesses[$i]->location->city." ".$result->businesses[$i]->location->display_address[0]));
                 if(isset($result->businesses[$i]->categories)){
                     $categories = $result->businesses[$i]->categories;
                 } else {
@@ -195,6 +198,36 @@ $i=-1;
             }
             if((isset($result->businesses[$i]->rating) && $i != -1 && $rating <= $rating1) || ($i == -1 && $rating <= $rating1 && $go)){
                 $countBoxes++;
+                $firstRow = '';
+                $firstRow .= $city; $cat = $categories; if(count($cat) != 0){$firstRow.= " | ";}
+                                    for($j=0;$j<count($cat);$j++){
+                                        $categorie = $cat[$j][0];
+                                        if($j == 0){
+                                            $firstRow .= $categorie;
+                                        } else if($j + 1 == count($cat)){
+                                            $firstRow .= " & " . $categorie;
+                                        } else {
+                                            $firstRow .= ", " . $categorie;
+                                        }
+                                    }
+                
+        $outOfFiveStars = $rating1;
+        $pxWidthOfStar = 13;
+        $pxMarginLeft = 3;
+        $starsstring = '';
+        for($j=0;$j<5;$j++){
+                                    if($j < $outOfFiveStars){
+                                        if($outOfFiveStars - $j < 1){
+                $starsstring .= '<div style="float:left;"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" class="star"/></div><div style="position:absolute;z-index:1;width:0;height:0;"><div style="z-index:1;position:relative;width:'.(($outOfFiveStars - $j)*$pxWidthOfStar).'px;left:'.(($pxWidthOfStar+$pxMarginLeft)*$j + $pxMarginLeft).'px;overflow:hidden;"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_full.png" class="star" style="margin-left:0 !important;"/></div></div>';
+                                        } else { $starsstring .= '<div class="star-wrapper"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_full.png" class="star"/></div>'; } } else {
+                                        $starsstring .= '<div class="star-wrapper"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" class="star"/></div>';
+                                    } }
+                                        $starsstring .= "</div>";
+                $starsstring = '';//addslashes($starsstring);
+                $s = '';
+                if($review_count == 1){$s = " review";} else {$s = " reviews";}
+                $contentsArray[] = htmlentities("<a target=_parent href=restaurant.php?id=$id >".addslashes($name)."<br />");
+                $contentsArray2[] = htmlentities(addslashes("</a>$firstRow<br />Rating: $rating1 out of 5 <br />$review_count $s"));
             ?>
                     <div class="col-lg-6">
                         <div class="result-box" onclick="document.location.href='restaurant.php?id=<?php echo $id; ?>';">
@@ -249,7 +282,11 @@ if($countBoxes == 0){
 ?>
                 </div>
                     </div>
-<span style="display:none;" id="current-q"><?php echo $q; ?></span>
-<div id="map" style="display:none;background:green;">
-    <div id="googleMap" style="width:100%;height:100%;"></div>
+<div id="map" style="display:none;background:#f5f5f5;">
+    <iframe id="map-iframe" style="border:none;" width="100%" height="100%" src="mapsiframe.php"></iframe>
 </div>
+<span style="display:none;" id="current-q"><?php echo $q; ?></span>
+<span style="display:none;" id="addresses-json-results"><?php echo (json_encode($addressArray)); $_SESSION["addresses-json-results"] = json_encode($addressArray); ?></span>
+<span style="display:none;" id="contents-json-results"><?php echo (json_encode($contentsArray)); $_SESSION["contents-json-results"] = json_encode($contentsArray); ?></span>
+<span style="display:none;" id="contents2-json-results"><?php echo (json_encode($contentsArray2)); $_SESSION["contents2-json-results"] = json_encode($contentsArray2); ?></span>
+<span style="display:none" id="amount-results-dont-show"><?php echo $countBoxes; ?></span>

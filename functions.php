@@ -274,18 +274,7 @@ $conn = mysqli_connect($servername, $username, $password, $db) or die("No connec
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <script src="http://maps.googleapis.com/maps/api/js"></script>
-<script>
-function initialize() {
-  var mapProp = {
-    center:new google.maps.LatLng(51.508742,-0.120850),
-    zoom:5,
-    mapTypeId:google.maps.MapTypeId.ROADMAP
-  };
-  var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-}
-google.maps.event.addDomListener(window, 'load', initialize);
-</script>
+    
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
       <script>
       $(function() {
@@ -363,17 +352,28 @@ $result = $conn->query($sql);	if ($result->num_rows > 0) { ?><li style="margin-t
             <li><a href="contact.php">Contact</a></li>
             <li><a href="about.php">About</a></li><?php
     if(!$loggedIn){
-    ?>
+    ?><span style="display:none" id="logged-in"><?php echo "0"; ?></span>
+              <li id="user-info-li" onclick="showOrHideUserInfo();"><a style="cursor:pointer;"><img src="https://cdn0.iconfinder.com/data/icons/20-flat-icons/128/user.png" height="20" style="margin-top:-5px;margin-right:7px;"/></a>
+                  <div id="user-drop-info-wrapper" class="user-drop-info-wrapper" style="width:200px;margin-left:-170px;">
+                          
+                  </div>
+              </li>
             <li><a class="login-link" id="login-link" href="signup.php">Sign up</a></li>
               <li><a href="login.php<?php $xpl = explode("/", $_SERVER["PHP_SELF"]); if($xpl[count($xpl)-1] == "order.php" && isset($_POST["restaurant-id"])){echo "?redirectUrl=restaurant.php?id=".urlencode($_POST["restaurant-id"]);} else { echo "?redirectUrl=".urlencode($_SERVER["REQUEST_URI"]); } ?>">Login <!--<img src="https://www.facebook.com/images/fb_icon_325x325.png" class="small-facebook-logo" />--></a></li>
-              <?php } else { ?>
-              <li id="user-info-li"><a style="cursor:pointer;"><img src="https://cdn0.iconfinder.com/data/icons/20-flat-icons/128/user.png" height="20" style="margin-top:-5px;margin-right:7px;"/>Bon Appetit, <?php $sql = "SELECT * FROM `restaurantwebapp`.`accounts` WHERE `user_id` = ".$_SESSION["user_id"].";";
+              <?php } else { ?><span style="display:none" id="logged-in"><?php echo "1"; ?></span>
+              <li id="user-info-li" onclick="showOrHideUserInfo();"><a style="cursor:pointer;"><img src="https://cdn0.iconfinder.com/data/icons/20-flat-icons/128/user.png" height="20" style="margin-top:-5px;margin-right:7px;"/>Bon Appetit, <?php $sql = "SELECT * FROM `restaurantwebapp`.`accounts` WHERE `user_id` = ".$_SESSION["user_id"].";";
                             if($res = $conn->query($sql)){
                                 while($obj = $res->fetch_object()){
                                     echo $obj->first_name; 
                                 }
                             }
-                  ?>!</a><div class="user-drop-info-wrapper"><div class="user-drop-info" >a</div></div>
+                  ?>!</a>
+                  <div class="user-drop-info-wrapper">
+                      <div class="user-drop-info" >
+                          
+                      </div>
+                  </div>
+              </li>
               <li><a href="logout.php<?php $xpl = explode("/", $_SERVER["PHP_SELF"]); if($xpl[count($xpl)-1] == "order.php" && isset($_POST["restaurant-id"])){echo "?redirectUrl=restaurant.php?id=".urlencode($_POST["restaurant-id"]);} else { echo "?redirectUrl=".urlencode($_SERVER["REQUEST_URI"]); } ?>">Logout</a></li>
               <?php } ?>
           </ul>

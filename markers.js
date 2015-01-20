@@ -21,11 +21,9 @@
             google.maps.event.addListener(marker, 'click', function() {
               infowindow.open(map,marker);
             });
-
             
       } else {
 //        alert("Geocode was not successful for the following reason: " + status); //don't do anything if the address is non-existent
       }
     });
-
   }

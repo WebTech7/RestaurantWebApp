@@ -65,7 +65,7 @@ if ($result->num_rows > 0) {
 ?>
         <div class="owner-order"><div class="jumpto" id="<?php echo $row["order_id"]; ?>"></div>
         <div class="owner-order-title">
-            <?php echo "Order id: " . $row["order_id"] . "<br />" .$row["order_date"]; ?>
+            <?php echo "order-id: " . $row["order_id"] . "<br />" .$row["order_date"]; ?>
         </div>
             
         <?php for($a=0;$a<count($jsonOrders);$a++){ ?>
@@ -101,9 +101,9 @@ if ($result->num_rows > 0) {
                 <h4 style="margin-bottom:5px;">Customer information</h4>
                 <?php echo "Name: " . $row["name"] . " " . $row["last_name"] . "<br />" . "Pay method: " . $row["pay_method"] . "<br />";
                 if($row["paid"] == "Y"){
-                    echo "This customer has paid already.";
+                    echo "Paid: Yes";
                 } else if($row["paid"] == "N"){
-                    echo "This customer has NOT paid yet.";
+                    echo "Paid: No";
                 } else {
                     echo "Something went wrong with paying. We are not sure whether the costumer has paid already or not.";
                 } ?>

@@ -207,12 +207,12 @@ showHeader($restaurantName, false); ?>
             <a href="#jumptoreviews"><div class="information-box">
                 Reviews <img src="https://cdn0.iconfinder.com/data/icons/slim-square-icons-basics/100/basics-02-48.png" height="30" style="float:right;margin-top:-5px;margin-right:-5px;" />
                 </div></a>
-             <div class="information-box" style="padding:0;background:url(http://maps.google.com/maps/api/staticmap?center=51.49,-0.12&zoom=8&size=400x300&sensor=false);height:200px;background-position:center;">
+            <div class="information-box" style="padding:0;height:200px;"><iframe width="100%" height="100%" style="border:none" src="mapsiframe.php?location=<?php echo urlencode($restaurantAdres . " " . $restaurantCity . " " . $restaurantCountry) . "&name=".urlencode($restaurantName); ?>"></iframe>
             </div>
             
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-12 col-md-offset-2 main" style="padding:0;overflow:hidden" id="restaurant-broad">
-            <div style="box-shadow: inset 0 -100px 100px -100px #000;;width:100%;padding:200px 15px 15px 15px;color:#FFF;text-shadow:0 0 5px #222;background:<?php
+            <div style="box-shadow: inset 0 -200px 200px -200px #000;width:100%;padding:200px 15px 15px 15px;color:#FFF;text-shadow:0 0 5px #222;background:<?php
     $json = file_get_contents('https://api.flickr.com/services/rest/?method=flickr.photos.search&text='.urlencode($restaurantName . " food " . $restaurantCity).'&api_key=dea84f665d9878fe3bec4d20219a672c&safe_search=1&format=json&nojsoncallback=1');
 $obj = json_decode($json);$photo = ($obj->photos->photo[0]);
     if($photo->id == NULL || $photo->id == ""){
@@ -229,7 +229,7 @@ $obj = json_decode($json);$photo = ($obj->photos->photo[0]);
     }
     $flickrImageUrl = 'https://farm'.$photo->farm.'.staticflickr.com/'.$photo->server.'/'.$photo->id.'_'.$photo->secret.'_b.jpg';
     if($photo->id != NULL && $photo->id != ""){echo "url($flickrImageUrl);background-size:cover;background-position:center center";} else echo "#f9a364"; ?>;overflow:hidden">
-          <?php $imgHeight = 0; if(isset($restaurantImg)){ $imgHeight = 125; ?><div style="float:left;width:<?php echo $imgHeight; ?>px;height:<?php echo $imgHeight; ?>px;background:url(<?php echo $restaurantImg; ?>);background-size:cover;background-position:center;border-radius:3px;border:3px solid #FFF;"></div><?php } ?><div style="margin-top:<?php echo $imgHeight-40; ?>px;"><h1 style="<?php if($imgHeight!=0){ ?>padding-left:10px;<?php } ?>float:left;font-size:39px;"><?php print $restaurantName; ?></h1>
+          <?php $imgHeight = 0; if(isset($restaurantImg)){ $imgHeight = 125; ?><div style="position:relative;top:-65px;" id="def"></div><div style="float:left;width:<?php echo $imgHeight; ?>px;height:<?php echo $imgHeight; ?>px;background:url(<?php echo $restaurantImg; ?>);background-size:cover;background-position:center;border-radius:3px;border:3px solid #FFF;"></div><?php } ?><div style="margin-top:<?php echo $imgHeight-40; ?>px;"><h1 style="<?php if($imgHeight!=0){ ?>padding-left:10px;<?php } ?>float:left;font-size:39px;"><?php print $restaurantName; ?></h1>
                 <div style="float:left;width:200px;margin-top:-11px;margin-left:7px;">
                         <?php
                         $outOfFiveStars = $restaurantRating;
@@ -498,5 +498,14 @@ ELSE {
      <script src="js/main.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/cookies.js"></script>
+<script>
+$("document").ready(function() {
+    if($(window).width() > 767){
+        $('html, body').animate({
+            scrollTop: $("#def").offset().top
+        }, 500);
+    }
+});
+</script>
   </body>
 </html>
