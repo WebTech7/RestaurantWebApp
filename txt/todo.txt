@@ -11,6 +11,8 @@
     - Een gebruiker moet ingeven waar er bezorgd moet worden en er moet gecheckt worden of dit kan aan de hand van hoever het restaurant wil bezorgen.
 - Restauranteigenaren kunnen hun restaurant koppelen aan yelp, zodat er niet twee dezelfde restaurants op staan.
 - Er wordt geen rekening gehouden met sterren die gegeven zijn door onze eigen gebruikers (ipv yelp).
+- Pretty JSON
+- API Documentatie
 
 == Lagere prioriteit ==
 - Inloggen en aanmelden met facebook 
@@ -23,17 +25,13 @@
 - Map moet inzoomen zodat alle restaurants zichtbaar zijn.
 - Eigen locatie in allebei de kaarten (op index.php en restaurant.php)
 - Embeddable "Order online" knop voor social media en websites van restauranteigenaren naar onze website
+- Andere naam, logo
 
 == Gedaan ==
 - Gebruiker kan zijn info wijzigen, bestellingen bekijken, als hij is ingelogd.
 - Error bij straat en nummer als je bestelt en ingelogd bent
 - Kaart geimplenteerd in refreshResults.php en restaurant.php
-
-
-
-
-
-
+- API Documentatie in PHP bestand en link vanaf menu
 
 /--- Alles wat nog moet gebeuren [OUD!] ---/
 
