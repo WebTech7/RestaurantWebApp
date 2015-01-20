@@ -1,4 +1,4 @@
-/--- Dingen die niet heel noodzakelijk zijn, maar zou wel netjes zijn als het zou gebeuren ---/
+/--- Alles wat nog moet gebeuren [NIEUW!] ---/
 
 == Hoge prioriteit ==
 - Categorieen kiezen bij het aanmaken/editen van een restaurant
@@ -29,7 +29,13 @@
 - Error bij straat en nummer als je bestelt en ingelogd bent
 - Kaart geimplenteerd in refreshResults.php en restaurant.php
 
-/--- Alles wat nog moet gebeuren ---/
+
+
+
+
+
+
+/--- Alles wat nog moet gebeuren [OUD!] ---/
 
 1. Het specify-gedeelte (links op de pagina met zoekresultaten) {index.php}
     a) "What kind of restaurant are you looking for?" moet werken net zoals "In what radius do you want to search?"            
