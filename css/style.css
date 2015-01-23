@@ -1387,3 +1387,26 @@ right: 0;
 #postal-code {
     transition:all 0.3s;
 }
+
+.orders-icon {
+    margin:-5px 0 0 5px;
+}
+
+.postal-conclusion-bottom {
+    border:1px solid #DDD;
+    border-top: none;
+    padding:5px;
+    width:200px;
+    background:#f5f5f5;
+    border-radius: 0 0 5px 5px;
+    background:#afdaf9;
+    transition: all 0.3s;
+    font-size:17px;
+    font-weight: 500;
+    outline:none !important;
+}
+
+.postal-conclusion-wrapper {
+    padding-bottom:20px;
+    overflow: hidden;
+}

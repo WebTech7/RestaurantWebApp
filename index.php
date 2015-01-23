@@ -140,7 +140,7 @@ error_reporting(-1);
                 </div>
                 <label for="order">
                     <p>
-                        Do you want to order or pick up?
+                        Do you want to order?
                     </p>
                 </label>
                 <div class="specify-option-content">

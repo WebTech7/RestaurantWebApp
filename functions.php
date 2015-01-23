@@ -1,5 +1,21 @@
 <?php
 
+
+
+ function getDistance($from, $to) {  
+     $request_url = file_get_contents(("https://maps.googleapis.com/maps/api/distancematrix/json?origins=$from&destinations=$to&mode=car"));
+    $json = json_decode($request_url,true);
+    return $json["rows"][0]["elements"][0]["distance"]["value"];
+}
+
+function notTooFar($distance, $from, $to){
+    if( $distance > getDistance(urlencode($from), urlencode($to)) ){
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function stripAccents($stripAccents){
 $unwanted_array = array(    'Š'=>'S', 'š'=>'s', 'Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E',
                             'Ê'=>'E', 'Ë'=>'E', 'Ì'=>'I', 'Í'=>'I', 'Î'=>'I', 'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O', 'Õ'=>'O', 'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U',
@@ -382,4 +398,4 @@ $result = $conn->query($sql);	if ($result->num_rows > 0) { ?><li style="margin-t
       </div>
     </nav>
           <?php
-          }   ?>
+          }  ?>

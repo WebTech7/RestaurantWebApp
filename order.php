@@ -36,6 +36,8 @@ if(isset($_POST["restaurant-id"])){
             $restaurantRating  = "";
             $restaurantRatingStars  = "";
             $restaurantPhone  = $row->phone;
+            $restaurantPostalCode  = $row->postal_code;
+            $restaurantMaxDrivingDistance = 40000;
             $restaurantCurrency  = "";
             $restaurantCategory  = "";
             $restaurantDeals  = "";
@@ -55,6 +57,21 @@ if(isset($_POST["restaurant-id"])){
         }
     }
 }
+
+     function getDistance2($from, $to) {  
+     $request_url = file_get_contents(("https://maps.googleapis.com/maps/api/distancematrix/json?origins=$from&destinations=$to&mode=car&API_key=AIzaSyAixI8QmfgTUJUrvWn_4mC7trEZP8PbkJA"));
+    $json = json_decode($request_url,true);
+    return $json["rows"][0]["elements"][0]["distance"]["value"];
+}
+
+function notTooFar2($distance, $from, $to){
+    if( $distance >= getDistance2(urlencode($from), urlencode($to)) ){
+        return true;
+    } else {
+        return false;
+    }
+}
+
 if(isset($_POST["user_id"])){
     $rightForm = true;
     if(strlen(trim($_POST["name"])) <= 1){
@@ -80,7 +97,11 @@ if(isset($_POST["user_id"])){
     if(strlen(trim($_POST["postal_code"])) < 1){
         $rightForm = false;
         $alertMessage .= "Your postal code needs to be longer than two characters.<br />";
+    } else if(!notTooFar2($restaurantMaxDrivingDistance,$restaurantPostalCode,$_POST["postal_code"])){
+        $rightForm = false;
+        $alertMessage .= "This restaurant does not deliver at $_POST[postal_code].<br />";
     }
+    
     if($rightForm){
         $name = addslashes(makeInputSafe($_POST["name"]));
         $last_name = addslashes(makeInputSafe($_POST["last_name"]));
@@ -116,7 +137,7 @@ if($restaurantExists && !$rightForm){
       <div class="row result-content-main">
         <div class="col-sm-3 col-md-2 sidebar" id="restaurant-small" style="padding:0;margin:0;">
             <br />
-            <a href="#" id="top-ref">
+            <a href="restaurant.php?id=<?php echo $restaurantId; ?>" id="top-ref">
                 <div class="information-box">
                     <img height="15" style="margin-top:-3px;margin-right:5px;" src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678085-house-32.png" alt=""/><?php echo "<i>" . $restaurantName . "</i> in $restaurantCity"; ?>
                 </div>
@@ -151,7 +172,7 @@ if($restaurantExists && !$rightForm){
                         echo "None ";    
                 }; ?>
             </div>
-             <div class="information-box" style="padding:0;background:url(http://maps.google.com/maps/api/staticmap?center=51.49,-0.12&zoom=8&size=400x300&sensor=false);height:200px;background-position:center;">
+             <div class="information-box" style="padding:0;height:200px;"><iframe width="100%" height="100%" style="border:none" src="mapsiframe.php?location=<?php echo urlencode($restaurantAdres . " " . $restaurantCity . " " . $restaurantCountry) . "&name=".urlencode($restaurantName); ?>"></iframe>
             </div>
             
         </div>
@@ -201,7 +222,7 @@ if($restaurantExists && !$rightForm){
                                     Total: € <span id="total-script"><?php echo str_replace(".", "," ,($tot)); $explodeArray = explode(".", $tot); if(count($explodeArray) == 1){echo ",00";}else if(strlen($explodeArray[1]) == 1){echo "0";} ?>
                                 </div>
                             </div>
-                                    <button class="order-conclusion-bottom" onclick="document.location.href='restaurant.php?id=<?php echo $restaurantId; ?>';">Click here to edit your order...</button>
+                                    <button class="order-conclusion-bottom" onclick="document.location.href='restaurant.php?id=<?php echo $restaurantId; ?>#jumptomenu';">Click here to edit your order...</button>
                         </div>
                     </div>
                 </div>
@@ -256,7 +277,7 @@ if($restaurantExists && !$rightForm){
                         </div>
                         <div class="two-inputs-part-2" style="width: calc(40% - 10px);">
                             <label for="postal_code">Postal code:</label>
-                            <input type="text" value="<?php if($alertMessage != ""){echo addslashes($_POST["postal_code"]);}else if(isset($_SESSION["user_id"]) && $_SESSION["user_id"]!= ""){$sql = "SELECT * from accounts where user_id = $_SESSION[user_id];"; if($res = $conn->query($sql)){while($row = $res->fetch_object()){echo $row->postal_code;}}} ?>" class="form-control" id="postal_code" name="postal_code" />
+                            <input type="text" value="<?php if($alertMessage != ""){echo addslashes($_POST["postal_code"]);}else if(isset($_COOKIE["postal_code"])){echo $_COOKIE["postal_code"];}else{if(isset($_SESSION["user_id"]) && $_SESSION["user_id"]!= ""){$sql = "SELECT * from accounts where user_id = $_SESSION[user_id];"; if($res = $conn->query($sql)){while($row = $res->fetch_object()){echo $row->postal_code;}}}} ?>" class="form-control" id="postal_code" name="postal_code" />
                         </div>
                     </div>
                     <button class="order-submit">Submit your order definitely</button>
@@ -276,7 +297,7 @@ if($restaurantExists && !$rightForm){
       <div class="row result-content-main">
         <div class="col-sm-3 col-md-2 sidebar" id="restaurant-small" style="padding:0;margin:0;">
             <br />
-            <a href="#" id="top-ref">
+            <a href="restaurant.php?id=<?php echo $restaurantId; ?>" id="top-ref">
                 <div class="information-box">
                     <img height="15" style="margin-top:-3px;margin-right:5px;" src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678085-house-32.png" alt=""/><?php echo "<i>" . $restaurantName . "</i> in $restaurantCity"; ?>
                 </div>
@@ -311,7 +332,7 @@ if($restaurantExists && !$rightForm){
                         echo "None ";    
                 }; ?>
             </div>
-             <div class="information-box" style="padding:0;background:url(http://maps.google.com/maps/api/staticmap?center=51.49,-0.12&zoom=8&size=400x300&sensor=false);height:200px;background-position:center;">
+             <div class="information-box" style="padding:0;height:200px;"><iframe width="100%" height="100%" style="border:none" src="mapsiframe.php?location=<?php echo urlencode($restaurantAdres . " " . $restaurantCity . " " . $restaurantCountry) . "&name=".urlencode($restaurantName); ?>"></iframe>
             </div>
             
         </div>

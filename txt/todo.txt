@@ -1,22 +1,24 @@
 /--- Alles wat nog moet gebeuren [NIEUW!] ---/
 
 == Hoge prioriteit ==
+- Checken of alle feedback verwerkt wordt, zo nee in todo zetten
+- Laadplaatjes op plekken die lang duren om te laden.
 - Categorieen kiezen bij het aanmaken/editen van een restaurant
 - Zoeken naar eigen gemaakte restaurants verbeteren
-    - Als de categorieen toegevoegd kunnen worden aan restaurants, hiermee zoeken
-    - Nu wordt er alleen gekeken of de plaats van het restaurant de door de gebruiker gezochte plaats is, of ditzelfde voor de postcode. Maar hij zou alles in een radius van 40 kilometer moeten doen (default).
-    - Zoeken met de afstandsfilter.
+    - Als de categorieen toegevoegd kunnen worden aan restaurants, hiermee zoeken.
 - Kijken of er wel bezorgd wordt in het gebied
-    - Eigenaren moeten kunnen aangeven hoever ze willen rijden
-    - Een gebruiker moet ingeven waar er bezorgd moet worden en er moet gecheckt worden of dit kan aan de hand van hoever het restaurant wil bezorgen.
+    - Eigenaren moeten kunnen aangeven hoever ze willen rijden.
+    - Alles staat nu op 40 kilometer ver bezorgen.
 - Restauranteigenaren kunnen hun restaurant koppelen aan yelp, zodat er niet twee dezelfde restaurants op staan.
 - Er wordt geen rekening gehouden met sterren die gegeven zijn door onze eigen gebruikers (ipv yelp).
 - Pretty JSON
 - API Documentatie
 - Nieuwe screencast op het einde maken
 - Report
+- Sorteren met eigen restaurants
 
 == Lagere prioriteit ==
+- Snellere hosting, snellere database (ipv db4free)
 - Inloggen en aanmelden met facebook 
 - Een aantal dingen komen zeer slecht uit op de mobiele site.
     - Sterren in zoekresultaten op index.php
@@ -29,12 +31,16 @@
 - Embeddable "Order online" knop voor social media en websites van restauranteigenaren naar onze website
 - Andere naam, logo
 - Favicon
+- Mogelijkheid voor restauranteigenaren om een foto van hun restaurant toe te voegen
+- 404 Not found (daar moet je ook terecht komen als je op restaurant.php staat en een id ingeeft die niet bestaat)
 
 == Gedaan ==
 - Gebruiker kan zijn info wijzigen, bestellingen bekijken, als hij is ingelogd.
 - Error bij straat en nummer als je bestelt en ingelogd bent
 - Kaart geimplenteerd in refreshResults.php en restaurant.php
 - API Documentatie in PHP bestand en link vanaf menu
+- Zoeken met eigen restaurants: in de buurt en afstandsfilter
+- Een gebruiker moet ingeven waar er bezorgd moet worden en er moet gecheckt worden of dit kan aan de hand van hoever het restaurant wil bezorgen.
 
 /--- Alles wat nog moet gebeuren [OUD!] ---/
 

@@ -7,13 +7,55 @@ error_reporting(E_ERROR | E_PARSE);
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $db) or die("No connection");
 
+function getDistanceHemelsbreed2( $latitude1, $longitude1, $latitude2, $longitude2 )
+{  
+////    $latitude1 = intval($latitude1);
+////    $longitude1 = intval($longitude1);
+////    $latitude2 = intval($latitude2);
+////    $longitude2 = intval($longitude2);
+//    $earth_radius = 6371;
+//    $dLat = deg2rad( $latitude2 - $latitude1 );  
+//    $dLon = deg2rad( $longitude2 - $longitude1 );  
+//    $a = sin($dLat/2) * sin($dLat/2) + cos(deg2rad($latitude1)) * cos(deg2rad($latitude2)) * sin($dLon/2) * sin($dLon/2);  
+//    $c = 2 * asin(sqrt($a));  
+//    $d = $earth_radius * $c;  
+//    return $d;  
+    // Het is nu eigenlijk niet meer hemelsbreed
+    return getDistance2($latitude1.",".$longitude1,$latitude2.",".$longitude2);
+}
+
+function getLanLon2($address){
+  $Address = $address;// moet een straat zijn
+  $Address = urlencode($Address);
+  $request_url = "http://maps.googleapis.com/maps/api/geocode/xml?address=".$Address."&sensor=true&API_key=AIzaSyBcUwbb6V_uVzOGRnne_af0t0YhWC-QpE0";
+  $xml = simplexml_load_file($request_url) or die("url not loading");
+  $status = $xml->status;
+  if ($status=="OK") {
+      $Lat = $xml->result->geometry->location->lat;
+      $Lon = $xml->result->geometry->location->lng;
+  }
+ return array("lat" => $Lat, "lon" => $Lon);
+ } 
+
 function makeInputSafe2($string) {
     $string = trim($string);
     $string = stripslashes($string);
     $string = htmlspecialchars($string);
     return $string;
 }
+ function getDistance2($from, $to) {  
+     $request_url = file_get_contents(("https://maps.googleapis.com/maps/api/distancematrix/json?origins=$from&destinations=$to&mode=car&API_key=AIzaSyBcUwbb6V_uVzOGRnne_af0t0YhWC-QpE0"));
+    $json = json_decode($request_url,true);
+    return $json["rows"][0]["elements"][0]["distance"]["value"];
+}
 
+function notTooFar2($distance, $from, $to){
+    if( $distance >= getDistance2(urlencode($from), urlencode($to)) ){
+        return true;
+    } else {
+        return false;
+    }
+}
     if(isset($_GET["place"]) && trim($_GET["place"]) != ""){
         $place = makeInputSafe2($_GET["place"]);
          if(!isset($_COOKIE["place"])){
@@ -42,6 +84,9 @@ function makeInputSafe2($string) {
             $q = "";    
         }
     }
+//if(isset($_GET["postalcode"]) && isset($_GET["postalcode"]) != ""){
+//    $place = $_GET["postalcode"];
+//}
 $get = "";
 if(isset($_GET["useq"])){
     $q = makeInputSafe2($_GET["q"]);
@@ -60,6 +105,9 @@ if(isset($_GET["sort"]) && trim($_GET["sort"]) != ""){
 }
 if(isset($_GET["radius_filter"]) && trim($_GET["radius_filter"]) != ""){
     $get .= "&radius_filter=".urlencode($_GET["radius_filter"]);
+    $radius_filter = $_GET["radius_filter"];
+} else {
+    $radius_filter = 40000;
 }
 if(isset($_GET["rating"]) && trim($_GET["rating"]) != ""){
     $rating = $_GET["rating"];
@@ -80,6 +128,14 @@ if(!isset($_COOKIE["get"])){
 if(!isset($_COOKIE["get"])){
     setcookie("get", $get);
 }
+if(isset($_GET["postalcode"])){
+    $ingegevenPostalcode = $_GET["postalcode"];
+} else if(isset($_COOKIE["postal_code"])){
+    $ingegevenPostalcode = $_COOKIE["postal_code"];
+} else {
+    $ingegevenPostalcode = "";
+}
+$_COOKIE["postal_code"] = $ingegevenPostalcode;
 $_COOKIE["get"] = $get;
 $url = "http://api.yelp.com/v2/search?$get&location=";
 $unsigned_url = $url . urlencode($place);
@@ -127,7 +183,7 @@ if($res = $conn->query($sql)){
     while($row = $res->fetch_object()){
         if((isset($q) && $q != "") || (isset($place) && $place != "")){
             for($d=0;$d<count($qArray);$d++){
-                if (($q == "" || ($q != "" && ( preg_match(trim(strtolower('/'.$qArray[$d].'/')), trim(strtolower($row->id))) || trim(strtolower($row->id)) == trim(strtolower($qArray[$d])) ) ) ) && (preg_match(trim(strtolower('/'.$place.'/')), trim(strtolower($row->city))) || trim(strtolower($row->city)) == trim(strtolower($place)) || str_replace(" ", "", trim(strtolower($row->postal_code))) == str_replace(" ", "", trim(strtolower($place))))){
+                if (($q == "" || ($q != "" && ( preg_match(trim(strtolower('/'.$qArray[$d].'/')), trim(strtolower($row->id))) || trim(strtolower($row->id)) == trim(strtolower($qArray[$d])) ) ) ) ){
                     $go3 = true;
                     for($e=0;$e<count($ourRestaurants);$e++){
                         if(json_decode(json_encode($row), true) == $ourRestaurants[$e]){
@@ -138,6 +194,7 @@ if($res = $conn->query($sql)){
                         $ourRestaurants[count($ourRestaurants)] = json_decode(json_encode($row), true);
                     }
                 }
+//                $ourRestaurants[count($ourRestaurants)] = json_decode(json_encode($row), true);
             }
         }
     }
@@ -146,15 +203,17 @@ if($res = $conn->query($sql)){
 $b=0;
 $i=-1;
         for($a=0;$a<( count($result->businesses) + count($ourRestaurants) );$a++){
-            $go = false;
+            $go = true;
             if(count($ourRestaurants) > $b){
                 // our own
                 $resRating = 1;
                 $img = "https://cdn4.iconfinder.com/data/icons/home-sweet-home-2/120/cafe-512.png";
                 $name = $ourRestaurants[$b]["name"];
                 $id = $ourRestaurants[$b]["id"];
+                $postalcode = $ourRestaurants[$b]["postal_code"];
                 $city = $ourRestaurants[$b]["city"];
                 $addressArray[] = $ourRestaurants[$b]["city"]." ".$ourRestaurants[$b]["address_street"] . " " . $ourRestaurants[$b]["address_number"];
+                $country_code = $ourRestaurants[$b]["country_code"];
                 $categories = array();
                 $review_count = 0;
                 $sql = "SELECT * FROM reviews WHERE `id` = '".$ourRestaurants[$b]["id"]."'";
@@ -165,22 +224,47 @@ $i=-1;
                 }
                 $rating1 = 3;
                 $orders = $ourRestaurants[$b]["online_orders"];
-            if($order == ""){
-                $go = true;
-            } else if($order == "order") {
-                if($orders == "Y"){
+                $address_street = $ourRestaurants[$b]["address_street"];
+                $orderWithYou = false;
+                $distance = 40000;
+                if(preg_match(trim(strtolower('/'.$place.'/')), trim(strtolower($city))) || trim(strtolower($city)) == trim(strtolower($place)) || str_replace(" ", "", trim(strtolower($postal_code))) == str_replace(" ", "", trim(strtolower($place)))){
+                    $go = true;
+                }
+                $lanLon1 = getLanLon2($place);
+                $lanLon2 = getLanLon2($address_street . " $city " . $country_code);
+                if(getDistanceHemelsbreed2($lanLon1["lat"], $lanLon1["lon"], $lanLon2["lat"], $lanLon2["lon"]) <= $radius_filter && (getDistanceHemelsbreed2($lanLon1["lat"], $lanLon1["lon"], $lanLon2["lat"], $lanLon2["lon"]) != 0 || $lanLon1["lat"].",".$lanLon1["lon"] == $lanLon2["lat"].",".$lanLon2["lon"])){
                     $go = true;
                 } else {
                     $go = false;
                 }
-            } else {
-                $go = true;
-            }
+                if($order == ""){
+                    $go8 = true;
+                } else if($order == "order") {
+                    if($orders == "Y"){
+                        if(notTooFar2(str_replace(" ", "", $distance), str_replace(" ", "", $postalcode), str_replace(" ", "", $ingegevenPostalcode)) && (getDistance2(str_replace(" ", "", $postalcode), str_replace(" ", "", $ingegevenPostalcode)) != 0 || str_replace(" ", "", $postalcode) == str_replace(" ", "", $ingegevenPostalcode)) && str_replace(" ", "", $distance) != "" && str_replace(" ", "", $postalcode) != "" && str_replace(" ", "", $ingegevenPostalcode) != ""){
+                            $go8 = true;
+                            $orderWithYou = true;
+                        } else {
+                            $go8 = false;
+                        }
+                    } else {
+                        $go8 = false;
+                    }
+                } else {
+                    $go8 = true;
+                }
                 $b++;
+                if(!$go8){
+                    $go = false;
+                }
             } else {
                 // yelp
+                if($order == "order"){
+                    $go = true;
+                }
                 $i++;
                 if(isset($result->businesses[$i]->image_url) && $result->businesses[$i]->image_url != ""){ $img = $result->businesses[$i]->image_url; } else { $img = "https://cdn4.iconfinder.com/data/icons/home-sweet-home-2/120/cafe-512.png"; }
+                if($order == "order"){$go = false;}
                 $name = $result->businesses[$i]->name;
                 $city = $result->businesses[$i]->location->city;
                 $review_count = $result->businesses[$i]->review_count;
@@ -192,29 +276,29 @@ $i=-1;
                 } else {
                     $categories = array();
                 }
-                if($order != "order") {
-                    $go = true;
-                }
+                $orders = "N";
             }
-            if((isset($result->businesses[$i]->rating) && $i != -1 && $rating <= $rating1) || ($i == -1 && $rating <= $rating1 && $go)){
+            if(((isset($result->businesses[$i]->rating) && $i != -1 && $rating <= $rating1) || ($i == -1 && $rating <= $rating1)) && $go){
+                      
+//                echo getDistanceHemelsbreed2($lanLon1["lat"], $lanLon1["lon"], $lanLon2["lat"], $lanLon2["lon"]);
+//                echo $radius_filter
                 $countBoxes++;
                 $firstRow = '';
                 $firstRow .= $city; $cat = $categories; if(count($cat) != 0){$firstRow.= " | ";}
-                                    for($j=0;$j<count($cat);$j++){
-                                        $categorie = $cat[$j][0];
-                                        if($j == 0){
-                                            $firstRow .= $categorie;
-                                        } else if($j + 1 == count($cat)){
-                                            $firstRow .= " & " . $categorie;
-                                        } else {
-                                            $firstRow .= ", " . $categorie;
-                                        }
-                                    }
-                
-        $outOfFiveStars = $rating1;
-        $pxWidthOfStar = 13;
-        $pxMarginLeft = 3;
-        $starsstring = '';
+                for($j=0;$j<count($cat);$j++){
+                    $categorie = $cat[$j][0];
+                    if($j == 0){
+                        $firstRow .= $categorie;
+                    } else if($j + 1 == count($cat)){
+                        $firstRow .= " & " . $categorie;
+                    } else {
+                        $firstRow .= ", " . $categorie;
+                    }
+                }
+                $outOfFiveStars = $rating1;
+                $pxWidthOfStar = 13;
+                $pxMarginLeft = 3;
+                $starsstring = '';
         for($j=0;$j<5;$j++){
                                     if($j < $outOfFiveStars){
                                         if($outOfFiveStars - $j < 1){
@@ -233,7 +317,9 @@ $i=-1;
                         <div class="result-box" onclick="document.location.href='restaurant.php?id=<?php echo $id; ?>';">
                             <div class="result-image" style="background:url(<?php echo $img; ?>) #FFF;background-size:cover;background-position:center;"></div>
                             <div class="result-content result-content-search">
-                                <h4 style="height:20px;overflow:hidden;"><?php echo $name;
+                                <h4 style="height:20px;overflow:scroll;"><?php echo $name;
+//                echo $lanLon1["lat"] . "|" . $lanLon1["lon"]."/".$lanLon2["lat"] . "|" . $lanLon2["lon"];echo "abc";
+//                echo getDistanceHemelsbreed2($lanLon1["lat"], $lanLon1["lon"], $lanLon2["lat"], $lanLon2["lon"]);
  ?></h4>
                                 <p class="description-short">
                                     <?php echo $city; $cat = $categories; if(count($cat) != 0){echo " | ";}
@@ -247,6 +333,15 @@ $i=-1;
                                             echo ", " . $categorie;
                                         }
                                     }
+                if($orders == "Y"){
+                    if(!$orderWithYou){
+                        $titleA = "This restaurant delivers food.";
+                    } else {
+                        $titleA = "This restaurant delivers food at $ingegevenPostalcode.";
+                    }
+                    echo '<a title="'.$titleA.'"><img src="https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/128/delivery_food.png" height="15" class="orders-icon" /></a>';
+                }
+                
                                     ?><br />
                                 </p>
                                 <div style="float:left;margin-top:15px;">
@@ -256,6 +351,7 @@ $i=-1;
         $outOfFiveStars = $rating1;
         $pxWidthOfStar = 13;
         $pxMarginLeft = 3;
+//                var_dump(getDistanceHemelsbreed2(getLanLon2($place)["lat"], getLanLon2($place)["lon"], getLanLon2($postalcode . " " . $country_code)["lat"], getLanLon2($postalcode . " " . $country_code)["lon"]));
         for($j=0;$j<5;$j++){
                                     if($j < $outOfFiveStars){
                                         if($outOfFiveStars - $j < 1){

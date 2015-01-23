@@ -509,10 +509,24 @@ function refreshDishes(id){
 }
 
 $(".order-conclusion-bottom").on("click", function(e){
+    e.preventDefault();
     total = parseInt($("#get-total").val());
     if(total == 0){
-        e.preventDefault();
         $("#error").html('<div class="alert alert-danger" role="alert">Please, choose at least one dish.</div>');
+    } else {
+    $("#error").html('<img src="http://upload.wikimedia.org/wikipedia/commons/5/53/Loading_bar.gif" alt="Loading" width="100%" />&nbsp;&nbsp;&nbsp;Checking your postal code... <br /><br />');
+            var from = $("#postal-from").html();
+            var distance = $("#distance").html();
+            var to = $("#postal-code").val();
+            $.get("checkPostal.php?distance="+distance+"&from="+from+"&to="+to, function(data) {
+                $("#error").html(data);
+                if($("#error").html() != '<div class="alert alert-success" role="alert">This restaurant orders at your place!</div>'){
+                    $("#error").html('<div class="alert alert-danger" role="alert">Not a valid postal code.</div>');
+                } else {
+                    $("#order-submit-form").submit();
+                    $("#error").html('<div class="alert alert-success" role="alert">This restaurant orders at your place!</div> <img src="http://upload.wikimedia.org/wikipedia/commons/5/53/Loading_bar.gif" alt="Loading" width="100%" /><br /><br />');
+                }
+            });
     }
 });
 
@@ -592,9 +606,17 @@ $("#postal-code").on("keyup", function(){
     if(!rege.test($("#postal-code").val())){
             $("#postal-code").css("background", "#f45656");
             $("#postal-code").css("color", "#FFF");
+            $("#error").html('<div class="alert alert-danger" role="alert">Not a valid postal code.</div>');
         } else {
-            $("#postal-code").css("background", "#FFF");
-            $("#postal-code").css("color", "#555");
+            $("#error").html('<img src="http://upload.wikimedia.org/wikipedia/commons/5/53/Loading_bar.gif" alt="Loading" width="100%" />&nbsp;&nbsp;&nbsp;Checking your postal code... <br /><br />');
+            var from = $("#postal-from").html();
+            var distance = $("#distance").html();
+            var to = $("#postal-code").val();
+            $.get("checkPostal.php?distance="+distance+"&from="+from+"&to="+to, function(data) {
+                $("#error").html(data);
+            });
+                $("#postal-code").css("background", "#FFF");
+                $("#postal-code").css("color", "#555");     
             var askedArray = new Array();
             refreshResults(askedArray);
         }

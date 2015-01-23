@@ -81,6 +81,8 @@ IF (isset($_GET['id']) ) {
                             $restaurantCurrency  = "";
                             $restaurantCategory  = "";
                             $restaurantDeals  = "";
+                            $restaurantPostal = $row->postal_code;
+                            $restaurantMaxDrivingDistance = 40000;
                           } 
         }
         if(!$been){
@@ -173,6 +175,7 @@ showHeader($restaurantName, false); ?>
             </a>
                 <div class="information-box"><img height="15" style="margin-top:-3px;" src="https://cdn0.iconfinder.com/data/icons/20-flat-icons/128/location-pointer.png" alt=""/>
                 <?php print $restaurantAdres; ?><br />
+                <?php if(isset($restaurantPostal)){ echo $restaurantPostal;} ?>
                 <?php print $restaurantCity; ?>, 
                 <?php print $restaurantCountry; ?>
                     
@@ -281,7 +284,7 @@ $obj = json_decode($json);$photo = ($obj->photos->photo[0]);
     }
     }
     $total = 0;
-        if($onlineMenuAvailable){ echo '<form action="order.php#order-wrapper" method="post"><h3 style="margin-bottom:10px;padding-bottom:2px;" class="page-header">Menu:</h3>';
+        if($onlineMenuAvailable){ echo '<form id="order-submit-form" action="order.php#order-wrapper" method="post"><h3 style="margin-bottom:10px;padding-bottom:2px;" class="page-header">Menu:</h3>';
             $sql = "SELECT * FROM `menu_categories`";
             $catArray = array();
             if($res = $conn->query($sql)){
@@ -327,7 +330,7 @@ $obj = json_decode($json);$photo = ($obj->photos->photo[0]);
                                     </div>
 
                                     <div class="dish-add"><img onclick="addDish(<?php echo $dishArray[$b]["dish_id"]; ?>)" src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678092-sign-add-128.png" alt="+" /></div>
-                                    <div class="dish-add" <?php if(isset($_COOKIE["dish-".$dishArray[$b]["dish_id"]]) && $_COOKIE["dish-".$dishArray[$b]["dish_id"]]==0){ ?>style="display:none;"<?php } ?> id="remove-dish-<?php echo $dishArray[$b]["dish_id"]; ?>"><img onclick="removeDish(<?php echo $dishArray[$b]["dish_id"]; ?>)" src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678069-sign-error-48.png" alt="+" /></div>
+                                    <div class="dish-add" <?php if(!isset($_COOKIE["dish-".$dishArray[$b]["dish_id"]]) || $_COOKIE["dish-".$dishArray[$b]["dish_id"]]==0){ ?>style="display:none;"<?php } ?> id="remove-dish-<?php echo $dishArray[$b]["dish_id"]; ?>"><img onclick="removeDish(<?php echo $dishArray[$b]["dish_id"]; ?>)" src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678069-sign-error-48.png" alt="+" /></div>
 
                                 </div>
                                 <div class="dish-amount-wrapper">
@@ -352,7 +355,23 @@ $obj = json_decode($json);$photo = ($obj->photos->photo[0]);
                 ?>
                                     <input type="hidden" id="get-total" value="<?php echo $total; ?>"/><input type="hidden" name="restaurant-id" value="<?php echo $_GET["id"] ?>" />
                 
-                <div class="order-conclusion-wrapper" <?php if(!$online_orders){echo 'style="display:none"';} ?>>
+                <div class="order-conclusion-wrapper postal-conclusion-wrapper" style="width:100%;" <?php if(!$online_orders){echo 'style="display:none"';} ?>>
+                    <div style="width:200px;float:right;">
+                            <div id="error"><?php if(isset($_COOKIE["postal_code"]) && trim($_COOKIE["postal_code"]) != ""){$resFrom = $_COOKIE["postal_code"]; $resTo = $restaurantPostal; $resDistance = $restaurantMaxDrivingDistance; require_once("checkPostal.php");} ?></div>
+                        <div class="order-conclusion-top">
+                            <div class="total">
+                                What is your postal code?
+                            </div>
+                        </div>
+                        <div style="display:none" id="postal-from"><?php echo $restaurantPostal; ?></div>
+                        <div style="display:none" id="distance"><?php echo $restaurantMaxDrivingDistance; ?></div>
+                                <div class="postal-conclusion-bottom"><input id="postal-code" type="text" class="form-control" value="<?php if(isset($_COOKIE["postal_code"])){echo $_COOKIE["postal_code"];} ?>" /></button>
+                    </div>
+                </div>
+                    <div style="width:100%;float:right;">
+                      <br />
+                </div>
+                <div class="order-conclusion-wrapper" style="width:100%;" <?php if(!$online_orders){echo 'style="display:none"';} ?>>
                     <div style="width:200px;float:right;">
                             <div id="error"></div>
                         <div class="order-conclusion-top">
