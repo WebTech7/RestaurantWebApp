@@ -277,6 +277,11 @@ $i=-1;
                     $categories = array();
                 }
                 $orders = "N";
+                for($y=0;$y<count($ourRestaurants);$y++){
+                    if($ourRestaurants[$y]["yelp_id"] == $id){
+                        $go = false;
+                    }
+                }
             }
             if(((isset($result->businesses[$i]->rating) && $i != -1 && $rating <= $rating1) || ($i == -1 && $rating <= $rating1)) && $go){
                       

@@ -33,6 +33,7 @@
 - Favicon
 - Mogelijkheid voor restauranteigenaren om een foto van hun restaurant toe te voegen
 - 404 Not found (daar moet je ook terecht komen als je op restaurant.php staat en een id ingeeft die niet bestaat)
+- Eigen restaurant verwijderen
 
 == Gedaan ==
 - Gebruiker kan zijn info wijzigen, bestellingen bekijken, als hij is ingelogd.

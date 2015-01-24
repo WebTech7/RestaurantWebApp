@@ -1002,9 +1002,11 @@ input[type="image"] {
     overflow: scroll;
 }
 
-#user-info-li:hover  .user-drop-info-wrapper {
+/*
+#user-info-li:hover .user-drop-info-wrapper {
     display:block;
 }
+*/
 
 .user-drop-header {
     width:100%;
@@ -1409,4 +1411,8 @@ right: 0;
 .postal-conclusion-wrapper {
     padding-bottom:20px;
     overflow: hidden;
+}
+
+#yelp-div {
+    display:none
 }

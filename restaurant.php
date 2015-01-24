@@ -10,6 +10,7 @@ $db = "restaurantwebapp";
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $db) or die("No connection");
 $go = true;
+$somethingFound = false;
 if(isset($_POST["rating"]) && isset($_SESSION["logged_in"]) && ($_SESSION["logged_in"])){
     $go = true;
     $alertMessage = "";
@@ -78,11 +79,15 @@ IF (isset($_GET['id']) ) {
                             $restaurantRating  = "";
                             $restaurantRatingStars  = "";
                             $restaurantPhone  = $row->phone;
-                            $restaurantCurrency  = "";
-                            $restaurantCategory  = "";
+                            $restaurantCurrency = "";
+                            $restaurantCategory = json_decode($row->categories,true);
+                            for($a=0;$a<count($restaurantCategory);$a++){
+                                $restaurantCategory[$a] = array($restaurantCategory[$a]);
+                            }
                             $restaurantDeals  = "";
                             $restaurantPostal = $row->postal_code;
                             $restaurantMaxDrivingDistance = 40000;
+                            $somethingFound = true;
                           } 
         }
         if(!$been){
@@ -147,6 +152,7 @@ IF (isset($_GET['id']) ) {
             if(isset($result->reviews[0]->rating)){
                 $reviewRating = $result->reviews[0]->rating;
             }
+            $somethingFound = true;
            
     				}
     	} 
@@ -506,6 +512,9 @@ ELSE {
     </div>
 
 <?php 
+}
+if($somethingFound == false){
+    header("location: 404.php");
 }
 ?>
     <!-- Bootstrap core JavaScript

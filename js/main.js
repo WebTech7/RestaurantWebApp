@@ -535,27 +535,38 @@ function refreshMap(addresses,contents){
 }
 
 function showOrHideUserInfo(){
-    $("#user-drop-info-wrapper").show();
+//    $("#user-drop-info-wrapper").show();
 }
 
-$("#user-info-li").hover(function(){
-    $("#user-drop-info").css('border-radius', '0 0 5px 5px');
-    $("#order-spec .user-drop-info").css('border-radius', '5px 0 0 5px');
-    $("#order-spec .user-drop-info").css('border-right', 'none');
-    $("#order-spec-wrap").hide();
-    $(".user-drop-info").html('<div class="user-drop-item"><img src="http://upload.wikimedia.org/wikipedia/commons/5/53/Loading_bar.gif" alt="Loading" width="100%" /></div>');
-                                    if($("#logged-in").html() == 1){
-    $.get("refreshuserorders.php?loggedin=1", function(data) {
-        $(".user-drop-info-wrapper-wrapper").html('');
-        $(".user-drop-info-wrapper").html(data);
-    });
-                                    } else {
-                                        $.get("refreshuserorders.php?loggedin-false", function(data) {
-        $(".user-drop-info-wrapper").html('');
-        $(".user-drop-info-wrapper").html(data);
-    });
-                                    }
-}, function(){$("#user-drop-info-wrap").hide();});
+$("#user-info-li").click(function(){
+    if(!$(".user-drop-info-wrapper").is(":visible")){
+        $(".user-drop-info-wrapper").show();
+        $("#user-drop-info").css('border-radius', '0 0 5px 5px');
+        $("#order-spec .user-drop-info").css('border-radius', '5px 0 0 5px');
+        $("#order-spec .user-drop-info").css('border-right', 'none');
+        $("#order-spec-wrap").hide();
+        $(".user-drop-info").html('<div class="user-drop-item"><img src="http://upload.wikimedia.org/wikipedia/commons/5/53/Loading_bar.gif" alt="Loading" width="100%" /></div>');
+        if($("#logged-in").html() == 1){
+            $.get("refreshuserorders.php?loggedin=1", function(data) {
+                $(".user-drop-info-wrapper-wrapper").html('');
+                $(".user-drop-info-wrapper").html(data);
+            }); 
+        } else {
+            $.get("refreshuserorders.php?loggedin-false", function(data) {
+                $(".user-drop-info-wrapper").html('');
+                $(".user-drop-info-wrapper").html(data);
+            });
+        } 
+    } else {
+        $(".user-drop-info-wrapper").hide();
+    }
+});
+
+$(document).mouseup(function(e){
+    if($(".user-drop-info-wrapper").is(":visible") && !$("#user-drop-info").is(e.target)){
+        $(".user-drop-info-wrapper").hide();
+    }
+});
 //    alert($(this).attr('id'));
 
 function showOrderSpec(id){

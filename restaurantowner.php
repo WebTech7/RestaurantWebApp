@@ -181,8 +181,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$allGood= false;
 	
 	}
+    
 	if (!empty($_POST["yelp"])){
-	$yelpId = $_POST["yelp"];
+	$yelpId = $_POST["yelpId"];
 	$allGood = true;
 	}
 	
@@ -191,10 +192,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	
 	}
 	if (!empty($_POST["categories"])){
-	$categories1 = $_POST["categories"];
-	$categories= json_encode($categories1);
-	$allGood = true;
-	}
+        $categories1 = $_POST["categories"];
+        $categories= json_encode($categories1);
+        $allGood = true;
+	} else {
+        $categories = "";
+        $allGood = true;
+    }
 }
 
 if ($allGood == true) {
@@ -231,7 +235,9 @@ if ($alreadyOwner==false AND $nameExists ==false){
 $sql = "INSERT INTO restaurants (user_id, id, phone, postal_code, online_orders, address_street, address_number, city, country_code, name, yelp, yelp_id, categories)
 VALUES ('$userId','$id', '$phone', '$postalCode', '$orderOnline', '$addressStreet', '$addressNumber', '$city', '$country', '$name', '$yelp', '$yelpId', '$categories')";
 if ($conn->query($sql) === TRUE) {
-    $dbinsert="Everything went well";
+    $dbinsert="Everything went well";?>
+<script>document.location.href='restaurant.php?id=<?php echo $id; ?>';</script>
+<?php
 } else {
     $dbinsert= "Error: " . $sql . "<br>" . $conn->error;
 }
@@ -258,7 +264,7 @@ if (isset($_SESSION["logged_in"]) ){ ?>
 <div class="control-group">
   <label class="control-label" for="name">Restaurant name</label>
   <div class="controls">
-    <input id="name" name="name" placeholder="" class="input-xlarge"  type="text">
+    <input id="name" name="name" class="form-control" placeholder="" class="input-xlarge"  type="text">
     <p class="help-block"><?php echo $nameError; ?></p>
   </div>
 </div>
@@ -267,7 +273,7 @@ if (isset($_SESSION["logged_in"]) ){ ?>
 <div class="control-group">
   <label class="control-label" for="country_code">Country <?php echo $countryError;?></label>
   <div class="controls">
-    <select id="country_code" name="country_code" class="input-xlarge">
+    <select id="country_code" class="form-control" name="country_code" class="input-xlarge">
 <option value="AF">Afghanistan</option>
 <option value="AX">Åland Islands</option>
 <option value="AL">Albania</option>
@@ -422,7 +428,7 @@ if (isset($_SESSION["logged_in"]) ){ ?>
 <option value="NA">Namibia</option>
 <option value="NR">Nauru</option>
 <option value="NP">Nepal</option>
-<option value="NL">Netherlands</option>
+<option value="NL" selected>Netherlands</option>
 <option value="AN">Netherlands Antilles</option>
 <option value="NC">New Caledonia</option>
 <option value="NZ">New Zealand</option>
@@ -521,7 +527,7 @@ if (isset($_SESSION["logged_in"]) ){ ?>
 <div class="control-group">
   <label class="control-label" for="city">City</label>
   <div class="controls">
-    <input id="city" name="city" placeholder="" class="input-xlarge" type="text">
+    <input id="city" name="city" class="form-control" placeholder="" class="input-xlarge" type="text">
     <p class="help-block"><?php echo $cityError; ?></p>
   </div>
 </div>
@@ -530,7 +536,7 @@ if (isset($_SESSION["logged_in"]) ){ ?>
 <div class="control-group">
   <label class="control-label" for="address_street">Street</label>
   <div class="controls">
-    <input id="address_street" name="address_street" placeholder="" class="input-xlarge" type="text">
+    <input id="address_street" class="form-control"  name="address_street" placeholder="" class="input-xlarge" type="text">
     <p class="help-block"><?php echo $addressStreetError; ?></p>
   </div>
 </div>
@@ -539,7 +545,7 @@ if (isset($_SESSION["logged_in"]) ){ ?>
 <div class="control-group">
   <label class="control-label" for="address_number">Street number</label>
   <div class="controls">
-    <input id="address_number" name="address_number" placeholder="" class="input-xlarge" type="text">
+    <input id="address_number" class="form-control"  name="address_number" placeholder="" class="input-xlarge" type="text">
     <p class="help-block"><?php echo $addressNumberError; ?></p>
   </div>
 </div>
@@ -548,7 +554,7 @@ if (isset($_SESSION["logged_in"]) ){ ?>
 <div class="control-group">
   <label class="control-label" for="postal_code">Postal code</label>
   <div class="controls">
-    <input id="postal_code" name="postal_code" placeholder="" class="input-xlarge" type="text">
+    <input id="postal_code" class="form-control"  name="postal_code" placeholder="" class="input-xlarge" type="text">
     <p class="help-block"><?php echo $postalCodeError; ?></p>
   </div>
 </div>
@@ -557,7 +563,7 @@ if (isset($_SESSION["logged_in"]) ){ ?>
 <div class="control-group">
   <label class="control-label" for="phone">Phone number</label>
   <div class="controls">
-    <input id="phone" name="phone" placeholder="" class="input-xlarge" type="text">
+    <input id="phone" name="phone" class="form-control"  placeholder="" class="input-xlarge" type="text">
     <p class="help-block"><?php echo $phoneError; ?></p>
   </div>
 </div>
@@ -574,14 +580,30 @@ if (isset($_SESSION["logged_in"]) ){ ?>
 <div class="control-group">
 <label class="control-label" for="yelp">Yelp</label>
    <div class="radio">
-  <label><input type="radio" name="yelp" value = "Y">Yes  <?php echo $yelpError; ?></label>
+  <label><input type="radio" id="yelp-y" name="yelp" value = "Y">Yes  <?php echo $yelpError; ?></label>
 </div>
 <div class="radio">
   <label><input type="radio" name="yelp" value= "N">No  <?php echo $yelpError; ?> </label>
-</div> 
-
+</div>
+<div id="yelp-div"><input type="hidden" name="yelpId" value="" /></div>
+    <script>  
+        
+        $("input").bind("keyup change", function(){
+            $("#yelp-div").html('<img src="http://upload.wikimedia.org/wikipedia/commons/5/53/Loading_bar.gif" alt="Loading" width="200" />');
+            if($("#yelp-y").is(":checked")){
+                $("#yelp-div").show();
+                $.get("yelp.php?term="+encodeURIComponent($("input[name=name]").val())+"&location="+encodeURIComponent ($("input[name=city]").val())+"%20"+encodeURIComponent($("input[name=postal_code]").val())+"%20"+encodeURIComponent($("input[name=address_street]").val())+"%20"+encodeURIComponent($("input[name=address_number]").val()), function(data){
+                    $("#yelp-div").html(data);
+                });
+            } else {
+                $("#yelp-div").hide();
+                $("#yelp-div").html('<input type="hidden" name="yelpId" value="" />');
+            }
+        });
+    </script>
 <div class="control-group">
 <label class="control-label" for="yelp">Categories</label> 
+    <br />
 <label> <select multiple="multiple" class="form-control" name="categories[]" id="categories">
 <option value="Afghan">Afghan</option>
 <option value="African">African</option>
@@ -674,10 +696,9 @@ if (isset($_SESSION["logged_in"]) ){ ?>
 <option value="Vietnamese">Vietnamese</option>
 <option value="Wok">Wok</option>
                       </select> 
-<input type="hidden" name="yelpId" value=""> 
 </div>
 </label>
-<p class="help-block">Hold down ctrl to select multiple categories</p>
+<p class="help-block">Hold down Ctrl or &#8984; to select multiple categories</p>
 <div class="control-group">
 <div class ="controls">
 <button type="submit" class="btn btn-default">Submit</button>
