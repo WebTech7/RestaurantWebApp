@@ -27,6 +27,11 @@ $orderOnlineError="";
 $country="";
 $countryError="";
 $id="";
+$yelp="";
+$yelpError="";
+$yelpId="";
+$categories="";
+
 function test_input($data) {
 					$data = trim($data);
 					$data = stripslashes($data);
@@ -161,6 +166,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$orderOnline = $_POST["order_online"];
 	$allGood = true;
 	}
+	
+	if (empty($_POST["yelp"])) {
+	$yelpError= "Required";
+	$allGood= false;
+	
+	}
+	if (!empty($_POST["yelp"])){
+	$yelp = $_POST["yelp"];
+	$allGood = true;
+	}
+	
+	if (empty($_POST["yelpId"])) {
+	$allGood= false;
+	
+	}
+	if (!empty($_POST["yelp"])){
+	$yelpId = $_POST["yelp"];
+	$allGood = true;
+	}
+	
+	if (empty($_POST["categories"])) {
+	$allGood= false;
+	
+	}
+	if (!empty($_POST["categories"])){
+	$categories1 = $_POST["categories"];
+	$categories= json_encode($categories1);
+	$allGood = true;
+	}
 }
 
 if ($allGood == true) {
@@ -194,8 +228,8 @@ $nameExists=false;
 $nameExistsError="";
 }
 if ($alreadyOwner==false AND $nameExists ==false){ 
-$sql = "INSERT INTO restaurants (user_id, id, phone, postal_code, online_orders, address_street, address_number, city, country_code, name)
-VALUES ('$userId','$id', '$phone', '$postalCode', '$orderOnline', '$addressStreet', '$addressNumber', '$city', '$country', '$name')";
+$sql = "INSERT INTO restaurants (user_id, id, phone, postal_code, online_orders, address_street, address_number, city, country_code, name, yelp, yelp_id, categories)
+VALUES ('$userId','$id', '$phone', '$postalCode', '$orderOnline', '$addressStreet', '$addressNumber', '$city', '$country', '$name', '$yelp', '$yelpId', '$categories')";
 if ($conn->query($sql) === TRUE) {
     $dbinsert="Everything went well";
 } else {
@@ -537,11 +571,113 @@ if (isset($_SESSION["logged_in"]) ){ ?>
   <label><input type="radio" name="order_online" value= "N">No  <?php echo $orderOnlineError; ?> </label>
 </div>
 
-  
-  
- 
+<div class="control-group">
+<label class="control-label" for="yelp">Yelp</label>
+   <div class="radio">
+  <label><input type="radio" name="yelp" value = "Y">Yes  <?php echo $yelpError; ?></label>
 </div>
-<br />
+<div class="radio">
+  <label><input type="radio" name="yelp" value= "N">No  <?php echo $yelpError; ?> </label>
+</div> 
+
+<div class="control-group">
+<label class="control-label" for="yelp">Categories</label> 
+<label> <select multiple="multiple" class="form-control" name="categories[]" id="categories">
+<option value="Afghan">Afghan</option>
+<option value="African">African</option>
+<option value="American">American</option>
+<option value="Arabian">Arabian</option>
+<option value="Argentine">Argentine</option>
+<option value="asianfusion">Asian Fusion</option>
+<option value="Australian">Australian</option>
+<option value="Austrian">Austrian</option>
+<option value="Bangladeshi">Bangladeshi</option>
+<option value="Barbeque">Barbeque</option>
+<option value="Basque">Basque</option>
+<option value="beerhall">Beer Hall</option>
+<option value="Belgian">Belgian</option>
+<option value="Bistros">Bistros</option>
+<option value="Brasseries">Brasseries</option>
+<option value="breakfast_brunch">Breakfast &amp; brunch</option>
+<option value="British">British</option>
+<option value="Buffets">Buffets</option>
+<option value="Burgers">Burgers</option>
+<option value="Burmese">Burmese</option>
+<option value="Cafes">Cafes</option>
+<option value="Cafetaria">Cafetaria</option>
+<option value="Cajun">Cajun</option>
+<option value="Cambodian">Cambodian</option>
+<option value="Caribbean">Caribbean</option>
+<option value="Cheesesteaks">Cheesesteaks</option>
+<option value="Chech">Chech</option>
+<option value="Chinese">Chinese</option>
+<option value="Creperies">Creperies</option>
+<option value="Cuban">Cuban</option>
+<option value="Delis">Delis</option>
+<option value="Diners">Diners</option>
+<option value="Ethiopian">Ethiopian</option>
+<option value="hotdogs">Fast Food</option>
+<option value="Filipino">Filipino</option>
+<option value="fishnchips">Fish &amp; Chips</option>
+<option value="Fondue">Fondue</option>
+<option value="French">French</option>
+<option value="Gastropubs">Gastropubs</option>
+<option value="German">German</option>
+<option value="Giblets">Giblets</option>
+<option value="fluten_free">Gluten-free</option>
+<option value="Greek">Greek</option>
+<option value="Halal">Halal</option>
+<option value="Hawaiian">Hawaiian</option>
+<option value="Himalayan">Himalayan</option>
+<option value="hotdog">Hot Dogs</option>
+<option value="Hungarian">Hungarian</option>
+<option value="Indian">Indian</option>
+<option value="Indonesian">Indonesian</option>
+<option value="Irish">Irish</option>
+<option value="Italian">Italian</option>
+<option value="Japanese">Japanese</option>
+<option value="Korean">Korean</option>
+<option value="Kosher">Kosher</option>
+<option value="Laotian">Laotian</option>
+<option value="Lebanese">Lebanese</option>
+<option value="raw_food">Live/Raw Food</option>
+<option value="Malaysian">Malaysian</option>
+<option value="Mediterranean">Mediterranean</option>
+<option value="Mexican">Mexican</option>
+<option value="mideastern">Middle Eastern</option>
+<option value="Mongolian">Mongolian</option>
+<option value="Moroccan">Moroccan</option>
+<option value="Pakistani">Pakistani</option>
+<option value="Peruvian">Peruvian</option>
+<option value="Pizza">Pizza</option>
+<option value="Polish">Polish</option>
+<option value="Portuguese">Portuguese</option>
+<option value="Russian">Russian</option>
+<option value="Salad">Salad</option>
+<option value="Sandwiches">Sandwiches</option>
+<option value="Seafood">Seafood</option>
+<option value="Scandinavian">Scandinavian</option>
+<option value="Singaporean">Singaporean</option>
+<option value="soulfood">Soul Food</option>
+<option value="Soup">Soup</option>
+<option value="Southern">Southern</option>
+<option value="Spanish">Spanish</option>
+<option value="steak">Steakhouses</option>
+<option value="sushi">Sushi Bars</option>
+<option value="Taiwanese">Taiwanese</option>
+<option value="tapas">Tapas Bars</option>
+<option value="tapasmallplates">Tapas/Small Plates</option>
+<option value="Turkish">Turkish</option>
+<option value="Ukrainian">Ukrainian</option>
+<option value="Vegan">Vegan</option>
+<option value="Vegetarian">Vegetarian</option>
+<option value="Vietnamese">Vietnamese</option>
+<option value="Wok">Wok</option>
+                      </select> 
+<input type="hidden" name="yelpId" value=""> 
+</div>
+</label>
+<p class="help-block">Hold down ctrl to select multiple categories</p>
 <div class="control-group">
 <div class ="controls">
 <button type="submit" class="btn btn-default">Submit</button>
