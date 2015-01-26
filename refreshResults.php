@@ -6,7 +6,14 @@ $db = "restaurantwebapp";
 error_reporting(E_ERROR | E_PARSE);
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $db) or die("No connection");
-
+function stripAccents2($stripAccents){
+$unwanted_array = array(    'Š'=>'S', 'š'=>'s', 'Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E',
+                            'Ê'=>'E', 'Ë'=>'E', 'Ì'=>'I', 'Í'=>'I', 'Î'=>'I', 'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O', 'Õ'=>'O', 'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U',
+                            'Ú'=>'U', 'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss', 'à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a', 'ä'=>'a', 'å'=>'a', 'æ'=>'a', 'ç'=>'c',
+                            'è'=>'e', 'é'=>'e', 'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i', 'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ò'=>'o', 'ó'=>'o', 'ô'=>'o', 'õ'=>'o',
+                            'ö'=>'o', 'ø'=>'o', 'ù'=>'u', 'ú'=>'u', 'û'=>'u', 'ý'=>'y', 'ý'=>'y', 'þ'=>'b', 'ÿ'=>'y' );
+return $str = strtr( $stripAccents, $unwanted_array );
+}
 function getDistanceHemelsbreed2( $latitude1, $longitude1, $latitude2, $longitude2 )
 {  
 ////    $latitude1 = intval($latitude1);
@@ -190,6 +197,22 @@ if($res = $conn->query($sql)){
                             $go3 = false;
                         }
                     }
+                    $categories = json_decode($row->categories,true);
+                    if(isset($_GET["kindofrest"]) && !empty($_GET["kindofrest"]) && str_replace(" ","",$_GET["kindofrest"]) != ""){
+                        $catKlopt = false;
+                        for($e=0;$e<count($categories);$e++){
+                            if($_GET["kindofrest"] == $categories[$e]){
+                                $catKlopt = true;
+                            }
+                        }
+                        if(!$catKlopt){
+                            $go3 = false;
+                        }
+                    };
+                    for($e=0;$e<count($categories);$e++){
+                        $categories[$e] = array($categories[$e]);
+                    }
+//                    var_dump($categories);
                     if($go3){
                         $ourRestaurants[count($ourRestaurants)] = json_decode(json_encode($row), true);
                     }
@@ -214,7 +237,7 @@ $i=-1;
                 $city = $ourRestaurants[$b]["city"];
                 $addressArray[] = $ourRestaurants[$b]["city"]." ".$ourRestaurants[$b]["address_street"] . " " . $ourRestaurants[$b]["address_number"];
                 $country_code = $ourRestaurants[$b]["country_code"];
-                $categories = array();
+//                $categories = array();
                 $review_count = 0;
                 $sql = "SELECT * FROM reviews WHERE `id` = '".$ourRestaurants[$b]["id"]."'";
                 if($res = $conn->query($sql)){
@@ -222,7 +245,44 @@ $i=-1;
                         $review_count++;
                     }
                 }
-                $rating1 = 3;
+                $sql = "SELECT * FROM reviews WHERE id = '$id'";
+                $review_count = 0;
+                $rating_tot = 0;
+                if($res = $conn->query($sql)){
+                    while($row = $res->fetch_object()){
+                        $review_count++;
+                        $rating_tot += $row->rating;
+                    }
+                }
+                if($ourRestaurants[$b]["yelp"] == "Y"){
+                     $url = "http://api.yelp.com/v2/business/";
+            $unsigned_url = stripAccents2($url . urlencode($ourRestaurants[$b]["yelp_id"]));
+            // Enter the path that the oauth library is in relation to the php file
+            // Set your OAuth credentials here  
+            // These credentials can be obtained from the 'Manage API Access' page in the
+            // developers documentation (http://www.yelp.com/developers)
+            $consumer_key = 'i7bZJazfcVtcYOVQMiiiDQ';
+            $consumer_secret = 'DYZf-xFkSU0oSYvd_p9GuoKrDrY';
+            $token = 'sbOK5g3X_9JiYjIibXPOPB9aN9yh4GKR';
+            $token_secret = 'oViN5ngntd0Ctb2qeAcwKd9fAOM';
+            $token = new OAuthToken($token, $token_secret);
+            $consumer = new OAuthConsumer($consumer_key, $consumer_secret);
+            $signature_method = new OAuthSignatureMethod_HMAC_SHA1();
+            $oauthrequest = OAuthRequest::from_consumer_and_token($consumer, $token, 'GET', $unsigned_url);
+            $oauthrequest->sign_request($signature_method, $consumer, $token);
+            $signed_url = $oauthrequest->to_url();
+            $ch = curl_init($signed_url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+            $data = curl_exec($ch);
+            curl_close($ch);
+            $response = json_decode($data);
+            $json_string = file_get_contents($signed_url);
+            $result2 = json_decode($json_string);//var_dump($result);
+                    $review_count += $result2->review_count;
+                    $rating_tot += $result2->review_count * $result2->rating;
+                }
+                $rating1 = $rating_tot / $review_count;
                 $orders = $ourRestaurants[$b]["online_orders"];
                 $address_street = $ourRestaurants[$b]["address_street"];
                 $orderWithYou = false;
@@ -237,7 +297,7 @@ $i=-1;
                 } else {
                     $go = false;
                 }
-                if($order == ""){
+                if($order == "" || $order == "no"){
                     $go8 = true;
                 } else if($order == "order") {
                     if($orders == "Y"){
@@ -259,7 +319,7 @@ $i=-1;
                 }
             } else {
                 // yelp
-                if($order == "order"){
+                if($order == "" || $order == "no"){
                     $go = true;
                 }
                 $i++;
@@ -282,6 +342,11 @@ $i=-1;
                         $go = false;
                     }
                 }
+                    for($e=0;$e<count($ourRestaurants);$e++){
+                        if($ourRestaurants[$e]["yelp_id"] == $id){
+                            $go = false;
+                        }
+                    }
             }
             if(((isset($result->businesses[$i]->rating) && $i != -1 && $rating <= $rating1) || ($i == -1 && $rating <= $rating1)) && $go){
                       
@@ -307,7 +372,7 @@ $i=-1;
         for($j=0;$j<5;$j++){
                                     if($j < $outOfFiveStars){
                                         if($outOfFiveStars - $j < 1){
-                $starsstring .= '<div style="float:left;"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" class="star"/></div><div style="position:absolute;z-index:1;width:0;height:0;"><div style="z-index:1;position:relative;width:'.(($outOfFiveStars - $j)*$pxWidthOfStar).'px;left:'.(($pxWidthOfStar+$pxMarginLeft)*$j + $pxMarginLeft).'px;overflow:hidden;"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_full.png" class="star" style="margin-left:0 !important;"/></div></div>';
+                $starsstring .= '<div style="float:left;"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" class="star"/></div><div style="position:absolute;z-index:1;width:0;height:0;"><div style="z-index:1;position:relative;width:'.(($outOfFiveStars - $j)*$pxWidthOfStar).'px;left:'.(($pxWidthOfStar+$pxMarginLeft)*$j + $pxMarginLeft).'px;overflow:scroll;"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_full.png" class="star" style="margin-left:0 !important;"/></div></div>';
                                         } else { $starsstring .= '<div class="star-wrapper"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_full.png" class="star"/></div>'; } } else {
                                         $starsstring .= '<div class="star-wrapper"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" class="star"/></div>';
                                     } }
@@ -351,7 +416,10 @@ $i=-1;
                                 </p>
                                 <div style="float:left;margin-top:15px;">
                                     <p><?php echo $review_count; if($review_count == 1){echo " review";} else {echo " reviews";} ?> &bull;</p></div>
-                                    <div style="float:left;margin-left:3px;width:100px;overflow:hidden">
+                                <div style="float:left;margin-left:-10px;overflow:scroll;margin-top:15px;width:80px;display:none" class="star-text-wrap">
+                                    <p><?php echo round(($rating1*2) ,1); ?>/10</p>
+                                    </div>
+                                    <div style="float:left;margin-left:3px;overflow:scroll;width:100px;" class="star-pics-wrap">
                                     <?php
         $outOfFiveStars = $rating1;
         $pxWidthOfStar = 13;

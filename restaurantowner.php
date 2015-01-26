@@ -31,6 +31,16 @@ $yelp="";
 $yelpError="";
 $yelpId="";
 $categories="";
+$servername = "www.db4free.net";
+$username = "webtech7";
+$password = "W€btek678";
+$db = "restaurantwebapp";
+// Create connection
+$conn = new mysqli($servername, $username, $password, $db);
+// Check connection
+if ($conn->connect_error) {
+die("Connection failed: " . $conn->connect_error);
+}
 
 function test_input($data) {
 					$data = trim($data);
@@ -202,21 +212,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 if ($allGood == true) {
-$servername = "www.db4free.net";
-$username = "webtech7";
-$password = "W€btek678";
-$db = "restaurantwebapp";
-// Create connection
-$conn = new mysqli($servername, $username, $password, $db);
-// Check connection
-if ($conn->connect_error) {
-die("Connection failed: " . $conn->connect_error);
-}
 $sql = "SELECT id FROM restaurants where user_id='$userId'";
 $result=$conn->query($sql);
 if ($result->num_rows > 0) {
 $alreadyOwner=true;
 $alreadyOwnerError="You are already an owner";
+    ?>
+     <script>document.location.href='editrestaurant.php';</script> 
+<?php
 } else {
 $alreadyOwner=false;
 $alreadyOwnerError="";
@@ -246,6 +249,14 @@ if ($conn->query($sql) === TRUE) {
 }
 }
 }
+if(isset($_SESSION[user_id])){
+$sql = "SELECT id FROM restaurants where user_id='$_SESSION[user_id]'";
+$result2=$conn->query($sql);
+if ($result2->num_rows > 0) {
+    ?>
+     <script>document.location.href='editrestaurant.php';</script> 
+<?php
+} }
 ?>
   </head>
   <body>

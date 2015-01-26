@@ -12,14 +12,24 @@ $mailWorks = true;
 ?>
       
     <?php
-showHeader("Contact", false);
+showHeader("404 Not found", false);
 ?>
-<div class="image-background jumbotron" style="background-color:#DDD;/*background-image:url(http://media.creativebloq.futurecdn.net/sites/creativebloq.com/files/images/2012/08/error16.jpg);background-repeat:no-repeat;background-size:contain;*/margin-bottom:0;" id="image-background">
-      <div class="container" style="text-align:center;">
-    <h1>404 Not Found</h1>
-      </div>
-      
-    </div>
+<style>
+body {
+    padding:0 !important;
+    margin:0 !important;
+    background:#dfdfdf;
+}
+canvas {
+    background-size:cover;
+    padding:0 !important;
+    margin:0 !important;
+}
+</style><br /><Br />
+<div style="text-align:center;">
+          <canvas id="c" height="400" style="margin-bottom:-300px;"></canvas><div style="position:relative;top:-175px;"><h1 style="color:#FFF;text-shadow:0 0 4px #000;">That's an error.</h1><br /><br /><h3  style="color:#FFF;text-shadow:0 0 4px #000;">The requested page was not found.<br />Click <a href="index.php">here</a> to go to the home page.</h3></h1></div>
+
+</div>
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
@@ -28,6 +38,6 @@ showHeader("Contact", false);
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="js/ie10-viewport-bug-workaround.js"></script>
     <script src="js/main.js"></script>
-    
+    <script src="js/balls.js"></script>
   </body>
 </html>

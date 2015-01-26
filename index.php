@@ -203,7 +203,7 @@ error_reporting(-1);
   <ul class="pagination list-or-map" style="margin:-2px 0 0 10px;">
       <li id="choose-list" class="active"><a onclick="showList();" style="cursor:pointer;"><span aria-hidden="true"><div style="border-bottom:2px solid #222;width:20px;margin-top:3px;"></div><div style="border-bottom:2px solid #222;width:20px;margin-top:4px;"></div>
       <div style="border-bottom:2px solid #222;width:20px;margin-top:4px;margin-bottom:3px;"></div></span>
-      <li id="choose-map"><a onclick="showMap();" style="cursor:pointer;"><img src="https://cdn2.iconfinder.com/data/icons/pittogrammi/142/93-48.png" height="17"/><span class="sr-only">(current)</span></a></li>
+      <li id="choose-map"><a onclick="showMap();" style="cursor:pointer;"><img src="https://cdn2.iconfinder.com/data/icons/pittogrammi/142/93-48.png" height="16"/><span class="sr-only">(current)</span></a></li>
   </ul>
                     </div>
                 </div>

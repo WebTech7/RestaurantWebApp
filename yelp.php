@@ -42,7 +42,7 @@ if(count($result["businesses"]) == 0){
     <?php
 $a=0;
 for($a=0;$a<count($result["businesses"]);$a++){
-    echo "<option value='".$result[businesses][$a][id]."'>".$result["businesses"][$a]["name"]." ".$result["businesses"][$a]["city"]."</option>";
+    echo "<option value='".$result[businesses][$a][id]."'>".$result["businesses"][$a]["name"]." | ".$result["businesses"][$a]["location"]["display_address"][0]." | ".$result["businesses"][$a]["location"]["display_address"][1]." | ".$result["businesses"][$a]["location"]["display_address"][2]."</option>";
 }
 
 ?>

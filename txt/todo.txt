@@ -3,14 +3,10 @@
 == Hoge prioriteit ==
 - Checken of alle feedback verwerkt wordt, zo nee in todo zetten
 - Laadplaatjes op plekken die lang duren om te laden.
-- Categorieen kiezen bij het aanmaken/editen van een restaurant
-- Zoeken naar eigen gemaakte restaurants verbeteren
-    - Als de categorieen toegevoegd kunnen worden aan restaurants, hiermee zoeken.
+- Categorieen kiezen bij het editen van een restaurant
 - Kijken of er wel bezorgd wordt in het gebied
     - Eigenaren moeten kunnen aangeven hoever ze willen rijden.
     - Alles staat nu op 40 kilometer ver bezorgen.
-- Restauranteigenaren kunnen hun restaurant koppelen aan yelp, zodat er niet twee dezelfde restaurants op staan.
-- Er wordt geen rekening gehouden met sterren die gegeven zijn door onze eigen gebruikers (ipv yelp).
 - Pretty JSON
 - API Documentatie
 - Nieuwe screencast op het einde maken
@@ -21,10 +17,8 @@
 - Snellere hosting, snellere database (ipv db4free)
 - Inloggen en aanmelden met facebook 
 - Een aantal dingen komen zeer slecht uit op de mobiele site.
-    - Sterren in zoekresultaten op index.php
     - Zoekbalk helemaal bovenaan iedere pagina
     - De knop voor het kaartje naast sort-by
-    - De gegevens van finished en unfinished orders bovenaan in het menu
 - Alle images verwijzen nu naar andere websites. Ze moeten gedownload worden en naar een lokale locatie verwijzen.
 - Map moet inzoomen zodat alle restaurants zichtbaar zijn.
 - Eigen locatie in allebei de kaarten (op index.php en restaurant.php)
@@ -42,6 +36,14 @@
 - API Documentatie in PHP bestand en link vanaf menu
 - Zoeken met eigen restaurants: in de buurt en afstandsfilter
 - Een gebruiker moet ingeven waar er bezorgd moet worden en er moet gecheckt worden of dit kan aan de hand van hoever het restaurant wil bezorgen.
+- Restauranteigenaren kunnen hun restaurant koppelen aan yelp, zodat er niet twee dezelfde restaurants op staan.
+- Er wordt geen rekening gehouden met sterren die gegeven zijn door onze eigen gebruikers (ipv yelp).
+- Zoeken naar eigen gemaakte restaurants verbeteren
+    - Als de categorieen toegevoegd kunnen worden aan restaurants, hiermee zoeken.
+- Categorieen kiezen bij het aanmaken van een restaurant
+- Een aantal dingen komen zeer slecht uit op de mobiele site.
+    - De gegevens van finished en unfinished orders bovenaan in het menu
+    - Sterren in zoekresultaten op index.php
 
 /--- Alles wat nog moet gebeuren [OUD!] ---/
 

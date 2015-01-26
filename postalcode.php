@@ -76,7 +76,7 @@
         
 
 function getLocation() {
-    document.getElementById("find-location").innerHTML = '<img src="http://scriptsteam.com/scripts/img/load.gif" alt="Loading..." height="15" />';
+    document.getElementById("find-location").innerHTML = '<img src="http://upload.wikimedia.org/wikipedia/commons/5/53/Loading_bar.gif" alt="Loading" width="170" />';
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition);
     } else { 

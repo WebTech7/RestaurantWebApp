@@ -361,7 +361,7 @@ input[type="image"] {
 
 .description-short {
     max-height: 20px;
-    overflow: hidden;
+    overflow: scroll;
     word-wrap: break-word;
 }
 
@@ -1415,4 +1415,22 @@ right: 0;
 
 #yelp-div {
     display:none
+}
+
+.signup-onlogin {
+    width:100%;
+    border-radius:20px;
+    padding:5px 7px;
+    font-size: 16px;
+    font-weight: 300;
+    text-shadow: 0 0 4px #FFF;
+    cursor: pointer;
+    background: #82CCEC;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    transition: all 0.3s;
+    box-shadow: 0 0 5px #333;
+}
+
+.signup-onlogin:hover {
+    background:#68A6C4;
 }

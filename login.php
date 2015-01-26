@@ -95,6 +95,9 @@ if(isset($_POST["username-or-email-login"])){
           <p>Password:</p>
           <input autocomplete="off" type="password" name="pass" placeholder="Password" /><div class="something-abolute"><div class="something-0"><div class="arrow-button" style="margin-left:202px;height:38px;width:38px;top:-38px;"  onclick="$('#form-signin').submit();"></div></div></div><br />
           <p><a href="forgot.php">Forgot password?</a></p>
+        <hr />
+        <p>Don't have an account?</p>
+        <div onclick="document.location.href = 'signup.php'; " class="signup-onlogin">Sign up</div>
         </form>
           <?php } ?>
     </div><!-- /.container -->

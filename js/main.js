@@ -19,8 +19,16 @@ $(document).ready(function(){
     } else {
         $("#restaurant-broad").css("width", "100vw");
         $("#EnzoLeft").css("width", "100vw");
+        $(".pagination").css("margin-top", 0);
     }
-    
+    if($(window).width() > 350){
+        $(".star-text-wrap").hide();
+        $(".star-pics-wrap").show();
+    } else {
+        $(".star-text-wrap").show();
+        $(".star-pics-wrap").hide();
+        $(".pagination").css("margin-top", 20);
+    }
 });
 
 
@@ -45,6 +53,15 @@ $(window).resize(function(){
     } else {
         $("#restaurant-broad").css("width", "100vw");
         $("#EnzoLeft").css("width", "100vw");
+        $(".pagination").css("margin-top", 0);
+    }
+    if($(window).width() > 350){
+        $(".star-text-wrap").hide();
+        $(".star-pics-wrap").show();
+    } else {
+        $(".star-text-wrap").show();
+        $(".star-pics-wrap").hide();
+        $(".pagination").css("margin-top", 20);
     }
 });
 
@@ -345,6 +362,13 @@ function refreshResults(askedArray){
             refreshMap();
 //            alert($("#contents2-json-results").html());
 //            refreshMap(addresses, contents);
+            if($(window).width() > 350){
+        $(".star-text-wrap").hide();
+        $(".star-pics-wrap").show();
+    } else {
+        $(".star-text-wrap").show();
+        $(".star-pics-wrap").hide();
+    }
         }
     }
     xmlhttp.open("GET", "refreshResults.php?"+get, true);
@@ -539,26 +563,30 @@ function showOrHideUserInfo(){
 }
 
 $("#user-info-li").click(function(){
-    if(!$(".user-drop-info-wrapper").is(":visible")){
-        $(".user-drop-info-wrapper").show();
-        $("#user-drop-info").css('border-radius', '0 0 5px 5px');
-        $("#order-spec .user-drop-info").css('border-radius', '5px 0 0 5px');
-        $("#order-spec .user-drop-info").css('border-right', 'none');
-        $("#order-spec-wrap").hide();
-        $(".user-drop-info").html('<div class="user-drop-item"><img src="http://upload.wikimedia.org/wikipedia/commons/5/53/Loading_bar.gif" alt="Loading" width="100%" /></div>');
-        if($("#logged-in").html() == 1){
-            $.get("refreshuserorders.php?loggedin=1", function(data) {
-                $(".user-drop-info-wrapper-wrapper").html('');
-                $(".user-drop-info-wrapper").html(data);
-            }); 
-        } else {
-            $.get("refreshuserorders.php?loggedin-false", function(data) {
-                $(".user-drop-info-wrapper").html('');
-                $(".user-drop-info-wrapper").html(data);
-            });
-        } 
+    if($(".navbar").outerHeight() >= 100){
+        document.location.href="mobileorders.php";
     } else {
-        $(".user-drop-info-wrapper").hide();
+        if(!$(".user-drop-info-wrapper").is(":visible")){
+            $(".user-drop-info-wrapper").show();
+            $("#user-drop-info").css('border-radius', '0 0 5px 5px');
+            $("#order-spec .user-drop-info").css('border-radius', '5px 0 0 5px');
+            $("#order-spec .user-drop-info").css('border-right', 'none');
+            $("#order-spec-wrap").hide();
+            $(".user-drop-info").html('<div class="user-drop-item"><img src="http://upload.wikimedia.org/wikipedia/commons/5/53/Loading_bar.gif" alt="Loading" width="100%" /></div>');
+            if($("#logged-in").html() == 1){
+                $.get("refreshuserorders.php?loggedin=1", function(data) {
+                    $(".user-drop-info-wrapper-wrapper").html('');
+                    $(".user-drop-info-wrapper").html(data);
+                }); 
+            } else {
+                $.get("refreshuserorders.php?loggedin-false", function(data) {
+                    $(".user-drop-info-wrapper").html('');
+                    $(".user-drop-info-wrapper").html(data);
+                });
+            } 
+        } else {
+            $(".user-drop-info-wrapper").hide();
+        }
     }
 });
 
@@ -575,19 +603,21 @@ function showOrderSpec(id){
     $("#order-spec .user-drop-info").css('border-right', 'none');
     $("#order-spec").show();
     $("#order-spec-content").html($("#order-"+id).html());
-    $("#order-spec").css('margin-top', $("#finished-order-"+id).position().top - $(".navbar").outerHeight() + 31);
-    if($("#finished-order-"+id).position().top + $("#order-spec").outerHeight() > $("#finished-wrap").outerHeight() && $("#order-spec").outerHeight() < $("#finished-wrap").outerHeight()){
-        $("#order-spec").css('margin-top', $("#finished-wrap").outerHeight() - $("#order-spec").outerHeight() - 18);
-        if($("#finished-wrap").outerHeight() + 5 > $("#user-drop-info").outerHeight()){
-            $("#user-drop-info").css('border-radius', '0 0 5px 0');
+    if(window.location.pathname.substring(window.location.pathname.lastIndexOf('/')+1)!="mobileorders.php"){
+        $("#order-spec").css('margin-top', $("#finished-order-"+id).position().top - $(".navbar").outerHeight() + 31);
+        if($("#finished-order-"+id).position().top + $("#order-spec").outerHeight() > $("#finished-wrap").outerHeight() && $("#order-spec").outerHeight() < $("#finished-wrap").outerHeight()){
+            $("#order-spec").css('margin-top', $("#finished-wrap").outerHeight() - $("#order-spec").outerHeight() - 18);
+            if($("#finished-wrap").outerHeight() + 5 > $("#user-drop-info").outerHeight()){
+                $("#user-drop-info").css('border-radius', '0 0 5px 0');
+            }
+        } else if($("#order-spec").outerHeight() > $("#finished-wrap").outerHeight()){
+            $("#order-spec .user-drop-info").css('border-radius', '5px 0 5px 5px');
+            if($("#finished-wrap").outerHeight() + 5 > $("#user-drop-info").outerHeight()){
+                $("#user-drop-info").css('border-radius', '0 0 5px 0');
+            }
+            $("#order-spec .user-drop-info").css('border-right', '1px solid #F2A003');
+            $("#order-spec .user-drop-info").css('left', '11px');
         }
-    } else if($("#order-spec").outerHeight() > $("#finished-wrap").outerHeight()){
-        $("#order-spec .user-drop-info").css('border-radius', '5px 0 5px 5px');
-        if($("#finished-wrap").outerHeight() + 5 > $("#user-drop-info").outerHeight()){
-            $("#user-drop-info").css('border-radius', '0 0 5px 0');
-        }
-        $("#order-spec .user-drop-info").css('border-right', '1px solid #F2A003');
-        $("#order-spec .user-drop-info").css('left', '11px');
     }
 }
 

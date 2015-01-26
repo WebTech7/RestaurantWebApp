@@ -68,6 +68,7 @@ IF (isset($_GET['id']) ) {
 				$errorRestaurantId = 0;
 			} 
         $been = false;
+        $hasYelpAndRWA = "N";
         if($res){
                     while($row = $res->fetch_object()){
                         $been = true;
@@ -76,21 +77,82 @@ IF (isset($_GET['id']) ) {
                             $restaurantCountry  = $row->country_code;
                             $restaurantAdres  = $row->address_street . " " . $row->address_number;
                             $restaurantCity = $row->city;
-                            $restaurantRating  = "";
                             $restaurantRatingStars  = "";
                             $restaurantPhone  = $row->phone;
                             $restaurantCurrency = "";
                             $restaurantCategory = json_decode($row->categories,true);
+                           $restaurantID = $row->id;
+                                            
+                                        
+                            $restaurantYelpID = $row->yelp_id;
                             for($a=0;$a<count($restaurantCategory);$a++){
                                 $restaurantCategory[$a] = array($restaurantCategory[$a]);
                             }
                             $restaurantDeals  = "";
                             $restaurantPostal = $row->postal_code;
                             $restaurantMaxDrivingDistance = 40000;
-                            $somethingFound = true;
+                            $somethingFound = true; $hasYelpAndRWA = $row->yelp;
+                            $restaurantRating = 0;
+                            $sql = "SELECT * FROM reviews WHERE id = '$restaurantID'";
+                            $review_count = 0;
+                            $rating_tot = 0;
+                            if($res = $conn->query($sql)){
+                                while($row = $res->fetch_object()){
+                                    $review_count++;
+                                    $rating_tot += $row->rating;
+                                }
+                            }
+                        if($hasYelpAndRWA == "Y"){
+                                         $url = "http://api.yelp.com/v2/business/";
+            $unsigned_url = stripAccents($url . urlencode($restaurantYelpID));
+            // Enter the path that the oauth library is in relation to the php file
+            require_once('OAuth.php');
+            // Set your OAuth credentials here  
+            // These credentials can be obtained from the 'Manage API Access' page in the
+            // developers documentation (http://www.yelp.com/developers)
+            $consumer_key = 'i7bZJazfcVtcYOVQMiiiDQ';
+            $consumer_secret = 'DYZf-xFkSU0oSYvd_p9GuoKrDrY';
+            $token = 'sbOK5g3X_9JiYjIibXPOPB9aN9yh4GKR';
+            $token_secret = 'oViN5ngntd0Ctb2qeAcwKd9fAOM';
+            $token = new OAuthToken($token, $token_secret);
+            $consumer = new OAuthConsumer($consumer_key, $consumer_secret);
+            $signature_method = new OAuthSignatureMethod_HMAC_SHA1();
+            $oauthrequest = OAuthRequest::from_consumer_and_token($consumer, $token, 'GET', $unsigned_url);
+            $oauthrequest->sign_request($signature_method, $consumer, $token);
+            $signed_url = $oauthrequest->to_url();
+            $ch = curl_init($signed_url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+            $data = curl_exec($ch);
+            curl_close($ch);
+            $response = json_decode($data);
+            $json_string = file_get_contents($signed_url);
+            $result = json_decode($json_string);
+                                            
+            if(!isset($result->reviews[0])){
+                echo '<h3 style="margin-bottom:-18px;font-style:italic;padding-top:10px;">No reviews yet.</h3>';
+            } else { $hasYelpAndRWAAndReview = true;
+            if(isset($result->reviews[0]->user->name)) {
+                $reviewUser = $result->reviews[0]->user->name;
+            };
+            if(isset($result->reviews[0]->excerpt)){
+                $reviewExcerpt = $result->reviews[0]->excerpt;
+            };
+            if(isset($result->reviews[0]->rating)){
+                $reviewRating = $result->reviews[0]->rating;
+            }
+                    $restaurantUrl = $result->url;
+                    $review_count += $result->review_count;
+                    $rating_tot += $result->review_count * $result->rating;
+            }
+                            
+                        }
+                        if($review_count!=0){
+                        $restaurantRating = $rating_tot / $review_count;
+                        } else {$restaurantRating = 0;}
                           } 
         }
-        if(!$been){
+        if(!$been && $hasYelpAndRWA == "N"){
 					//$testing4 = "Alles ging goed";
 					$restaurantName = "All good indeed";
             $url = "http://api.yelp.com/v2/business/";
@@ -117,7 +179,8 @@ IF (isset($_GET['id']) ) {
             curl_close($ch);
             $response = json_decode($data);
             $json_string = file_get_contents($signed_url);
-            $result = json_decode($json_string);									
+            $result = json_decode($json_string);
+            $review_count = $result->review_count;
             //Hier kunnen alle gegevens uit de api in variables gezet worden.
             $restaurantName = $result->name;
             $restaurantLogo  = "";
@@ -153,7 +216,18 @@ IF (isset($_GET['id']) ) {
                 $reviewRating = $result->reviews[0]->rating;
             }
             $somethingFound = true;
-           
+           $sql = "SELECT * FROM reviews WHERE id = '$restaurantID'";
+            $rating_tot = 0;
+            $rating_tot += $review_count * $restaurantRating;
+            if($res = $conn->query($sql)){
+                while($row = $res->fetch_object()){
+                    $review_count++;
+                    $rating_tot += $row->rating;
+                }
+            }
+            if($review_count!=0){
+                        $restaurantRating = $rating_tot / $review_count;
+                        } else {$restaurantRating = 0;}
     				}
     	} 
 		ELSE 
@@ -210,14 +284,17 @@ showHeader($restaurantName, false); ?>
                         echo "None ";    
                 }; ?>
             </div>
+            <div class="information-box" style="padding:0;height:200px;"><iframe width="100%" height="100%" style="border:none" src="mapsiframe.php?location=<?php echo urlencode($restaurantAdres . " " . $restaurantCity . " " . $restaurantCountry) . "&name=".urlencode($restaurantName); ?>"></iframe>
+            </div>
             <a href="#jumptomenu"><div class="information-box">
                 Menu <img src="https://cdn0.iconfinder.com/data/icons/slim-square-icons-basics/100/basics-02-48.png" height="30" style="float:right;margin-top:-5px;margin-right:-5px;" />
                 </div></a>
             <a href="#jumptoreviews"><div class="information-box">
                 Reviews <img src="https://cdn0.iconfinder.com/data/icons/slim-square-icons-basics/100/basics-02-48.png" height="30" style="float:right;margin-top:-5px;margin-right:-5px;" />
-                </div></a>
-            <div class="information-box" style="padding:0;height:200px;"><iframe width="100%" height="100%" style="border:none" src="mapsiframe.php?location=<?php echo urlencode($restaurantAdres . " " . $restaurantCity . " " . $restaurantCountry) . "&name=".urlencode($restaurantName); ?>"></iframe>
-            </div>
+                </div></a><?php if(isset($restaurantUrl) && str_replace(" ", "", $restaurantUrl) != ""){ ?>
+            <a href="<?php echo $restaurantUrl; ?>" target="_new"><div class="information-box">
+                Yelp <img src="https://cdn0.iconfinder.com/data/icons/slim-square-icons-basics/100/basics-02-48.png" height="30" style="float:right;margin-top:-5px;margin-right:-5px;" />
+                </div></a><?php } ?>
             
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-12 col-md-offset-2 main" style="padding:0;overflow:hidden" id="restaurant-broad">
@@ -238,8 +315,8 @@ $obj = json_decode($json);$photo = ($obj->photos->photo[0]);
     }
     $flickrImageUrl = 'https://farm'.$photo->farm.'.staticflickr.com/'.$photo->server.'/'.$photo->id.'_'.$photo->secret.'_b.jpg';
     if($photo->id != NULL && $photo->id != ""){echo "url($flickrImageUrl);background-size:cover;background-position:center center";} else echo "#f9a364"; ?>;overflow:hidden">
-          <?php $imgHeight = 0; if(isset($restaurantImg)){ $imgHeight = 125; ?><div style="position:relative;top:-65px;" id="def"></div><div style="float:left;width:<?php echo $imgHeight; ?>px;height:<?php echo $imgHeight; ?>px;background:url(<?php echo $restaurantImg; ?>);background-size:cover;background-position:center;border-radius:3px;border:3px solid #FFF;"></div><?php } ?><div style="margin-top:<?php echo $imgHeight-40; ?>px;"><h1 style="<?php if($imgHeight!=0){ ?>padding-left:10px;<?php } ?>float:left;font-size:39px;"><?php print $restaurantName; ?></h1>
-                <div style="float:left;width:200px;margin-top:-11px;margin-left:7px;">
+          <?php $imgHeight = 0; if(isset($restaurantImg)){ $imgHeight = 125; ?><div style="position:relative;top:-65px;" id="def"></div><div style="float:left;width:<?php echo $imgHeight; ?>px;height:<?php echo $imgHeight; ?>px;background:url(<?php echo $restaurantImg; ?>);background-size:cover;background-position:center;border-radius:3px;border:3px solid #FFF;"></div><?php } ?><div style="margin-top:<?php echo $imgHeight-40; ?>px;"><h1 style="<?php if($imgHeight!=0){ ?>padding-left:10px;<?php } ?>float:left;margin-right:7px;font-size:39px;"><?php print $restaurantName; ?></h1>
+                <div style="float:left;width:200px;margin-top:-11px;margin-right:-27px;">
                         <?php
                         $outOfFiveStars = $restaurantRating;
                         $pxWidthOfStar = 30;
@@ -257,8 +334,8 @@ $obj = json_decode($json);$photo = ($obj->photos->photo[0]);
                                         ?> <div class="star-wrapper"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" style="width:<?php echo $pxWidthOfStar; ?>px;" class="star"/></div> <?php   
                                     } }
                                         ?>
-                                    
-                        </div></div>
+                                 
+                </div><?php if($review_count!=0){?><div style="float:left;width:200px;margin-top:20px;">(based on <?php echo $review_count; ?> review<?php if($review_count != 1) {echo "s";} ?>)</div><?php } ?></div>
                 </div>
             <div id="EnzoLeft" style="padding:10px 10px 0 10px;width:100%;">
                 <div id="jumptomenu" class="jumpto"></div>
@@ -427,8 +504,10 @@ $obj = json_decode($json);$photo = ($obj->photos->photo[0]);
             $reviewArray[count($reviewArray)] =  array("reviewRating" => $row->rating, "onYelp" => false, "reviewUser" => $displayName, "reviewContent" => $reviewContent, "reviewContentFull" => $row->full_comment);
         }
     }
-    if(count($reviewArray) != 0){echo '<h3 style="padding-top:20px;margin-bottom:10px;padding-bottom:2px;" class="page-header">Reviews:</h3>';} else {echo '<h3 style="margin-bottom:-18px;font-style:italic;padding-top:10px;">No reviews yet.</h3>';} 
+    if(count($reviewArray) != 0){echo '<h3 style="padding-top:20px;margin-bottom:10px;padding-bottom:2px;" class="page-header">Reviews:</h3>';} else { echo '<h3 style="margin-bottom:-18px;font-style:italic;padding-top:10px;">No reviews yet.</h3>';} 
                     
+                          
+    
     for($a=0;$a<count($reviewArray);$a++){ $onYelp = true;
                 
                 ?>
@@ -451,7 +530,7 @@ $obj = json_decode($json);$photo = ($obj->photos->photo[0]);
                                         ?> <div class="star-wrapper"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" style="width:<?php echo $pxWidthOfStar; ?>px;" class="star"/></div> <?php   
                                     } }
                                         ?></h3></div>
-                        <div class="review-user"><h4><?php print $reviewArray[$a]["reviewUser"]; if($reviewArray[$a]["onYelp"]){echo ' on <a target="_new" href="'.$restaurantUrl.'">Yelp</a>';} ?></h4></div></div>
+                        <div class="review-user"><h4><?php print $reviewArray[$a]["reviewUser"]; if($reviewArray[$a]["onYelp"]){echo ' on <a target="_new" href="'.$restaurantUrl.'">Yelp</a>';}  ?></h4></div></div>
                     <div class="review-content"><?php if($reviewArray[$a]["onYelp"]){ print str_replace("...", "", $reviewArray[$a]["reviewContent"])."... <a target='_new' href='$restaurantUrl'>Read more</a>"; } else {echo $reviewArray[$a]["reviewContent"];} ?></div>
                 </div>
                 <?php } ?>
@@ -513,7 +592,7 @@ ELSE {
 
 <?php 
 }
-if($somethingFound == false){
+if(str_replace(" ", "", $restaurantName) == ""){
     header("location: 404.php");
 }
 ?>
