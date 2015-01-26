@@ -31,6 +31,8 @@ $yelp="";
 $yelpError="";
 $yelpId="";
 $categories="";
+$distance="";
+$distanceError="";
 $servername = "www.db4free.net";
 $username = "webtech7";
 $password = "W€btek678";
@@ -155,6 +157,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	}
 	}
 	
+	if (!empty($_POST["distance"])) {
+	$distanceFirst=test_input($_POST["distance"]);
+	if (preg_match ('/[0-9]/', $distanceFirst)) {
+	$allGood=true;
+	$distance=$distanceFirst;
+	}
+	if(!preg_match ('/[0-9]/', $distanceFirst)) {
+	$distanceError = "Must exist out of numbers only";
+	$allGood= FALSE;
+	}
+	}
 	
 	if (empty($_POST["country_code"])) {
 	$countryError= "Required";
@@ -235,8 +248,8 @@ $nameExists=false;
 $nameExistsError="";
 }
 if ($alreadyOwner==false AND $nameExists ==false){ 
-$sql = "INSERT INTO restaurants (user_id, id, phone, postal_code, online_orders, address_street, address_number, city, country_code, name, yelp, yelp_id, categories)
-VALUES ('$userId','$id', '$phone', '$postalCode', '$orderOnline', '$addressStreet', '$addressNumber', '$city', '$country', '$name', '$yelp', '$yelpId', '$categories')";
+$sql = "INSERT INTO restaurants (user_id, id, phone, postal_code, online_orders, address_street, address_number, city, country_code, name, yelp, yelp_id, categories, distance)
+VALUES ('$userId','$id', '$phone', '$postalCode', '$orderOnline', '$addressStreet', '$addressNumber', '$city', '$country', '$name', '$yelp', '$yelpId', '$categories', '$distance')";
 if ($conn->query($sql) === TRUE) {
     $dbinsert="Everything went well";?>
 <script>document.location.href='restaurant.php?id=<?php echo $id; ?>';</script>
@@ -586,6 +599,14 @@ if (isset($_SESSION["logged_in"]) ){ ?>
 </div>
 <div class="radio">
   <label><input type="radio" name="order_online" value= "N">No  <?php echo $orderOnlineError; ?> </label>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="distance">Order proximity</label>
+  <div class="controls">
+    <input id="distance" name="distance" class="form-control"  placeholder="" class="input-xlarge" type="number">
+    <p class="help-block"><?php echo "Numbers only, must be in kilometers <br />" $distanceError; ?></p>
+  </div>
 </div>
 
 <div class="control-group">
