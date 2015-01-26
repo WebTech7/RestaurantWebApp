@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (isset($_SESSION["logged_in"]) OR 1==1){ //testing purpose
+if (isset($_SESSION["logged_in"]) ){ //testing purpose
 $loggedIn = $_SESSION["logged_in"];
 $userId = $_SESSION["user_id"];
 $servername = "www.db4free.net";
@@ -9,8 +9,100 @@ $password = "W€btek678";
 $db = "restaurantwebapp";
 $onlineOrdersY="";
 $onlineOrdersN="";
+$yelpY="";
+$yelpN="";
 $name="";
 $allGood=FALSE;
+$a1="";
+$a2="";
+$a3="";
+$a4="";
+$a5="";
+$a6="";
+$a7="";
+$a8="";
+$a9="";
+$a10="";
+$a11="";
+$a12="";
+$a13="";
+$a14="";
+$a15="";
+$a16="";
+$a17="";
+$a18="";
+$a19="";
+$a20="";
+$a21="";
+$a22="";
+$a23="";
+$a24="";
+$a25="";
+$a26="";
+$a27="";
+$a28="";
+$a29="";
+$a30="";
+$a31="";
+$a32="";
+$a33="";
+$a34="";
+$a35="";
+$a36="";
+$a37="";
+$a38="";
+$a39="";
+$a40="";
+$a41="";
+$a42="";
+$a43="";
+$a44="";
+$a45="";
+$a46="";
+$a47="";
+$a48="";
+$a49="";
+$a50="";
+$a51="";
+$a52="";
+$a53="";
+$a54="";
+$a55="";
+$a56="";
+$a57="";
+$a58="";
+$a59="";
+$a60="";
+$a61="";
+$a62="";
+$a63="";
+$a64="";
+$a65="";
+$a66="";
+$a67="";
+$a68="";
+$a69="";
+$a70="";
+$a71="";
+$a72="";
+$a73="";
+$a74="";
+$a75="";
+$a76="";
+$a77="";
+$a78="";
+$a79="";
+$a80="";
+$a81="";
+$a82="";
+$a83="";
+$a84="";
+$a85="";
+$a86="";
+$a87="";
+$a88="";
+$a89="";
+$a90=""; 
 function test_input($data) {
 					$data = trim($data);
 					$data = stripslashes($data);
@@ -48,6 +140,282 @@ $result = $conn->query($sql);
  		
  <?php
  if ($result->num_rows > 0) {
+ 
+ $categories=json_decode($data['categories'],true);
+
+if (in_array("Afghan", $categories)) {
+    $a1="selected='selected'";
+}
+if (in_array("African", $categories)) {
+    $a2="selected='selected'";
+}
+if (in_array("American", $categories)) {
+    $a3="selected='selected'";
+}
+if (in_array("Arabian", $categories)) {
+    $a4="selected='selected'";
+}
+if (in_array("Argentine", $categories)) {
+    $a5="selected='selected'";
+}
+if (in_array("asianfusion", $categories)) {
+    $a6="selected='selected'";
+}
+if (in_array("Australian", $categories)) {
+    $a7="selected='selected'";
+}
+if (in_array("Austrian", $categories)) {
+    $a8="selected='selected'";
+}
+if (in_array("Bangladeshi", $categories)) {
+    $a9="selected='selected'";
+}
+if (in_array("Barbeque", $categories)) {
+    $a10="selected='selected'";
+}
+if (in_array("Basque", $categories)) {
+    $a11="selected='selected'";
+}
+if (in_array("beerhall", $categories)) {
+    $a12="selected='selected'";
+}
+if (in_array("Belgian", $categories)) {
+    $a13="selected='selected'";
+}
+if (in_array("Bistros", $categories)) {
+    $a14="selected='selected'";
+}
+if (in_array("Brasseries", $categories)) {
+    $a15="selected='selected'";
+}
+if (in_array("breakfast_brunch", $categories)) {
+    $a16="selected='selected'";
+}
+if (in_array("British", $categories)) {
+    $a17="selected='selected'";
+}
+if (in_array("Buffets", $categories)) {
+    $a18="selected='selected'";
+}
+if (in_array("Burgers", $categories)) {
+    $a19="selected='selected'";
+}
+if (in_array("Burmese", $categories)) {
+    $a20="selected='selected'";
+}
+if (in_array("Cafes", $categories)) {
+    $a21="selected='selected'";
+}
+if (in_array("Cafeteria", $categories)) {
+    $a22="selected='selected'";
+}
+if (in_array("Cajun", $categories)) {
+    $a23="selected='selected'";
+}
+if (in_array("Cambodian", $categories)) {
+    $a24="selected='selected'";
+}
+if (in_array("Caribbean", $categories)) {
+    $a25="selected='selected'";
+}
+if (in_array("Cheesesteaks", $categories)) {
+    $a26="selected='selected'";
+}
+if (in_array("Chech", $categories)) {
+    $a27="selected='selected'";
+}
+if (in_array("Chinese", $categories)) {
+    $a28="selected='selected'";
+}
+if (in_array("Creperies", $categories)) {
+    $a29="selected='selected'";
+}
+if (in_array("Cuban", $categories)) {
+    $a30="selected='selected'";
+}
+if (in_array("Delis", $categories)) {
+    $a31="selected='selected'";
+}
+if (in_array("Diners", $categories)) {
+    $a32="selected='selected'";
+}
+if (in_array("Ethiopian", $categories)) {
+    $a33="selected='selected'";
+}
+if (in_array("hotdogs", $categories)) {
+    $a34="selected='selected'";
+}
+if (in_array("Filipino", $categories)) {
+    $a35="selected='selected'";
+}
+if (in_array("fishnchips", $categories)) {
+    $a36="selected='selected'";
+}
+if (in_array("Fondue", $categories)) {
+    $a37="selected='selected'";
+}
+if (in_array("French", $categories)) {
+    $a38="selected='selected'";
+}
+if (in_array("Gastropubs", $categories)) {
+    $a39="selected='selected'";
+}
+if (in_array("German", $categories)) {
+    $a40="selected='selected'";
+}
+if (in_array("Giblets", $categories)) {
+    $a41="selected='selected'";
+}
+if (in_array("fluten_free", $categories)) {
+    $a42="selected='selected'";
+}
+if (in_array("Greek", $categories)) {
+    $a43="selected='selected'";
+}
+if (in_array("Halal", $categories)) {
+    $a44="selected='selected'";
+}
+if (in_array("Hawaiian", $categories)) {
+    $a45="selected='selected'";
+}
+if (in_array("Himalayan", $categories)) {
+    $a46="selected='selected'";
+}
+if (in_array("hotdog", $categories)) {
+    $a47="selected='selected'";
+}
+if (in_array("Hungarian", $categories)) {
+    $a48="selected='selected'";
+}
+if (in_array("Indian", $categories)) {
+    $a49="selected='selected'";
+}
+if (in_array("Indonesian", $categories)) {
+    $a50="selected='selected'";
+}
+if (in_array("Irish", $categories)) {
+    $a51="selected='selected'";
+}
+if (in_array("Italian", $categories)) {
+    $a52="selected='selected'";
+}
+if (in_array("Japanese", $categories)) {
+    $a53="selected='selected'";
+}
+if (in_array("Korean", $categories)) {
+    $a54="selected='selected'";
+}
+if (in_array("Kosher", $categories)) {
+    $a55="selected='selected'";
+}
+if (in_array("Laotian", $categories)) {
+    $a56="selected='selected'";
+}
+if (in_array("Lebanese", $categories)) {
+    $a57="selected='selected'";
+}
+if (in_array("raw_food", $categories)) {
+    $a58="selected='selected'";
+}
+if (in_array("Malaysian", $categories)) {
+    $a59="selected='selected'";
+}
+if (in_array("Mediterranean", $categories)) {
+    $a60="selected='selected'";
+}
+if (in_array("Mexican", $categories)) {
+    $a61="selected='selected'";
+}
+if (in_array("mideastern", $categories)) {
+    $a62="selected='selected'";
+}
+if (in_array("Mongolian", $categories)) {
+    $a63="selected='selected'";
+}
+if (in_array("Moroccan", $categories)) {
+    $a64="selected='selected'";
+}
+if (in_array("Pakistani", $categories)) {
+    $a65="selected='selected'";
+}
+if (in_array("Peruvian", $categories)) {
+    $a66="selected='selected'";
+}
+if (in_array("Pizza", $categories)) {
+    $a67="selected='selected'";
+}
+if (in_array("Polish", $categories)) {
+    $a68="selected='selected'";
+}
+if (in_array("Portuguese", $categories)) {
+    $a69="selected='selected'";
+}
+if (in_array("Russian", $categories)) {
+    $a70="selected='selected'";
+}
+if (in_array("Salad", $categories)) {
+    $a71="selected='selected'";
+}
+if (in_array("Sandwiches", $categories)) {
+    $a72="selected='selected'";
+}
+if (in_array("Seafood", $categories)) {
+    $a73="selected='selected'";
+}
+if (in_array("Scandinavian", $categories)) {
+    $a74="selected='selected'";
+}
+if (in_array("Singaporean", $categories)) {
+    $a75="selected='selected'";
+}
+if (in_array("soulfood", $categories)) {
+    $a76="selected='selected'";
+}
+if (in_array("Soup", $categories)) {
+    $a77="selected='selected'";
+}
+if (in_array("Southern", $categories)) {
+    $a78="selected='selected'";
+}
+if (in_array("Spanish", $categories)) {
+    $a79="selected='selected'";
+}
+if (in_array("steak", $categories)) {
+    $a80="selected='selected'";
+}
+if (in_array("sushi", $categories)) {
+    $a81="selected='selected'";
+}
+if (in_array("Taiwanese", $categories)) {
+    $a82="selected='selected'";
+}
+if (in_array("tapas", $categories)) {
+    $a83="selected='selected'";
+}
+if (in_array("tapasmallplates", $categories)) {
+    $a84="selected='selected'";
+}
+if (in_array("Turkish", $categories)) {
+    $a85="selected='selected'";
+}
+if (in_array("Ukrainian", $categories)) {
+    $a86="selected='selected'";
+}
+if (in_array("Vegan", $categories)) {
+    $a87="selected='selected'";
+}
+if (in_array("Vegatarian", $categories)) {
+    $a88="selected='selected'";
+}
+if (in_array("Vietnamese", $categories)) {
+    $a89="selected='selected'";
+}
+if (in_array("Wok", $categories)) {
+    $a90="selected='selected'";
+}
+
+ 
+ 
     echo ' <form method= "POST" action="' . htmlspecialchars($_SERVER["PHP_SELF"]) .'" role="form" class="form-horizontal"><fieldset><legend>Update Restaurant Data</legend>';
     $data = $result->fetch_assoc(); 
 	if ($data["online_orders"] == "Y") {
@@ -55,6 +423,12 @@ $result = $conn->query($sql);
 	}
 	if ($data["online_orders"] == "N") {
 	$onlineOrdersN = "checked='checked'";
+	}
+	if ($data["yelp"] == "Y") {
+	$yelpY = "checked='checked'";
+	}
+	if ($data["yelp"] == "N") {
+	$yelpN = "checked='checked'";
 	}
 $name = replace_dashes($data["name"]);
 echo '
@@ -333,6 +707,8 @@ echo '
 </div>
 
 
+
+
 <div class="control-group">
   <label class="control-label" for="address_street">Street</label>
   <div class="controls">
@@ -369,6 +745,105 @@ echo '
 </div>
 
 <div class="control-group">
+<label class="control-label" for="yelp">Categories</label> 
+    <br />
+<label> <select multiple="multiple" class="form-control" name="categories[]" id="categories">
+<option value="Afghan" ' . $a1.'>Afghan</option>
+<option value="African" ' . $a2.'>African</option>
+<option value="American" ' . $a3.'>American</option>
+<option value="Arabian" ' . $a4.'>Arabian</option>
+<option value="Argentine" ' . $a5.'>Argentine</option>
+<option value="asianfusion" ' . $a6.'>Asian Fusion</option>
+<option value="Australian" ' . $a7.'>Australian</option>
+<option value="Austrian" ' . $a8.'>Austrian</option>
+<option value="Bangladeshi" ' . $a9.'>Bangladeshi</option>
+<option value="Barbeque" ' . $a10.'>Barbeque</option>
+<option value="Basque" ' . $a11.'>Basque</option>
+<option value="beerhall" ' . $a12.'>Beer Hall</option>
+<option value="Belgian" ' . $a13.'>Belgian</option>
+<option value="Bistros" ' . $a14.' >Bistros</option>
+<option value="Brasseries" ' . $a15.'>Brasseries</option>
+<option value="breakfast_brunch" ' . $a16.'>Breakfast &amp; brunch</option>
+<option value="British" ' . $a17.'>British</option>
+<option value="Buffets" ' . $a18.'>Buffets</option>
+<option value="Burgers" ' . $a19.'>Burgers</option>
+<option value="Burmese" ' . $a20.'>Burmese</option>
+<option value="Cafes" ' . $a21.'>Cafes</option>
+<option value="Cafetaria" ' . $a22.'>Cafetaria</option>
+<option value="Cajun" ' . $a23.'>Cajun</option>
+<option value="Cambodian" ' . $a24.'>Cambodian</option>
+<option value="Caribbean" ' . $a25.'>Caribbean</option>
+<option value="Cheesesteaks" ' . $a26.'>Cheesesteaks</option>
+<option value="Chech" ' . $a27.'>Chech</option>
+<option value="Chinese" ' . $a28.'>Chinese</option>
+<option value="Creperies" ' . $a29.'>Creperies</option>
+<option value="Cuban" ' . $a30.'>Cuban</option>
+<option value="Delis" ' . $a31.'>Delis</option>
+<option value="Diners" ' . $a32.'>Diners</option>
+<option value="Ethiopian" ' . $a33.'>Ethiopian</option>
+<option value="hotdogs" ' . $a34.'>Fast Food</option>
+<option value="Filipino" ' . $a35.'>Filipino</option>
+<option value="fishnchips" ' . $a36.'>Fish &amp; Chips</option>
+<option value="Fondue" ' . $a37.'>Fondue</option>
+<option value="French" ' . $a38.'>French</option>
+<option value="Gastropubs" ' . $a39.'>Gastropubs</option>
+<option value="German" ' . $a40.'>German</option>
+<option value="Giblets" ' . $a41.'>Giblets</option>
+<option value="fluten_free" ' . $a42.'>Gluten-free</option>
+<option value="Greek" ' . $a43.'>Greek</option>
+<option value="Halal" ' . $a44.'>Halal</option>
+<option value="Hawaiian" ' . $a45.'>Hawaiian</option>
+<option value="Himalayan" ' . $a46.'>Himalayan</option>
+<option value="hotdog" ' . $a47.'>Hot Dogs</option>
+<option value="Hungarian" ' . $a48.'>Hungarian</option>
+<option value="Indian" ' . $a49.'>Indian</option>
+<option value="Indonesian" ' . $a50.'>Indonesian</option>
+<option value="Irish" ' . $a51.'>Irish</option>
+<option value="Italian" ' . $a52.'>Italian</option>
+<option value="Japanese" ' . $a53.'>Japanese</option>
+<option value="Korean" ' . $a54.'>Korean</option>
+<option value="Kosher" ' . $a55.'>Kosher</option>
+<option value="Laotian" ' . $a56.'>Laotian</option>
+<option value="Lebanese" ' . $a57.'>Lebanese</option>
+<option value="raw_food" ' . $a58.'>Live/Raw Food</option>
+<option value="Malaysian" ' . $a59.'>Malaysian</option>
+<option value="Mediterranean" ' . $a60.'>Mediterranean</option>
+<option value="Mexican" ' . $a61.'>Mexican</option>
+<option value="mideastern" ' . $a62.'>Middle Eastern</option>
+<option value="Mongolian" ' . $a63.'>Mongolian</option>
+<option value="Moroccan" ' . $a64.'>Moroccan</option>
+<option value="Pakistani" ' . $a65.'>Pakistani</option>
+<option value="Peruvian" ' . $a66.'>Peruvian</option>
+<option value="Pizza" ' . $a67.'>Pizza</option>
+<option value="Polish" ' . $a68.'>Polish</option>
+<option value="Portuguese" ' . $a69.'>Portuguese</option>
+<option value="Russian" ' . $a70.'>Russian</option>
+<option value="Salad" ' . $a71.'>Salad</option>
+<option value="Sandwiches" ' . $a72.'>Sandwiches</option>
+<option value="Seafood" ' . $a73.'>Seafood</option>
+<option value="Scandinavian" ' . $a74.'>Scandinavian</option>
+<option value="Singaporean" ' . $a75.'>Singaporean</option>
+<option value="soulfood" ' . $a76.'>Soul Food</option>
+<option value="Soup" ' . $a77.'>Soup</option>
+<option value="Southern" ' . $a78.'>Southern</option>
+<option value="Spanish" ' . $a79.'>Spanish</option>
+<option value="steak" ' . $a80.'>Steakhouses</option>
+<option value="sushi" ' . $a81.'>Sushi Bars</option>
+<option value="Taiwanese" ' . $a82.'>Taiwanese</option>
+<option value="tapas" ' . $a83.'>Tapas Bars</option>
+<option value="tapasmallplates" ' . $a84.'>Tapas/Small Plates</option>
+<option value="Turkish" ' . $a85.'>Turkish</option>
+<option value="Ukrainian" ' . $a86.'>Ukrainian</option>
+<option value="Vegan" ' . $a87.'>Vegan</option>
+<option value="Vegetarian" ' . $a88.'>Vegetarian</option>
+<option value="Vietnamese" ' . $a89.'>Vietnamese</option>
+<option value="Wok" ' . $a90.'>Wok</option>
+                      </select> 
+</div>
+</label>
+<p class="help-block">Hold down Ctrl or &#8984; to select multiple categories</p>
+
+<div class="control-group">
 <label class="control-label" for="order_online">Online Ordering</label>
    <div class="radio">
   <label><input type="radio"  name="order_online" value = "Y" ' . $onlineOrdersY . '>Yes  </label>
@@ -377,7 +852,22 @@ echo '
   <label><input type="radio" name="order_online" value= "N" ' . $onlineOrdersN . '>No   </label>
 </div>
 
-  
+<div class="control-group">
+  <label class="control-label" for="distance">Order proximity</label>
+  <div class="controls">
+    <input id="distance" name="distance" class="form-control"  placeholder="" value="' .$data["distance"] . '"class="input-xlarge" type="number">
+    <p class="help-block">Numbers only, must be in kilometers <br /> </p>
+  </div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="yelp">Yelp</label>
+   <div class="radio">
+  <label><input type="radio" id="yelp-y" name="yelp" value = "Y" ' . $yelpY . '>Yes  </label>
+</div>
+<div class="radio">
+  <label><input type="radio" name="yelp" value= "N" ' . $yelpN . '>No   </label>
+</div>  
   
  
 </div>
@@ -520,6 +1010,44 @@ if (empty($_POST["name"])) {
 	$orderOnline = $_POST["order_online"];
 	$allGood = true;
 	}
+	
+	if (empty($_POST["yelp"])) {
+	$yelpError= "Required";
+	$allGood= false;
+	
+	}
+	if (!empty($_POST["yelp"])){
+	$yelp = $_POST["yelp"];
+	$allGood = true;
+	}
+	
+		if (!empty($_POST["distance"])) {
+	$distanceFirst=test_input($_POST["distance"]);
+	if (preg_match ('/[0-9]/', $distanceFirst)) {
+	$allGood=true;
+	$distance=$distanceFirst;
+	}
+	if(!preg_match ('/[0-9]/', $distanceFirst)) {
+	$distanceError = "Must exist out of numbers only";
+	$allGood= FALSE;
+	}
+	}
+	
+		if (empty($_POST["categories"])) {
+	$allGood= false;
+	
+	}
+	if (!empty($_POST["categories"])){
+        $categories1 = $_POST["categories"];
+        $categories= json_encode($categories1);
+        $allGood = true;
+	} else {
+        $categories = "";
+        $allGood = true;
+    }
+	
+	
+	
 }
 
 if ($allGood == true) {
@@ -542,7 +1070,11 @@ $sql = "UPDATE restaurants SET
 							address_street='$addressStreet', 
 							address_number='$addressNumber', 
 							city='$city', 
-							country_code='$country'  WHERE user_id='$userId'"; 
+							country_code='$country',
+							distance='$distance',
+							yelp='$yelp',
+							categories='$categories'
+							WHERE user_id='$userId'"; 
 
 if ($conn->query($sql) === TRUE) {
     echo "Record updated successfully, refresh the page to see your new information";
