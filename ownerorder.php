@@ -80,7 +80,7 @@ echo "You are not a restaurant owner.";
                 showstatus = 'All';
             }
             if(showstatus != 'current'){
-                $("#showloading").html('<img src="http://scriptsteam.com/scripts/img/load.gif" alt="Loading..." style="margin-left:20px;margin-top:-20px;width:75px;" />');
+                $("#showloading").html('<img src="http://upload.wikimedia.org/wikipedia/commons/5/53/Loading_bar.gif" alt="Loading..." style="margin-left:20px;margin-top:-20px;width:250px;" />');
             }
             $.get( "refreshorders.php?showstatus="+showstatus, function(data) {
                     $("#refreshDiv").html('');
@@ -92,7 +92,7 @@ echo "You are not a restaurant owner.";
     </script>
       <script>
       function updateStatus(id, status){clearTimeout(refreshtimeout);
-          $("#status-"+id).html('<img src="http://scriptsteam.com/scripts/img/load.gif" alt="Loading..." height="15" style="margin-top:-2px;" />');
+          $("#status-"+id).html('<img src="http://upload.wikimedia.org/wikipedia/commons/5/53/Loading_bar.gif" alt="Loading..." width="250" style="margin-top:-2px;" />');
           
           // Send the data using post
           var posting = $.post( 'updatestatusorder.php', { Update: id, value: status } );
