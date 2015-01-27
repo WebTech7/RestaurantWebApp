@@ -1486,3 +1486,56 @@ right: 0;
     text-align: center;
     padding:0 30px;
 }
+
+.link-ref {
+    position:absolute;
+    margin-top:-50px;
+}
+.howto {
+    margin-bottom: 0;
+    text-shadow: 0 0 20px #000 !important;
+}
+
+.howto-p {
+    color:#222 !important;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.functions-list {
+    list-style-type:none;
+    margin: 0 0 20px 0;
+    padding:0;
+}
+
+.functions-list li {
+    margin: 0;
+    padding:0;
+}
+
+.functions-list li a {
+    color: #222;
+    font-weight: 600;
+}
+
+.functions-list li a:hover {
+    text-decoration: underline !important;
+}
+
+.functions-list h4 {
+    color:#222;
+    margin: 0 0 10px 0;
+    font-weight: 600;
+}
+
+p.howto-p {
+    font-size: 15px;
+    margin-top:10px;
+}
+
+p.howto-p a {
+    font-weight: 600;
+}
+
+.code-text {
+    font-family: courier;
+}

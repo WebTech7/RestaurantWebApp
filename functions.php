@@ -372,7 +372,7 @@ $conn = mysqli_connect($servername, $username, $password, $db) or die("No connec
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-              <li class="top-li">
+              <li class="top-li" style="margin-left:-10px;">
               <form class="navbar-form navbar-right top-form" id="topform" <?php if(!$formsubmit){ ?> action="index.php" method="get" <?php } ?>>
             <input class="form-control top-search-input" id="top-search-q" style="width:145px;" placeholder="Italian, Domino's">
             <input type="text" <?php if(isset($_COOKIE["place"])){echo "value='".$_COOKIE["place"]."'";} ?> class="form-control top-search-input" id="top-search-place" style="width:135px;border-radius:4px 0 0 4px;margin-right:0;" placeholder="1234AB, Eindhoven">
@@ -404,7 +404,8 @@ $result = $conn->query($sql);	if ($result->num_rows > 0) { ?><li style="margin-t
             <li><a href="restaurantowner.php">I'm an owner!</a></li><?php } ?>
             <li><a href="postalcode.php">Front Page</a></li>
             <li><a href="contact.php">Contact</a></li>
-            <li><a href="about.php">About</a></li><?php
+            <li><a href="about.php">About</a></li>
+              <li><a href="howto.php">API</a></li><?php
     if(!$loggedIn){
     ?><span style="display:none" id="logged-in"><?php echo "0"; ?></span>
               <li id="user-info-li" onclick="showOrHideUserInfo();"><a style="cursor:pointer;"><img src="https://cdn0.iconfinder.com/data/icons/20-flat-icons/128/user.png" height="20" style="margin-top:-5px;margin-right:7px;"/> My orders</a>
