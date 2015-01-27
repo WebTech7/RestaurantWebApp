@@ -125,10 +125,208 @@ $conn = new mysqli($servername, $username, $password, $db);
 if ($conn->connect_error) {
 die("Connection failed: " . $conn->connect_error);
 }
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+if (empty($_POST["name"])) {
+	$nameError="Required";
+	$allGood=false;
+	}
+	
+	if (!empty($_POST["name"])) {
+	$nameFirst=test_input($_POST["name"]);
+	if (preg_match ('/[a-zA-Z ]/', $nameFirst)) {
+	$allGood=true;
+	$name=$nameFirst;
+	$id=spatiesnaarstreepjes($name);
+	
+	}
+	if(!preg_match ('/[a-zA-Z ]/', $nameFirst)) {
+	$nameError = "Must exist out of letters and spaces only";
+	$allGood= FALSE;
+	}
+	}
+	
+	if (empty($_POST["city"])) {
+	$cityError="Required";
+	$allGood=false;
+	}
+	if (!empty($_POST["city"])) {
+	$cityFirst=test_input($_POST["city"]);
+	if (preg_match ('/[a-zA-Z ]/', $cityFirst)) {
+	$allGood=true;
+	$city=$cityFirst;
+	}
+	if(!preg_match ('/[a-zA-Z ]/', $cityFirst)) {
+	$cityError = "Must exist out of letters and spaces only";
+	$allGood= FALSE;
+	}
+	}
+	
+	if (empty($_POST["address_street"])) {
+	$addressStreetError="Required";
+	$allGood=false;
+	}
+	if (!empty($_POST["address_street"])) {
+	$addressStreetFirst=test_input($_POST["address_street"]);
+	if (preg_match ('/[a-zA-Z ]/', $addressStreetFirst)) {
+	$allGood=true;
+	$addressStreet=$addressStreetFirst;
+	}
+	if(!preg_match ('/[a-zA-Z ]/', $addressStreetFirst)) {
+	$addressStreetError = "Must exist out of letters and spaces only";
+	$allGood= FALSE;
+	}
+	}
+
+	if (empty($_POST["address_number"])) {
+	$addressNumberError="Required";
+	$allGood=false;
+	}
+	if (!empty($_POST["address_number"])) {
+	$addressNumberFirst=test_input($_POST["address_number"]);
+	if (preg_match ('/[a-zA-Z0-9 ]/', $addressNumberFirst)) {
+	$allGood=true;
+	$addressNumber=$addressNumberFirst;
+	}
+	if(!preg_match ('/[a-zA-Z0-9 ]/', $addressNumberFirst)) {
+	$addressNumberError = "Must exist out of numbers, letters and spaces only";
+	$allGood= FALSE;
+	}
+	}
+	
+	if (empty($_POST["postal_code"])) {
+	$postalCodeError="Required";
+	$allGood=false;
+	}
+	if (!empty($_POST["postal_code"])) {
+	$postalCodeFirst=test_input($_POST["postal_code"]);
+	if (preg_match ('/[a-zA-Z0-9 ]/', $postalCodeFirst)) {
+	$allGood=true;
+	$postalCode=$postalCodeFirst;
+	}
+	if(!preg_match ('/[a-zA-Z0-9 ]/', $postalCodeFirst)) {
+	$postalCodeError = "Must exist out of numbers, letters and spaces only";
+	$allGood= FALSE;
+	}
+	}
+	
+	if (empty($_POST["phone"])) {
+	$phoneError="Required";
+	$allGood=false;
+	}
+	if (!empty($_POST["phone"])) {
+	$phoneFirst=test_input($_POST["phone"]);
+	if (preg_match ('/[0-9 ]/', $phoneFirst)) {
+	$allGood=true;
+	$phone=$phoneFirst;
+	}
+	if(!preg_match ('/[0-9 ]/', $phoneFirst)) {
+	$phoneError = "Must exist out of numbers and spaces only";
+	$allGood= FALSE;
+	}
+	}
+	
+	
+	if (empty($_POST["country_code"])) {
+	$countryError= "Required";
+	$allGood= false;
+	
+	}
+	if (!empty($_POST["country_code"])){
+	$country = $_POST["country_code"];
+	$allGood = true;
+	} 
+	
+	
+	if (empty($_POST["order_online"])) {
+	$orderOnlineError= "Required";
+	$allGood= false;
+	
+	}
+	if (!empty($_POST["order_online"])){
+	$orderOnline = $_POST["order_online"];
+	$allGood = true;
+	}
+	
+	if (empty($_POST["yelp"])) {
+	$yelpError= "Required";
+	$allGood= false;
+	
+	}
+	if (!empty($_POST["yelp"])){
+	$yelp = $_POST["yelp"];
+	$allGood = true;
+	}
+	
+		if (!empty($_POST["distance"])) {
+	$distanceFirst=test_input($_POST["distance"]);
+	if (preg_match ('/[0-9]/', $distanceFirst)) {
+	$allGood=true;
+	$distance=$distanceFirst;
+	}
+	if(!preg_match ('/[0-9]/', $distanceFirst)) {
+	$distanceError = "Must exist out of numbers only";
+	$allGood= FALSE;
+	}
+	}
+	
+		if (empty($_POST["categories"])) {
+	$allGood= false;
+	
+	}
+	if (!empty($_POST["categories"])){
+        $categories1 = $_POST["categories"];
+        $categories= json_encode($categories1);
+        $allGood = true;
+	} else {
+        $categories = "";
+        $allGood = true;
+    }
+	
+	
+	
+}
+
+if ($allGood == true) {
+
+
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $db);
+// Check connection
+if ($conn->connect_error) {
+die("Connection failed: " . $conn->connect_error);
+}
+
+$sql = "UPDATE restaurants SET  
+                            name='$name',
+							id='$id', 
+							phone='$phone', 
+							postal_code='$postalCode', 
+							online_orders='$orderOnline', 
+							address_street='$addressStreet', 
+							address_number='$addressNumber', 
+							city='$city', 
+							country_code='$country',
+							distance='$distance',
+							yelp='$yelp',
+							categories='$categories'
+							WHERE user_id='$userId'"; 
+
+if ($conn->query($sql) === TRUE) {
+    $message =  "Record updated successfully, refresh the page to see your new information";
+} else {
+    $message = "Error updating record: " . $conn->error;
+}
+
+
+
+}
 $sql = "SELECT * FROM restaurants WHERE user_id = '$userId'"; 
 $result = $conn->query($sql);	
 	
 	
+    $data = $result->fetch_assoc(); 
 ?>
   <?php 
   require "functions.php";
@@ -140,7 +338,6 @@ $result = $conn->query($sql);
  		
  <?php
  if ($result->num_rows > 0) {
- 
  $categories=json_decode($data['categories'],true);
 
 if (in_array("Afghan", $categories)) {
@@ -417,7 +614,10 @@ if (in_array("Wok", $categories)) {
  
  
     echo ' <form method= "POST" action="' . htmlspecialchars($_SERVER["PHP_SELF"]) .'" role="form" class="form-horizontal"><fieldset><legend>Update Restaurant Data</legend>';
-    $data = $result->fetch_assoc(); 
+     
+if(isset($message) && $message != ""){
+    echo '<div class="alert alert-danger" role="alert">'.$message."</div>";
+}
 	if ($data["online_orders"] == "Y") {
 	$onlineOrdersY = "checked='checked'";
 	}
@@ -888,204 +1088,7 @@ echo '
 }
 $conn->close();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-if (empty($_POST["name"])) {
-	$nameError="Required";
-	$allGood=false;
-	}
-	
-	if (!empty($_POST["name"])) {
-	$nameFirst=test_input($_POST["name"]);
-	if (preg_match ('/[a-zA-Z ]/', $nameFirst)) {
-	$allGood=true;
-	$name=$nameFirst;
-	$id=spatiesnaarstreepjes($name);
-	
-	}
-	if(!preg_match ('/[a-zA-Z ]/', $nameFirst)) {
-	$nameError = "Must exist out of letters and spaces only";
-	$allGood= FALSE;
-	}
-	}
-	
-	if (empty($_POST["city"])) {
-	$cityError="Required";
-	$allGood=false;
-	}
-	if (!empty($_POST["city"])) {
-	$cityFirst=test_input($_POST["city"]);
-	if (preg_match ('/[a-zA-Z ]/', $cityFirst)) {
-	$allGood=true;
-	$city=$cityFirst;
-	}
-	if(!preg_match ('/[a-zA-Z ]/', $cityFirst)) {
-	$cityError = "Must exist out of letters and spaces only";
-	$allGood= FALSE;
-	}
-	}
-	
-	if (empty($_POST["address_street"])) {
-	$addressStreetError="Required";
-	$allGood=false;
-	}
-	if (!empty($_POST["address_street"])) {
-	$addressStreetFirst=test_input($_POST["address_street"]);
-	if (preg_match ('/[a-zA-Z ]/', $addressStreetFirst)) {
-	$allGood=true;
-	$addressStreet=$addressStreetFirst;
-	}
-	if(!preg_match ('/[a-zA-Z ]/', $addressStreetFirst)) {
-	$addressStreetError = "Must exist out of letters and spaces only";
-	$allGood= FALSE;
-	}
-	}
-
-	if (empty($_POST["address_number"])) {
-	$addressNumberError="Required";
-	$allGood=false;
-	}
-	if (!empty($_POST["address_number"])) {
-	$addressNumberFirst=test_input($_POST["address_number"]);
-	if (preg_match ('/[a-zA-Z0-9 ]/', $addressNumberFirst)) {
-	$allGood=true;
-	$addressNumber=$addressNumberFirst;
-	}
-	if(!preg_match ('/[a-zA-Z0-9 ]/', $addressNumberFirst)) {
-	$addressNumberError = "Must exist out of numbers, letters and spaces only";
-	$allGood= FALSE;
-	}
-	}
-	
-	if (empty($_POST["postal_code"])) {
-	$postalCodeError="Required";
-	$allGood=false;
-	}
-	if (!empty($_POST["postal_code"])) {
-	$postalCodeFirst=test_input($_POST["postal_code"]);
-	if (preg_match ('/[a-zA-Z0-9 ]/', $postalCodeFirst)) {
-	$allGood=true;
-	$postalCode=$postalCodeFirst;
-	}
-	if(!preg_match ('/[a-zA-Z0-9 ]/', $postalCodeFirst)) {
-	$postalCodeError = "Must exist out of numbers, letters and spaces only";
-	$allGood= FALSE;
-	}
-	}
-	
-	if (empty($_POST["phone"])) {
-	$phoneError="Required";
-	$allGood=false;
-	}
-	if (!empty($_POST["phone"])) {
-	$phoneFirst=test_input($_POST["phone"]);
-	if (preg_match ('/[0-9 ]/', $phoneFirst)) {
-	$allGood=true;
-	$phone=$phoneFirst;
-	}
-	if(!preg_match ('/[0-9 ]/', $phoneFirst)) {
-	$phoneError = "Must exist out of numbers and spaces only";
-	$allGood= FALSE;
-	}
-	}
-	
-	
-	if (empty($_POST["country_code"])) {
-	$countryError= "Required";
-	$allGood= false;
-	
-	}
-	if (!empty($_POST["country_code"])){
-	$country = $_POST["country_code"];
-	$allGood = true;
-	} 
-	
-	
-	if (empty($_POST["order_online"])) {
-	$orderOnlineError= "Required";
-	$allGood= false;
-	
-	}
-	if (!empty($_POST["order_online"])){
-	$orderOnline = $_POST["order_online"];
-	$allGood = true;
-	}
-	
-	if (empty($_POST["yelp"])) {
-	$yelpError= "Required";
-	$allGood= false;
-	
-	}
-	if (!empty($_POST["yelp"])){
-	$yelp = $_POST["yelp"];
-	$allGood = true;
-	}
-	
-		if (!empty($_POST["distance"])) {
-	$distanceFirst=test_input($_POST["distance"]);
-	if (preg_match ('/[0-9]/', $distanceFirst)) {
-	$allGood=true;
-	$distance=$distanceFirst;
-	}
-	if(!preg_match ('/[0-9]/', $distanceFirst)) {
-	$distanceError = "Must exist out of numbers only";
-	$allGood= FALSE;
-	}
-	}
-	
-		if (empty($_POST["categories"])) {
-	$allGood= false;
-	
-	}
-	if (!empty($_POST["categories"])){
-        $categories1 = $_POST["categories"];
-        $categories= json_encode($categories1);
-        $allGood = true;
-	} else {
-        $categories = "";
-        $allGood = true;
-    }
-	
-	
-	
-}
-
-if ($allGood == true) {
-
-
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $db);
-// Check connection
-if ($conn->connect_error) {
-die("Connection failed: " . $conn->connect_error);
-}
-
-$sql = "UPDATE restaurants SET  
-                            name='$name',
-							id='$id', 
-							phone='$phone', 
-							postal_code='$postalCode', 
-							online_orders='$orderOnline', 
-							address_street='$addressStreet', 
-							address_number='$addressNumber', 
-							city='$city', 
-							country_code='$country',
-							distance='$distance',
-							yelp='$yelp',
-							categories='$categories'
-							WHERE user_id='$userId'"; 
-
-if ($conn->query($sql) === TRUE) {
-    echo "Record updated successfully, refresh the page to see your new information";
-} else {
-    echo "Error updating record: " . $conn->error;
-}
-
-$conn->close();
-
-
-}
 
 }
 Else {

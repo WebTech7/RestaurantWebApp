@@ -231,7 +231,7 @@ $(function() {
 				var dd = (dx * dx) + (dy * dy);
 				var d = Math.sqrt(dd);
 				
-				if (d < 200) {
+				if (d < 100) {
 					point.targetPos.x = (this.mousePos.x < point.curPos.x) ? point.curPos.x - dx : point.curPos.x - dx;
 					point.targetPos.y = (this.mousePos.y < point.curPos.y) ? point.curPos.y - dy : point.curPos.y - dy;
 				} else {

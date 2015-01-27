@@ -372,7 +372,7 @@ $i=-1;
         for($j=0;$j<5;$j++){
                                     if($j < $outOfFiveStars){
                                         if($outOfFiveStars - $j < 1){
-                $starsstring .= '<div style="float:left;"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" class="star"/></div><div style="position:absolute;z-index:1;width:0;height:0;"><div style="z-index:1;position:relative;width:'.(($outOfFiveStars - $j)*$pxWidthOfStar).'px;left:'.(($pxWidthOfStar+$pxMarginLeft)*$j + $pxMarginLeft).'px;overflow:scroll;"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_full.png" class="star" style="margin-left:0 !important;"/></div></div>';
+                $starsstring .= '<div style="float:left;"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" class="star"/></div><div style="position:absolute;z-index:1;width:0;height:0;"><div style="z-index:1;position:relative;width:'.(($outOfFiveStars - $j)*$pxWidthOfStar).'px;left:'.(($pxWidthOfStar+$pxMarginLeft)*$j + $pxMarginLeft).'px;overflow:hidden;"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_full.png" class="star" style="margin-left:0 !important;"/></div></div>';
                                         } else { $starsstring .= '<div class="star-wrapper"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_full.png" class="star"/></div>'; } } else {
                                         $starsstring .= '<div class="star-wrapper"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" class="star"/></div>';
                                     } }
@@ -387,11 +387,11 @@ $i=-1;
                         <div class="result-box" onclick="document.location.href='restaurant.php?id=<?php echo $id; ?>';">
                             <div class="result-image" style="background:url(<?php echo $img; ?>) #FFF;background-size:cover;background-position:center;"></div>
                             <div class="result-content result-content-search">
-                                <h4 style="height:20px;overflow:scroll;"><?php echo $name;
+                                <div style="overflow:hidden;"><h4 style="height:20px;overflow:auto;"><?php echo $name;
 //                echo $lanLon1["lat"] . "|" . $lanLon1["lon"]."/".$lanLon2["lat"] . "|" . $lanLon2["lon"];echo "abc";
 //                echo getDistanceHemelsbreed2($lanLon1["lat"], $lanLon1["lon"], $lanLon2["lat"], $lanLon2["lon"]);
- ?></h4>
-                                <p class="description-short">
+ ?></h4></div>
+                                <div style="overflow:hidden"><p class="description-short" style="overflow:auto !important;">
                                     <?php echo $city; $cat = $categories; if(count($cat) != 0){echo " | ";}
                                     for($j=0;$j<count($cat);$j++){
                                         $categorie = $cat[$j][0];
@@ -412,14 +412,14 @@ $i=-1;
                     echo '<a title="'.$titleA.'"><img src="https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/128/delivery_food.png" height="15" class="orders-icon" /></a>';
                 }
                 
-                                    ?><br />
-                                </p>
+                                ?><br />
+                                </p></div>
                                 <div style="float:left;margin-top:15px;">
                                     <p><?php echo $review_count; if($review_count == 1){echo " review";} else {echo " reviews";} ?> &bull;</p></div>
-                                <div style="float:left;margin-left:-10px;overflow:scroll;margin-top:15px;width:80px;display:none" class="star-text-wrap">
+                                <div style="overflow:hidden;"><div style="float:left;margin-left:-10px;overflow:auto;margin-top:15px;width:80px;display:none" class="star-text-wrap">
                                     <p><?php echo round(($rating1*2) ,1); ?>/10</p>
-                                    </div>
-                                    <div style="float:left;margin-left:3px;overflow:scroll;width:100px;" class="star-pics-wrap">
+                                    </div></div>
+                                    <div style="overflow:hidden;"><div style="float:left;margin-left:3px;overflow:auto;width:100px;" class="star-pics-wrap">
                                     <?php
         $outOfFiveStars = $rating1;
         $pxWidthOfStar = 13;
@@ -437,7 +437,7 @@ $i=-1;
                                     <?php } } else {
                                         ?> <div class="star-wrapper"><img src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_empty.png" class="star"/></div> <?php
                                     } }
-                                        ?></div>
+                                        ?></div></div>
 
                         </div></div>
                             </div>

@@ -27,7 +27,7 @@ canvas {
 }
 </style><br /><Br />
 <div style="text-align:center;">
-          <canvas id="c" height="400" style="margin-bottom:-300px;"></canvas><div style="position:relative;top:-175px;"><h1 style="color:#FFF;text-shadow:0 0 4px #000;">That's an error.</h1><br /><br /><h3  style="color:#FFF;text-shadow:0 0 4px #000;">The requested page was not found.<br />Click <a href="index.php">here</a> to go to the home page.</h3></h1></div>
+          <canvas id="c" height="400" style="margin-bottom:-300px;"></canvas><div style="position:relative;top:-175px;"><h1 style="color:#FFF;text-shadow:0 0 4px #000;">That's an error.</h1><br /><br /><h3  style="color:#FFF;text-shadow:0 0 4px #000;word-wrap: break-word;"><?php if(isset($_SERVER["HTTP_REFERER"])){ echo $_SERVER["HTTP_REFERER"]; } else {echo "The requested file";} ?> was not found on this server.<br />Click <a href="index.php">here</a> to go to the home page.</h3></h1></div>
 
 </div>
     <!-- Bootstrap core JavaScript
