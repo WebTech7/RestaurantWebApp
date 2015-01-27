@@ -1,8 +1,8 @@
 <?php session_start();
-$servername = "www.db4free.net";
-$username = "webtech7";
-$password = "W€btek678";
-$db = "restaurantwebapp";
+$servername = "mysql.hostinger.nl";
+$username = "u831903280_web7";
+$password = "webtech7";
+$db = "u831903280_rest";
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $db) or die("No connection");
 
@@ -42,7 +42,7 @@ if(isset($_GET["resend"]) && $_GET["resend"] == 1 && isset($_GET["email"])){
     } else {
         $verLinkUnique = false;
         $verificationLink = getVerificationLink($conn);
-        $sql = "INSERT INTO `restaurantwebapp`.`accounts` (`user_id`, `emailorfb`, `emailorfb_value`, `first_name`, `last_name`, `hash_code_email_password`, `verified`, `verification_link`, `street_name`, `postal_code`, `city`, `username`, `uses_name_or_username`, `street_number`) VALUES (NULL, '0', '$email', '', '', '', '0', '$verificationLink', '', '', '', '', '0', '');";
+        $sql = "INSERT INTO `u831903280_rest`.`accounts` (`user_id`, `emailorfb`, `emailorfb_value`, `first_name`, `last_name`, `hash_code_email_password`, `verified`, `verification_link`, `street_name`, `postal_code`, `city`, `username`, `uses_name_or_username`, `street_number`) VALUES (NULL, '0', '$email', '', '', '', '0', '$verificationLink', '', '', '', '', '0', '');";
         $res = $conn->query($sql);
         $mail = sendVerificationEmail($email, $verificationLink, $conn);
         $alertMessage .= "A verification email has been sent. Click the verification link in the email, set your name, a password and you're done!";

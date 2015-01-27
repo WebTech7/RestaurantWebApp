@@ -4,10 +4,10 @@ ini_set('display_errors',1);
 ini_set('display_startup_errors',1);
 error_reporting(-1);
 require_once("functions.php");
-$servername = "www.db4free.net";
-$username = "webtech7";
-$password = "W€btek678";
-$db = "restaurantwebapp";
+$servername = "mysql.hostinger.nl";
+$username = "u831903280_web7";
+$password = "webtech7";
+$db = "u831903280_rest";
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $db) or die("No connection");
 $restaurantName = "";
@@ -122,7 +122,7 @@ if(isset($_POST["user_id"])){
             $sql2 = "UPDATE accounts SET `street_name` = '$street_name $street_number', `postal_code` = '$postal_code', `city` = '$city' WHERE `user_id` = $user_id;";
             $conn->query($sql2);
         }
-        $sql = "INSERT INTO `restaurantwebapp`.`orders` (`order_id`, `user_id`, `id`, `orders`, `order_date`, `address_street`, `address_number`, `postal_code`, `city`, `name`, `last_name`, `pay_method`, `paid`) VALUES (NULL, '$user_id', '$restaurantId', '$orders', CURRENT_TIMESTAMP, '$street_name', '$street_number', '$postal_code', '$city', '$name', '$last_name', 'cash', 'N');";
+        $sql = "INSERT INTO `u831903280_rest`.`orders` (`order_id`, `user_id`, `id`, `orders`, `order_date`, `address_street`, `address_number`, `postal_code`, `city`, `name`, `last_name`, `pay_method`, `paid`) VALUES (NULL, '$user_id', '$restaurantId', '$orders', CURRENT_TIMESTAMP, '$street_name', '$street_number', '$postal_code', '$city', '$name', '$last_name', 'cash', 'N');";
         $conn->query($sql);
         $orderId = mysqli_insert_id($conn);
     }

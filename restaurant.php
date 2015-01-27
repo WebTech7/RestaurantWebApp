@@ -3,10 +3,10 @@
 //ini_set('display_startup_errors',1);
 //error_reporting(-1);
 require_once("functions.php");
-$servername = "www.db4free.net";
-$username = "webtech7";
-$password = "W€btek678";
-$db = "restaurantwebapp";
+$servername = "mysql.hostinger.nl";
+$username = "u831903280_web7";
+$password = "webtech7";
+$db = "u831903280_rest";
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $db) or die("No connection");
 $go = true;
@@ -34,7 +34,7 @@ if(isset($_POST["rating"]) && isset($_SESSION["logged_in"]) && ($_SESSION["logge
         $alertMessage .= "<img src='https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/bullet_deny.png' height='14' style='margin-bottom:4px;' alt='!' /> Please, give a rating.";
     }
     if($go){
-        $sql = "INSERT INTO `restaurantwebapp`.`reviews` (`comment_id`, `user_id`, `id`, `gmt_date_time_published`, `summary`, `full_comment`, `rating`) VALUES (NULL, '$user_id', '$id', '".gmdate('Y-m-d H:i:s')."', '$summary', '$reviewcontent', '$rating');";
+        $sql = "INSERT INTO `u831903280_rest`.`reviews` (`comment_id`, `user_id`, `id`, `gmt_date_time_published`, `summary`, `full_comment`, `rating`) VALUES (NULL, '$user_id', '$id', '".gmdate('Y-m-d H:i:s')."', '$summary', '$reviewcontent', '$rating');";
         $conn->query($sql);
     }
 }
@@ -342,13 +342,13 @@ $obj = json_decode($json);$photo = ($obj->photos->photo[0]);
                                     } }
                                         ?>
                                  
-                </div><?php if($review_count!=0){?><div style="float:left;width:200px;margin-top:20px;"><?php echo $review_count; ?> review<?php if($review_count != 1) {echo "s";} ?></div><?php } ?></div>
+                </div><?php if($review_count!=0){?><div style="float:left;width:80px;margin-top:20px;"><?php echo $review_count; ?> review<?php if($review_count != 1) {echo "s";} ?></div><?php } ?></div>
                 </div>
             <div id="EnzoLeft" style="padding:10px 10px 0 10px;width:100%;">
                 <div id="jumptomenu" class="jumpto"></div>
                 <?php
     $onlineMenuAvailable = false;
-    $sql = "SELECT * FROM `restaurantwebapp`.`restaurants` WHERE `id` = '".$_GET["id"]."'";
+    $sql = "SELECT * FROM `u831903280_rest`.`restaurants` WHERE `id` = '".$_GET["id"]."'";
     if($res = $conn->query($sql)){
         while($row = $res->fetch_object()){
             $uniqueID = $row->unique_ID;
@@ -359,7 +359,7 @@ $obj = json_decode($json);$photo = ($obj->photos->photo[0]);
             }
         }
     }
-    $sql = "SELECT * FROM `restaurantwebapp`.`dishes` WHERE `id` = '".$_GET["id"]."' OR `id` = '$uniqueID'";
+    $sql = "SELECT * FROM `u831903280_rest`.`dishes` WHERE `id` = '".$_GET["id"]."' OR `id` = '$uniqueID'";
     
     $dishArray = array();
     if($res = $conn->query($sql)){
@@ -553,7 +553,7 @@ $obj = json_decode($json);$photo = ($obj->photos->photo[0]);
                     <input onclick="" type="image" src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_<?php if(!$go && $rating >= 1){ echo "full"; } else echo "empty"; ?>.png" id="1" value="1" class="star-large-a first-star-large" /><input type="image" src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_<?php if(!$go && $rating >= 2){ echo "full"; } else echo "empty"; ?>.png" value="2" class="star-large-a" id="2"/><input type="image" src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_<?php if(!$go && $rating >= 3){ echo "full"; } else echo "empty"; ?>.png" value="3" class="star-large-a" id="3"/><input type="image" src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_<?php if(!$go && $rating >= 4){ echo "full"; } else echo "empty"; ?>.png" value="4" class="star-large-a" id="4"/><input type="image" src="https://cdn0.iconfinder.com/data/icons/Hand_Drawn_Web_Icon_Set/128/star_<?php if(!$go && $rating == 5){ echo "full"; } else echo "empty"; ?>.png" value="5" class="star-large-a" id="5"/><input name="rating" type="hidden" id="hidden-rating" value="<?php if(!$go){ echo $rating; } ?>"/>
                             <input type="hidden" name="id" value="<?php echo $_GET["id"]; ?>"/>
                 </div></h3></div>
-                        <div class="review-user"><h4>You are posting as: <i style="font-weight:600;"><?php $sql = "SELECT * FROM `restaurantwebapp`.`accounts` WHERE `user_id` = ".$_SESSION["user_id"].";";
+                        <div class="review-user"><h4>You are posting as: <i style="font-weight:600;"><?php $sql = "SELECT * FROM `u831903280_rest`.`accounts` WHERE `user_id` = ".$_SESSION["user_id"].";";
                             if($res = $conn->query($sql)){
                                 while($obj = $res->fetch_object()){
                                     if($obj->uses_name_or_username == 0){

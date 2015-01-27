@@ -1,10 +1,10 @@
 <?php if(!isset($_SESSION)) {
     session_start();
 } 
-$servername = "www.db4free.net";
-$username = "webtech7";
-$password = "W€btek678";
-$db = "restaurantwebapp";
+$servername = "mysql.hostinger.nl";
+$username = "u831903280_web7";
+$password = "webtech7";
+$db = "u831903280_rest";
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $db) or die("No connection");
 ini_set('display_errors',1);

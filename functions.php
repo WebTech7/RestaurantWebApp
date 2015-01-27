@@ -27,7 +27,7 @@ return $str = strtr( $stripAccents, $unwanted_array );
 
 function emailAlreadyExists($email, $conn){
     $returnArray = array("exists" => false, "verificated" => 0);
-    $sql = "SELECT * FROM `restaurantwebapp`.`accounts`";
+    $sql = "SELECT * FROM `u831903280_rest`.`accounts`";
     $hasBeen = false;
     if($result = $conn->query($sql)){
         while($obj = $result->fetch_object()){ 
@@ -90,7 +90,7 @@ function getResetPassLink($conn){
     $verLinkUnique = false;
     while(!$verLinkUnique){
         $resetPassLink = md5(rand(0,999999999));
-            $sql = "SELECT `emailorfb_value` FROM `restaurantwebapp`.`resetpass`";
+            $sql = "SELECT `emailorfb_value` FROM `u831903280_rest`.`resetpass`";
             $res = $conn->query($sql);
             $hasBeenThere = false;
         if($res){
@@ -159,7 +159,7 @@ function getDisplayTime($GMTDateTimePublished){
 
 function resendVerification($email, $conn){
     if(emailAlreadyExists($email, $conn)){
-        $sql = "SELECT * FROM `restaurantwebapp`.`accounts`;";
+        $sql = "SELECT * FROM `u831903280_rest`.`accounts`;";
         $mail = "";
         $alertMessage = "";
         $res = $conn->query($sql); 
@@ -218,10 +218,10 @@ function showHeader($title, $homepage) {
     $loggedIn = false;
 }
     
-    $servername = "www.db4free.net";
-$username = "webtech7";
-$password = "W€btek678";
-$db = "restaurantwebapp";
+    $servername = "mysql.hostinger.nl";
+$username = "u831903280_web7";
+$password = "webtech7";
+$db = "u831903280_rest";
 
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $db) or die("No connection");
@@ -385,7 +385,7 @@ $result = $conn->query($sql);	if ($result->num_rows > 0) { ?><li style="margin-t
     <span class="caret"></span>
   </button>
   <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-    <li role="presentation"><a role="menuitem" tabindex="-1" href="restaurant.php?id=<?php $sql = "SELECT * FROM `restaurantwebapp`.`restaurants` WHERE `user_id`=".$_SESSION["user_id"].";";
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="restaurant.php?id=<?php $sql = "SELECT * FROM `u831903280_rest`.`restaurants` WHERE `user_id`=".$_SESSION["user_id"].";";
                                if($res = $conn->query($sql)){
                                   while($row = $res->fetch_object()){
                                       echo $row->id;
@@ -414,7 +414,7 @@ $result = $conn->query($sql);	if ($result->num_rows > 0) { ?><li style="margin-t
             
               
               <?php } else { ?><span style="display:none" id="logged-in"><?php echo "1"; ?></span>
-              <li id="user-info-li" onclick="showOrHideUserInfo();"><a style="cursor:pointer;"><img src="https://cdn0.iconfinder.com/data/icons/20-flat-icons/128/user.png" height="20" style="margin-top:-5px;margin-right:7px;"/>Bon Appetit, <?php $sql = "SELECT * FROM `restaurantwebapp`.`accounts` WHERE `user_id` = ".$_SESSION["user_id"].";";
+              <li id="user-info-li" onclick="showOrHideUserInfo();"><a style="cursor:pointer;"><img src="https://cdn0.iconfinder.com/data/icons/20-flat-icons/128/user.png" height="20" style="margin-top:-5px;margin-right:7px;"/>Bon Appetit, <?php $sql = "SELECT * FROM `u831903280_rest`.`accounts` WHERE `user_id` = ".$_SESSION["user_id"].";";
                             if($res = $conn->query($sql)){
                                 while($obj = $res->fetch_object()){
                                     echo $obj->first_name; 

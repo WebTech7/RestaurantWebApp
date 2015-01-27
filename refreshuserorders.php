@@ -1,8 +1,8 @@
 <div id="order-spec-wrap"><div id="order-spec" style="display:none;"><div class="user-drop-info" id="order-spec-content"></div></div></div><div class="user-drop-info" id="user-drop-info"><?php ob_start(); session_start();
-$servername = "www.db4free.net";
-$username = "webtech7";
-$password = "W€btek678";
-$db = "restaurantwebapp";
+$servername = "mysql.hostinger.nl";
+$username = "u831903280_web7";
+$password = "webtech7";
+$db = "u831903280_rest";
 
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $db) or die("No connection");

@@ -1,8 +1,8 @@
 <?php if(!isset($_SESSION)){session_start();}
-$servername = "www.db4free.net";
-$username = "webtech7";
-$password = "W€btek678";
-$db = "restaurantwebapp";
+$servername = "mysql.hostinger.nl";
+$username = "u831903280_web7";
+$password = "webtech7";
+$db = "u831903280_rest";
 error_reporting(E_ERROR | E_PARSE);
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $db) or die("No connection");
@@ -184,7 +184,7 @@ $addressArray = array();
 $contentsArray = array();
 $contentsArray2 = array();
 $ourRestaurants = array();
-$sql = "SELECT * FROM `restaurantwebapp`.`restaurants`";
+$sql = "SELECT * FROM `u831903280_rest`.`restaurants`";
 $qArray = explode(" ", $q);
 if($res = $conn->query($sql)){
     while($row = $res->fetch_object()){

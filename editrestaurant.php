@@ -4,10 +4,10 @@ session_start();
 if (isset($_SESSION["logged_in"]) ){ //testing purpose
 $loggedIn = $_SESSION["logged_in"];
 $userId = $_SESSION["user_id"];
-$servername = "www.db4free.net";
-$username = "webtech7";
-$password = "W€btek678";
-$db = "restaurantwebapp";
+$servername = "mysql.hostinger.nl";
+$username = "u831903280_web7";
+$password = "webtech7";
+$db = "u831903280_rest";
 $onlineOrdersY="";
 $onlineOrdersN="";
 $yelpY="";
@@ -329,7 +329,7 @@ $sql = "UPDATE restaurants SET
 							WHERE user_id='$userId'"; 
 
 if ($conn->query($sql) === TRUE) {
-    $message =  "Record updated successfully, refresh the page to see your new information";
+    $message =  "Record updated successfully!";
 } else {
     $message = "Error updating record: " . $conn->error;
 }

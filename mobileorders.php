@@ -17,11 +17,10 @@ showHeader("Contact", false);
 <div class="image-background jumbotron" style="background:url(http://www.comohotels.com/metropolitanbangkok/sites/default/files/styles/background_image/public/images/background/metbkk_bkg_nahm_restaurant.jpg?itok=5wdbKYQA) !important;background-size:cover !important;background-position:center !important;min-height:calc(100vh - 50px);margin-bottom:0;" id="image-background">
   <div class="container">
       <div class="user-drop-info" id="user-drop-info"><?php 
-$servername = "www.db4free.net";
-$username = "webtech7";
-$password = "W€btek678";
-$db = "restaurantwebapp";
-
+$servername = "mysql.hostinger.nl";
+$username = "u831903280_web7";
+$password = "webtech7";
+$db = "u831903280_rest";
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $db) or die("No connection");
                             $amountFinishes = 0;
