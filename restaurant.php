@@ -90,7 +90,7 @@ IF (isset($_GET['id']) ) {
                             }
                             $restaurantDeals  = "";
                             $restaurantPostal = $row->postal_code;
-                            $restaurantMaxDrivingDistance = 40000;
+                            $restaurantMaxDrivingDistance = $row->distance * 1000;
                             $somethingFound = true; $hasYelpAndRWA = $row->yelp;
                             $restaurantRating = 0;
                             $sql = "SELECT * FROM reviews WHERE id = '$restaurantID'";
@@ -284,7 +284,7 @@ showHeader($restaurantName, false); ?>
                         echo "None ";    
                 }; ?>
             </div>
-            <div class="information-box" style="padding:0;height:200px;"><iframe width="100%" height="100%" style="border:none" src="mapsiframe.php?location=<?php echo urlencode($restaurantAdres . " " . $restaurantCity . " " . $restaurantCountry) . "&name=".urlencode($restaurantName); ?>"></iframe>
+            <div class="information-box" style="padding:0;height:200px;"><iframe width="100%" height="100%" style="border:none" src="mapsiframe.php?location=<?php echo urlencode($restaurantAdres . " " . $restaurantCity . " " . $restaurantCountry) . "&name=".str_replace("'","",str_replace('"','',$restaurantName)); ?>"></iframe>
             </div>
             <a href="#jumptomenu"><div class="information-box">
                 Menu <img src="https://cdn0.iconfinder.com/data/icons/slim-square-icons-basics/100/basics-02-48.png" height="30" style="float:right;margin-top:-5px;margin-right:-5px;" />

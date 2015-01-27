@@ -74,6 +74,9 @@ if($alertMessage != ""){
           <p>What is your email address?</p>
           <input autocomplete="off" style="padding-right:43px;" type="text" name="emailadress-signup" placeholder="Email address" />
           <div class="something-abolute"><div class="something-0"><div class="arrow-button" style="margin-left:202px;height:38px;width:38px;top:-38px;"  onclick="$('#form-signin').submit();"></div></div></div>
+          <hr />
+        <p>Already have an account?</p>
+        <div onclick="document.location.href = 'login.php'; " class="signup-onlogin">Log in</div>
         </form>
         <?php } ?>
     </div><!-- /.container -->

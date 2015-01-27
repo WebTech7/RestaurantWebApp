@@ -44,6 +44,14 @@ if ($conn->connect_error) {
 die("Connection failed: " . $conn->connect_error);
 }
 
+if(isset($_SESSION[user_id])){
+$sql = "SELECT id FROM restaurants where user_id='$_SESSION[user_id]'";
+$result2=$conn->query($sql);
+if ($result2->num_rows > 0) {
+    ?>
+     <script>document.location.href='editrestaurant.php';</script> 
+<?php
+} }
 function test_input($data) {
 					$data = trim($data);
 					$data = stripslashes($data);
@@ -248,6 +256,19 @@ $nameExists=false;
 $nameExistsError="";
 }
 if ($alreadyOwner==false AND $nameExists ==false){ 
+    $userId = addslashes(makeInputSafe($userId));
+    $id = addslashes(makeInputSafe(str_replace('"','',str_replace("'","",$id))));
+    $phone = addslashes(makeInputSafe($phone));
+    $postalCode = addslashes(makeInputSafe($postalCode));
+    $orderOnline = addslashes(makeInputSafe($orderOnline));
+    $addressStreet = addslashes(makeInputSafe($addressStreet));
+    $addressNumber = addslashes(makeInputSafe($addressNumber));
+    $city = addslashes(makeInputSafe($city));
+    $country = addslashes(makeInputSafe($country));
+    $name = addslashes(makeInputSafe($name));
+    $yelp = addslashes(makeInputSafe($yelp));
+    $yelpId = addslashes(makeInputSafe($yelpId));
+    $distance = addslashes(makeInputSafe($distance));
 $sql = "INSERT INTO restaurants (user_id, id, phone, postal_code, online_orders, address_street, address_number, city, country_code, name, yelp, yelp_id, categories, distance)
 VALUES ('$userId','$id', '$phone', '$postalCode', '$orderOnline', '$addressStreet', '$addressNumber', '$city', '$country', '$name', '$yelp', '$yelpId', '$categories', '$distance')";
 if ($conn->query($sql) === TRUE) {
@@ -262,14 +283,6 @@ if ($conn->query($sql) === TRUE) {
 }
 }
 }
-if(isset($_SESSION[user_id])){
-$sql = "SELECT id FROM restaurants where user_id='$_SESSION[user_id]'";
-$result2=$conn->query($sql);
-if ($result2->num_rows > 0) {
-    ?>
-     <script>document.location.href='editrestaurant.php';</script> 
-<?php
-} }
 ?>
   </head>
   <body>
@@ -283,7 +296,7 @@ if (isset($_SESSION["logged_in"]) ){ ?>
 
 
 <legend>Submit restaurant</legend>
-
+<?php if($dbinsert!=""||$nameExistsError!=""||$alreadyOwnerError!=""){ echo "<div class='alert alert-danger' role='alert'>". $dbinsert . "<br />" . $nameExistsError . "<br />" . $alreadyOwnerError ."</div>"; } ?>
 
 <div class="control-group">
   <label class="control-label" for="name">Restaurant name</label>
@@ -605,7 +618,8 @@ if (isset($_SESSION["logged_in"]) ){ ?>
   <label class="control-label" for="distance">Order proximity</label>
   <div class="controls">
     <input id="distance" name="distance" class="form-control"  placeholder="" class="input-xlarge" type="number">
-    <p class="help-block"><?php echo "Numbers only, must be in kilometers <br />" $distanceError; ?></p>
+    <p class="help-block">
+        <?php echo "Numbers only, must be in kilometers <br />$distanceError"; ?></p>
   </div>
 </div>
 
@@ -739,7 +753,7 @@ if (isset($_SESSION["logged_in"]) ){ ?>
 </div>
 </fieldset>
 </form>
-<?php echo $dbinsert . "<br />" . $nameExistsError . "<br />" . $alreadyOwnerError; 
+<?php 
 } // voor logged in if af te sluiten
 else {
 echo "<div class='jumbotron'>Please log in and try again";header("Location: login.php");

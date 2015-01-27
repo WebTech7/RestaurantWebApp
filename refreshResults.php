@@ -286,7 +286,7 @@ $i=-1;
                 $orders = $ourRestaurants[$b]["online_orders"];
                 $address_street = $ourRestaurants[$b]["address_street"];
                 $orderWithYou = false;
-                $distance = 40000;
+                $distance = $ourRestaurants[$b]["distance"] * 1000;
                 if(preg_match(trim(strtolower('/'.$place.'/')), trim(strtolower($city))) || trim(strtolower($city)) == trim(strtolower($place)) || str_replace(" ", "", trim(strtolower($postal_code))) == str_replace(" ", "", trim(strtolower($place)))){
                     $go = true;
                 }

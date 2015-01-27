@@ -37,7 +37,7 @@ if(isset($_POST["restaurant-id"])){
             $restaurantRatingStars  = "";
             $restaurantPhone  = $row->phone;
             $restaurantPostalCode  = $row->postal_code;
-            $restaurantMaxDrivingDistance = 40000;
+            $restaurantMaxDrivingDistance = $row->distance * 1000;
             $restaurantCurrency  = "";
             $restaurantCategory  = "";
             $restaurantDeals  = "";
@@ -346,7 +346,7 @@ if($restaurantExists && !$rightForm){
                         
                     </div>
                     <div class="order-step-title">
-                        You are done!
+                        You are done and your food is on its way!
                     </div>
                 </div>
                 <div class="order-check-wrapper">

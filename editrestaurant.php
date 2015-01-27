@@ -1092,7 +1092,9 @@ $conn->close();
 
 }
 Else {
-echo "Please log in";
+    require_once("functions.php");
+    showHeader("Please log in", false);
+    echo "Please log in";
 
 }
 ?>
