@@ -280,7 +280,7 @@ if($restaurantExists && !$rightForm){
                             <input type="text" value="<?php if($alertMessage != ""){echo addslashes($_POST["postal_code"]);}else if(isset($_COOKIE["postal_code"])){echo $_COOKIE["postal_code"];}else{if(isset($_SESSION["user_id"]) && $_SESSION["user_id"]!= ""){$sql = "SELECT * from accounts where user_id = $_SESSION[user_id];"; if($res = $conn->query($sql)){while($row = $res->fetch_object()){echo $row->postal_code;}}}} ?>" class="form-control" id="postal_code" name="postal_code" />
                         </div>
                     </div>
-                    <button class="order-submit">Submit your order definitely</button>
+                    <button class="order-submit">Submit your order definitely (payment: cash)</button>
                     <input type="hidden" value="<?php if(isset($_SESSION["user_id"])){echo $_SESSION["user_id"];}else {echo "0";} ?>" name="user_id" />
                     <input type="hidden" value="<?php echo $_POST["restaurant-id"]; ?>" name="restaurant-id" />
                 </form>

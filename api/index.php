@@ -6,14 +6,72 @@
 //**/api.php?dishes=true&id="all" ** /api.php?dishes=true&id="restaurant-unique-id" ** 
 //**/api.php?orders=true&id="all" ** /api.php?orders=true&id="restaurant-id" ** 
 //************************************************************************************************************************************************************************************
-$servername = "www.db4free.net";
-$username = "webtech7";
-$password = "W€btek678";
-$db = "restaurantwebapp";
+$servername = "mysql.hostinger.nl";
+$username = "u831903280_web7";
+$password = "webtech7";
+$db = "u831903280_rest";
 $output = '{"error":"No input"}';
 // Create connection
 $conn = new mysqli($servername, $username, $password, $db);
 // Check connection
+function prettyPrint( $json )
+{
+    //Source: http://stackoverflow.com/questions/6054033/pretty-printing-json-with-php
+    
+    $result = '';
+    $level = 0;
+    $in_quotes = false;
+    $in_escape = false;
+    $ends_line_level = NULL;
+    $json_length = strlen( $json );
+
+    for( $i = 0; $i < $json_length; $i++ ) {
+        $char = $json[$i];
+        $new_line_level = NULL;
+        $post = "";
+        if( $ends_line_level !== NULL ) {
+            $new_line_level = $ends_line_level;
+            $ends_line_level = NULL;
+        }
+        if ( $in_escape ) {
+            $in_escape = false;
+        } else if( $char === '"' ) {
+            $in_quotes = !$in_quotes;
+        } else if( ! $in_quotes ) {
+            switch( $char ) {
+                case '}': case ']':
+                    $level--;
+                    $ends_line_level = NULL;
+                    $new_line_level = $level;
+                    break;
+
+                case '{': case '[':
+                    $level++;
+                case ',':
+                    $ends_line_level = $level;
+                    break;
+
+                case ':':
+                    $post = " ";
+                    break;
+
+                case " ": case "\t": case "\n": case "\r":
+                    $char = "";
+                    $ends_line_level = $new_line_level;
+                    $new_line_level = NULL;
+                    break;
+            }
+        } else if ( $char === '\\' ) {
+            $in_escape = true;
+        }
+        if( $new_line_level !== NULL ) {
+            $result .= "\n".str_repeat( "\t", $new_line_level );
+        }
+        $result .= $char.$post;
+    }
+
+    return $result;
+}
 if ($conn->connect_error) {
 die("Connection failed: " . $conn->connect_error);
 }
@@ -35,8 +93,9 @@ if ($result->num_rows > 0) {
 while($review = mysqli_fetch_array($result, MYSQL_ASSOC)) {
 $reviews[] = array('review'=>$review);
 }
+}   
+$output = prettyPrint(json_encode(array('reviews' => $reviews)));
 }
-$output = json_encode(array('reviews' => $reviews), JSON_PRETTY_PRINT);
 
 } //id all
 
@@ -49,7 +108,7 @@ if ($result->num_rows > 0) {
 while($review = mysqli_fetch_array($result, MYSQL_ASSOC)) {
 $reviews[] = array('review'=>$review);
 }
-$output = json_encode(array('reviews' => $reviews), JSON_PRETTY_PRINT);
+$output = prettyPrint(json_encode(array('reviews' => $reviews)));
 }
 }//id else
 }//review
@@ -73,7 +132,7 @@ if ($result->num_rows > 0) {
 while($restaurant = mysqli_fetch_array($result, MYSQL_ASSOC)) {
 $restaurants[] = array('restaurant'=>$restaurant);
 }
-$output= json_encode(array('restaurants'=>$restaurants), JSON_PRETTY_PRINT);
+$output = prettyPrint(json_encode(array('restaurants' => $restaurants)));
 }
 }
 else{
@@ -84,7 +143,7 @@ if ($result->num_rows > 0) {
 while($restaurant = mysqli_fetch_array($result, MYSQL_ASSOC)) {
 $restaurants[] = array('restaurant'=>$restaurant);
 }
-$output= json_encode(array('restaurants'=>$restaurants), JSON_PRETTY_PRINT);
+$output = prettyPrint(json_encode(array('restaurants' => $restaurants)));
 }
 }
 
@@ -102,7 +161,7 @@ if ($result->num_rows > 0) {
 while($restaurant = mysqli_fetch_array($result, MYSQL_ASSOC)) {
 $restaurants[] = array('restaurant'=>$restaurant);
 }
-$output= json_encode(array('restaurants'=>$restaurants), JSON_PRETTY_PRINT);
+$output = prettyPrint(json_encode(array('restaurants' => $restaurants)));
 }
 
 
@@ -117,7 +176,7 @@ if ($result->num_rows > 0) {
 while($restaurant = mysqli_fetch_array($result, MYSQL_ASSOC)) {
 $restaurants[] = array('restaurant'=>$restaurant);
 }
-$output= json_encode(array('restaurants'=>$restaurants), JSON_PRETTY_PRINT);
+$output = prettyPrint(json_encode(array('restaurants' => $restaurants)));
 }
 }//postal isset
 }//restaurant isset
@@ -141,7 +200,7 @@ if ($result->num_rows > 0) {
 while($dish = mysqli_fetch_array($result, MYSQL_ASSOC)) {
 $dishes[] = array('dish'=>$dish);
 }
-$output= json_encode(array('dishes'=>$dishes), JSON_PRETTY_PRINT);
+$output = prettyPrint(json_encode(array('dishes' => $dishes)));
 }
 }//id =all
 else{
@@ -152,7 +211,7 @@ if ($result->num_rows > 0) {
 while($dish = mysqli_fetch_array($result, MYSQL_ASSOC)) {
 $dishes[] = array('dish'=>$dish);
 }
-$output= json_encode(array('dishes'=>$dishes), JSON_PRETTY_PRINT);
+$output = prettyPrint(json_encode(array('dishes' => $dishes)));
 }
 }//else id anders
 }//id isset
@@ -173,8 +232,7 @@ if ($result->num_rows > 0) {
 while($order = mysqli_fetch_array($result, MYSQL_ASSOC)) {
 $orders = array('orders'=>$order);
 }
-
-$output= json_encode($orders, JSON_PRETTY_PRINT);
+$output = prettyPrint(json_encode(array('orders' => $orders)));
 }
 }//id = all
 else {
@@ -185,8 +243,7 @@ if ($result->num_rows > 0) {
 while($order = mysqli_fetch_array($result, MYSQL_ASSOC)) {
 $orders = array('orders'=>$order);
 }
-$output= json_encode($orders, JSON_PRETTY_PRINT);
-}
+$output = prettyPrint(json_encode(array('orders' => $orders)));
 }//id is niet all
 }//isset id
 }//isset orders

@@ -587,10 +587,11 @@ function showOrHideUserInfo(){
 }
 
 $("#user-info-li").click(function(){
+    $(".user-drop-info-wrapper").hide();
     if($(".navbar").outerHeight() >= 100){
         document.location.href="mobileorders.php";
     } else {
-        if(!$(".user-drop-info-wrapper").is(":visible")){
+        if(!$(".user-drop-info-wrapper").is(":visible")){ //&& !($("#user-info-a").is(":clicked") && $(".user-drop-info-wrapper").is(":visible"))){
             $(".user-drop-info-wrapper").show();
             $("#user-drop-info").css('border-radius', '0 0 5px 5px');
             $("#order-spec .user-drop-info").css('border-radius', '5px 0 0 5px');
@@ -603,7 +604,7 @@ $("#user-info-li").click(function(){
                     $(".user-drop-info-wrapper").html(data);
                 }); 
             } else {
-                $.get("refreshuserorders.php?loggedin-false", function(data) {
+                $.get("refreshuserorders.php?loggedin=false", function(data) {
                     $(".user-drop-info-wrapper").html('');
                     $(".user-drop-info-wrapper").html(data);
                 });

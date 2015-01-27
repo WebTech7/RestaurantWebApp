@@ -416,7 +416,7 @@ $result = $conn->query($sql);	if ($result->num_rows > 0) { ?><li style="margin-t
             
               
               <?php } else { ?><span style="display:none" id="logged-in"><?php echo "1"; ?></span>
-              <li id="user-info-li" onclick="showOrHideUserInfo();"><a style="cursor:pointer;"><img src="https://cdn0.iconfinder.com/data/icons/20-flat-icons/128/user.png" height="20" style="margin-top:-5px;margin-right:7px;"/>Bon Appetit, <?php $sql = "SELECT * FROM `u831903280_rest`.`accounts` WHERE `user_id` = ".$_SESSION["user_id"].";";
+              <li id="user-info-li" onclick="showOrHideUserInfo();"><a style="cursor:pointer;" id="user-info-a"><img src="https://cdn0.iconfinder.com/data/icons/20-flat-icons/128/user.png" height="20" style="margin-top:-5px;margin-right:7px;"/>Bon Appetit, <?php $sql = "SELECT * FROM `u831903280_rest`.`accounts` WHERE `user_id` = ".$_SESSION["user_id"].";";
                             if($res = $conn->query($sql)){
                                 while($obj = $res->fetch_object()){
                                     echo $obj->first_name; 
