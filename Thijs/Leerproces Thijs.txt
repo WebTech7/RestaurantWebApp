@@ -1,0 +1,19 @@
+Learning process Thijs Visser
+
+During this course I learned something about the following topics:
+- Basics of HTML and CSS: I didn't have any substantial prior knowledge on these two languages, so I had to learn all the basics, as well as some more advanced uses of HTML.
+  In terms of CSS I only used it a little bit because I was using Bootstrap for my individual project. For both of these languages I learned the absolute basics from codeacademy.com, and
+  if I encoutered any problems I searched the internet for answers and found them most of the times.
+- Javascript: I did have a little bit of knowledge about this before the course started, but I learned more about it and how to combine it with HTML. Also this the basic course from
+  codeacademy.com for this.
+- PHP: I didn't know anything about PHP before, now I know a little bit how it works and I can do some basic functions with it as well as understand it. Also took most of the codeacademy.com
+  course.
+- API's: I learned what API's are and how you can implement them. I had some difficulties in understanding how they work at first but in the end it worked out well.
+  I used the Google Maps API and geocoding API, so now I know a lot about how those two work.
+- Working on projects like these in teams: for me this was the first time working on code together with others, I learned about working in a team, giving a presentation and using Github.
+
+Suggestions for improvements on this course:
+- For me (and I've heard the same from some others), the lectures were not always very useful. Sometimes they were too difficult or went too quickly for me as a beginner to understand.
+  Other times the topic of the lecture didn't seem to have a direct connection to the assignments for this course. I understand that balancing this can be difficult because of the wide
+  variety in background of the students, but maybe there should be just a bunch of online lectures that you could choose from, and the student can choose what topics he need to know
+  more about.
