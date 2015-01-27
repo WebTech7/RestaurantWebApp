@@ -276,7 +276,7 @@ $conn = mysqli_connect($servername, $username, $password, $db) or die("No connec
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Restaurant Info, Reviews and Orders">
     <meta name="author" content="WebTech7">
-    <link rel="shortcut icon" type="image/png" href="img/default.png"/>
+    <link rel="shortcut icon" type="image/png" href="https://cdn0.iconfinder.com/data/icons/kameleon-free-pack-rounded/110/Food-Dome-128.png"/>
     <title><?php echo $title; ?> | RestaurantWebApp</title>
 
     <!-- Bootstrap core CSS -->
@@ -310,7 +310,9 @@ $conn = mysqli_connect($servername, $username, $password, $db) or die("No connec
       </script>
   </head>
 
-  <body>
+  <body <?php if($homepage){echo 'style="
+    background: url(../img/bg.png);
+    background-size: 400px;"';} ?>>
       <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

@@ -602,8 +602,6 @@ input[type="image"] {
 
 #results-content-wrapper {
     min-height:100%;
-    background: url(../img/bg.png);
-    background-size: 400px;
     padding-bottom:25px !important;
 }
 
@@ -1004,7 +1002,18 @@ input[type="image"] {
 }
 
 .dropdown button {
-    background: #f7deb5;
+    background: none;
+/*    border:#68A6C4 1px solid;*/
+    border: none;
+    transition: all 0.3s;
+}
+
+.dropdown button:hover {
+    background: none;
+}
+
+.btn-default:hover, .btn-default:focus, .btn-default.focus, .btn-default:active, .btn-default.active, .open>.dropdown-toggle.btn-default {
+    background: none;
 }
 
 .user-drop-info-wrapper {
