@@ -248,6 +248,39 @@ $output = prettyPrint(json_encode(array('orders' => $orders)));
 }//isset id
 }//isset orders
 }//alle issets
-echo "<pre>" . $output . "<pre>";
+if(isset($_GET["format"]) && strtolower($_GET["format"])=="xml"){
+    $outputArray = json_decode($output, true);
+    header('Content-type: text/xml');
 
+    // creating object of SimpleXMLElement
+    $outputStart = new SimpleXMLElement("<?xml version=\"1.0\"?><results></results>");
+
+    // function call to convert array to xml
+    array_to_xml($outputArray,$outputStart);
+
+    //saving generated xml file
+    print $outputStart->asXML();
+} else {
+    echo "<pre>" . $output . "<pre>";
+}
+
+
+// function defination to convert array to xml
+function array_to_xml($student_info, $xml_student_info) {
+    foreach($student_info as $key => $value) {
+        if(is_array($value)) {
+            if(!is_numeric($key)){
+                $subnode = $xml_student_info->addChild("$key");
+                array_to_xml($value, $subnode);
+            }
+            else{
+                $subnode = $xml_student_info->addChild("item$key");
+                array_to_xml($value, $subnode);
+            }
+        }
+        else {
+            $xml_student_info->addChild("$key",htmlspecialchars("$value"));
+        }
+    }
+}
 ?>
