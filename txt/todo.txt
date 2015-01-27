@@ -3,15 +3,10 @@
 == Hoge prioriteit ==
 - Checken of alle feedback verwerkt wordt, zo nee in todo zetten
 - Laadplaatjes op plekken die lang duren om te laden.
-- Categorieen kiezen bij het editen van een restaurant
-- Kijken of er wel bezorgd wordt in het gebied
-    - Eigenaren moeten kunnen aangeven hoever ze willen rijden.
-    - Alles staat nu op 40 kilometer ver bezorgen.
 - Pretty JSON
 - API Documentatie
 - Nieuwe screencast op het einde maken
 - Report
-- Sorteren met eigen restaurants
 
 == Lagere prioriteit ==
 - Snellere hosting, snellere database (ipv db4free)
@@ -26,9 +21,7 @@
 - Andere naam, logo
 - Favicon
 - Mogelijkheid voor restauranteigenaren om een foto van hun restaurant toe te voegen
-- 404 Not found (daar moet je ook terecht komen als je op restaurant.php staat en een id ingeeft die niet bestaat)
 - Eigen restaurant verwijderen
-- Foto's toevoegen door restaurant
 
 == Gedaan ==
 - Gebruiker kan zijn info wijzigen, bestellingen bekijken, als hij is ingelogd.
@@ -45,6 +38,10 @@
 - Een aantal dingen komen zeer slecht uit op de mobiele site.
     - De gegevens van finished en unfinished orders bovenaan in het menu
     - Sterren in zoekresultaten op index.php
+- Categorieen kiezen bij het editen van een restaurant
+- Kijken of er wel bezorgd wordt in het gebied
+    - Eigenaren moeten kunnen aangeven hoever ze willen rijden.
+- 404 Not found (daar moet je ook terecht komen als je op restaurant.php staat en een id ingeeft die niet bestaat)
 
 /--- Alles wat nog moet gebeuren [OUD!] ---/
 
