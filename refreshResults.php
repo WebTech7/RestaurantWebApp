@@ -230,7 +230,7 @@ $i=-1;
             if(count($ourRestaurants) > $b){
                 // our own
                 $resRating = 1;
-                $img = "https://cdn4.iconfinder.com/data/icons/home-sweet-home-2/120/cafe-512.png";
+                $img = "img/default.png";
                 $name = $ourRestaurants[$b]["name"];
                 $id = $ourRestaurants[$b]["id"];
                 $postalcode = $ourRestaurants[$b]["postal_code"];
@@ -281,6 +281,8 @@ $i=-1;
             $result2 = json_decode($json_string);//var_dump($result);
                     $review_count += $result2->review_count;
                     $rating_tot += $result2->review_count * $result2->rating;
+                    
+                if(isset($result2->businesses[$i]->image_url) && $result2->businesses[$i]->image_url != ""){ $img = $result2->businesses[$i]->image_url; } else { $img = "img/default.png"; }
                 }
                 $rating1 = $rating_tot / $review_count;
                 $orders = $ourRestaurants[$b]["online_orders"];
@@ -323,7 +325,7 @@ $i=-1;
                     $go = true;
                 }
                 $i++;
-                if(isset($result->businesses[$i]->image_url) && $result->businesses[$i]->image_url != ""){ $img = $result->businesses[$i]->image_url; } else { $img = "https://cdn4.iconfinder.com/data/icons/home-sweet-home-2/120/cafe-512.png"; }
+                if(isset($result->businesses[$i]->image_url) && $result->businesses[$i]->image_url != ""){ $img = $result->businesses[$i]->image_url; } else { $img = "img/default.png"; }
                 if($order == "order"){$go = false;}
                 $name = $result->businesses[$i]->name;
                 $city = $result->businesses[$i]->location->city;
@@ -384,8 +386,8 @@ $i=-1;
                 $contentsArray2[] = htmlentities(addslashes("</a>$firstRow<br />Rating: $rating1 out of 5 <br />$review_count $s"));
             ?>
                     <div class="col-lg-6">
-                        <div class="result-box" onclick="document.location.href='restaurant.php?id=<?php echo $id; ?>';">
-                            <div class="result-image" style="background:url(<?php echo $img; ?>) #FFF;background-size:cover;background-position:center;"></div>
+                        <div class="result-box" onclick="showCatWaitingOnIndex(<?php echo "'".addslashes($name)."','".addslashes($city)."'"; ?>);document.location.href='restaurant.php?id=<?php echo $id; ?>';">
+                            <div class="result-image" style="background:url(<?php echo $img; ?>) #82CCEC;background-size:cover;background-position:center;"></div>
                             <div class="result-content result-content-search">
                                 <div style="overflow:hidden;"><h4 style="height:20px;overflow:auto;"><?php echo $name;
 //                echo $lanLon1["lat"] . "|" . $lanLon1["lon"]."/".$lanLon2["lat"] . "|" . $lanLon2["lon"];echo "abc";

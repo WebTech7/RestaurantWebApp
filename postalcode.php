@@ -9,22 +9,26 @@
         <link href="css/bootstrap.min.css" rel="stylesheet">
     </head>
     <body class="postal-body">
+           <div class="waiting-cat">
+                <h1>Looking for restaurants...</h1>
+           </div>
        <div class="postal-background">
             <div class="round-in-middle">
                 <div class="round-in-middle-content"><h3><br /></h3>
                     <form action="index.php?useq=1" method="GET" id="front-form">
-                    <h1 onclick="location.href='index.php';" class="header1-on-front">RestaurantWebApp</h1>
+                    <h1 onclick="location.href='index.php';" class="header1-on-front" style="margin-top:-20px;" ><img src="img/default.png" style="border-radius:50px;margin-top:-7px;" height="45" alt="" />&nbsp;<img src="img/logo.png" style="border-radius:50px;margin-left:-5px;" height="45" alt="" /></h1>
+                        <p style="margin:-20px 0 -5px 3px;color:#000;font-weight:300;">Free for owners, cheaper for you.</p>
                     <h3 class="question">What do you want to eat?</h3>
                         <input type="text" name="q" style="<?php if(isset($_GET["error"]) && $_GET["error"] == 1){ ?>background-color:#D5423D;color:#FFF;<?php } ?>width:235px;padding-right:20px !important;" autocomplete="off" id="q-input" placeholder="Italian, Domino's" <?php if(isset($_COOKIE["q"])){echo "value='".$_COOKIE["q"]."'";} ?> class="input-one round-in-middle-input"/>
                         
                         <h3 class="question">And where?</h3>
                                                                                          <input type="text" name="place" style=" <?php if(isset($_GET["error"]) && $_GET["error"] == 2){ ?> background-color:#D5423D;color:#FFF; <?php } ?> width:235px;" autocomplete="off" id="place-input" placeholder="1234AB, Eindhoven" class="input-one round-in-middle-input" <?php if(isset($_COOKIE["place"])){echo "value='".$_COOKIE["place"]."'";} ?>/>
                                                                                          
-                                                                                         <div class="something-abolute"><div class="something-0"><div style="margin-left:278px" class="arrow-button" onclick="$('#front-form').submit();"></div></div></div>
+                                                                                         <div class="something-abolute"><div class="something-0"><div style="margin-left:278px" class="arrow-button" onclick="showWaitingCat();$('#front-form').submit();"></div></div></div>
                         <h5 style="color:#FFF;margin:3px 0;">or</h5>
                     </form>
                     
-                        <button class="find-location" id="find-location" onclick="getLocation();">Find my location and search</button>
+                        <button class="find-location" id="find-location" onclick="showWaitingCat();getLocation();">Find my location and search</button>
                 </div>
            </div>
         </div> 
@@ -81,6 +85,7 @@ function getLocation() {
         navigator.geolocation.getCurrentPosition(showPosition);
     } else { 
         alert("Geolocation is not supported by this browser.");
+        hideWaitingCat();
     }
 }
 
@@ -95,6 +100,14 @@ function showPosition(position) {
         xmlhttp.open("GET", "geo.php?latlng=" + str, true);
         xmlhttp.send();
 }
+
+            function showWaitingCat(){
+                $('.waiting-cat').css('z-index',1);$('.waiting-cat').css('opacity',0.9);
+            }
+            
+            function hideWaitingCat(){
+                $('.waiting-cat').css('z-index',-20);$('.waiting-cat').css('opacity',0);
+            }
         </script>
     </body>
 </html>

@@ -1,5 +1,6 @@
 <?php
 session_start();
+  require "functions.php";
 if (isset($_SESSION["logged_in"]) ){ //testing purpose
 $loggedIn = $_SESSION["logged_in"];
 $userId = $_SESSION["user_id"];
@@ -257,7 +258,7 @@ if (empty($_POST["name"])) {
 	$yelp = $_POST["yelp"];
 	$allGood = true;
 	}
-	
+	$yelpId = $_POST["yelpId"];
 		if (!empty($_POST["distance"])) {
 	$distanceFirst=test_input($_POST["distance"]);
 	if (preg_match ('/[0-9]/', $distanceFirst)) {
@@ -298,6 +299,19 @@ if ($conn->connect_error) {
 die("Connection failed: " . $conn->connect_error);
 }
 
+    $userId = addslashes(makeInputSafe($userId));
+    $id = addslashes(makeInputSafe(str_replace('"','',str_replace("'","",$id))));
+    $phone = addslashes(makeInputSafe($phone));
+    $postalCode = addslashes(makeInputSafe($postalCode));
+    $orderOnline = addslashes(makeInputSafe($orderOnline));
+    $addressStreet = addslashes(makeInputSafe($addressStreet));
+    $addressNumber = addslashes(makeInputSafe($addressNumber));
+    $city = addslashes(makeInputSafe($city));
+    $country = addslashes(makeInputSafe($country));
+    $name = addslashes(makeInputSafe($name));
+    $yelp = addslashes(makeInputSafe($yelp));
+    $yelpId = addslashes(makeInputSafe($yelpId));
+    $distance = addslashes(makeInputSafe($distance));
 $sql = "UPDATE restaurants SET  
                             name='$name',
 							id='$id', 
@@ -310,6 +324,7 @@ $sql = "UPDATE restaurants SET
 							country_code='$country',
 							distance='$distance',
 							yelp='$yelp',
+							yelp_id='$yelpId',
 							categories='$categories'
 							WHERE user_id='$userId'"; 
 
@@ -329,7 +344,6 @@ $result = $conn->query($sql);
     $data = $result->fetch_assoc(); 
 ?>
   <?php 
-  require "functions.php";
   showHeader("Edit your restaurant",false);
   ?>
   <div class="image-background jumbotron owner-edit" style="background:url(http://www.restaurantampersand.nl/wp-content/uploads/2013/10/restaurant.jpeg) !important;background-size:cover !important;background-position:center !important;min-height:calc(100vh - 50px);margin-bottom:0;" id="image-background">
@@ -1068,7 +1082,22 @@ echo '
 <div class="radio">
   <label><input type="radio" name="yelp" value= "N" ' . $yelpN . '>No   </label>
 </div>  
-  
+  <div id="yelp-div"><input type="hidden" name="yelpId" value="" /></div>
+    <script>  
+        
+        $("input").bind("keyup change", function(){
+            $("#yelp-div").html(\'<img src="http://upload.wikimedia.org/wikipedia/commons/5/53/Loading_bar.gif" alt="Loading" width="200" />\');
+            if($("#yelp-y").is(":checked")){
+                $("#yelp-div").show();
+                $.get("yelp.php?term="+encodeURIComponent($("input[name=name]").val())+"&location="+encodeURIComponent ($("input[name=city]").val())+"%20"+encodeURIComponent($("input[name=postal_code]").val())+"%20"+encodeURIComponent($("input[name=address_street]").val())+"%20"+encodeURIComponent($("input[name=address_number]").val()), function(data){
+                    $("#yelp-div").html(data);
+                });
+            } else {
+                $("#yelp-div").hide();
+                $("#yelp-div").html(\'<input type="hidden" name="yelpId" value="" />\');
+            }
+        });
+    </script>
  
 </div>
 <br />

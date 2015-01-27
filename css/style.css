@@ -70,6 +70,29 @@ h1, h2, h3, h4, h5, h6, p {
         top:0;
         left:0;
     }
+    .top-li form {
+        padding:20px;
+        width:100vw;
+        border:none;
+        margin:0;
+    }
+    .top-li from input {
+        margin:0 !important;
+        width:100% !important;
+    }
+    #top-search-q {
+        width:calc(100% - 40px) !important;
+    }
+    #top-search-place {
+        margin-top:10px;
+        width:calc(100% - 40px - 75px) !important;
+    }
+    #top-search-location {
+        margin-top:10px;
+    }
+    #top-search-button {
+        margin-top:10px;
+    }
 }
 
 @media (min-width: 768px) {
@@ -534,6 +557,7 @@ input[type="image"] {
 }
 
 #results-loading {
+    padding:20px;
     opacity:0;
     position:fixed;
     z-index:-20;
@@ -544,6 +568,7 @@ input[type="image"] {
     background-color:#58a5a3;
     background-position:center;
     transition:opacity 0.5s;
+    text-align: center;
 }
 
 .reset-specify {
@@ -1433,4 +1458,19 @@ right: 0;
 
 .signup-onlogin:hover {
     background:#68A6C4;
+}
+
+.waiting-cat {
+    opacity:0;
+    position:fixed;
+    z-index:-20;
+    width:100vw;
+    height:100vh;
+    background-image:url("https://m1.behance.net/rendition/modules/100385201/disp/32b2a2798dae4b5118c2ba97ce4d2fba.gif");
+    background-repeat:no-repeat;
+    background-color:#58a5a3;
+    background-position:center;
+    transition:opacity 0.5s;
+    text-align: center;
+    padding:0 30px;
 }

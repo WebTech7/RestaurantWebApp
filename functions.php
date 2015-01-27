@@ -276,7 +276,7 @@ $conn = mysqli_connect($servername, $username, $password, $db) or die("No connec
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Restaurant Info, Reviews and Orders">
     <meta name="author" content="WebTech7">
-
+    <link rel="shortcut icon" type="image/png" href="img/default.png"/>
     <title><?php echo $title; ?> | RestaurantWebApp</title>
 
     <!-- Bootstrap core CSS -->
@@ -311,6 +311,16 @@ $conn = mysqli_connect($servername, $username, $password, $db) or die("No connec
   </head>
 
   <body>
+      <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-58995477-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
      <div id="fb-root"></div>
 <script>(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
@@ -330,11 +340,37 @@ $conn = mysqli_connect($servername, $username, $password, $db) or die("No connec
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.php">RestaurantWebApp</a>
+            <a class="navbar-brand" href="index.php" id="logo"><img src="img/default.png" style="border-radius:50px;margin-top:-7px;float:left;" height="35" alt="" />&nbsp;<img src="img/logo.png" id="logo-img" style="transition:all 0.3s;border-radius:50px;margin-top:-2px;margin-left:7px;float:left;" height="30" alt="" /></a><div style="position:absolute;width:0;height:0;width:160px;"><p id="slogan-top" onclick="document.location.href='index.php';" style="cursor:pointer;width:160px;height:35px;font-size:16px;font-weight:300;opacity:0;transition:all 0.3s;position:relative;top:3px;color:#000;left:45px;">Free for owners, cheaper for you!</p></div>
+              <script>
+                $("#logo").hover(function(){
+                    $("#logo-img").css('opacity',0);
+                    $("#slogan-top").css('opacity',1);
+                }, function(){
+                    $("#logo-img").css('opacity',1);
+                    $("#slogan-top").css('opacity',0);
+                });
+                $("#slogan-top").hover(function(){
+                    $("#logo-img").css('opacity',0);
+                    $("#slogan-top").css('opacity',1);
+                }, function(){
+                    $("#logo-img").css('opacity',1);
+                    $("#slogan-top").css('opacity',0);
+                });
+              </script>
+              <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-58995477-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-              <li>
+              <li class="top-li">
               <form class="navbar-form navbar-right top-form" id="topform" <?php if(!$formsubmit){ ?> action="index.php" method="get" <?php } ?>>
             <input class="form-control top-search-input" id="top-search-q" style="width:145px;" placeholder="Italian, Domino's">
             <input type="text" <?php if(isset($_COOKIE["place"])){echo "value='".$_COOKIE["place"]."'";} ?> class="form-control top-search-input" id="top-search-place" style="width:135px;border-radius:4px 0 0 4px;margin-right:0;" placeholder="1234AB, Eindhoven">

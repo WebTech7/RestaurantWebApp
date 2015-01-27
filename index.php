@@ -187,7 +187,7 @@ error_reporting(-1);
           </div>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main results">
-            <div id="results-loading"></div>
+            <div id="results-loading"><h1>Looking for restaurants...</h1></div>
             <div class="header" id="results-for-header" style="overflow:hidden;"><h3 style="float:left !important;margin-right:20px;"><span id="amount-results-show"></span> results for <span id="results-for"><?php if(isset($q) && trim($q)!=""){echo "<i>" . $q . "</i> around ";} echo "<i>".$place."</i>"; ?></span></h3>
 
                 <div style="float:left;">

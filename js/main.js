@@ -7,7 +7,7 @@ $(document).ready(function(){
     $("#map").css('height', height);
     $("#googleMap").css('height', height);
     $("#sort-wrap").css('margin-top', 0);
-    if($("#results-for-header").outerHeight() != 73){
+    if($("#results-for-header").outerHeight() > 90){
         $("#sort-wrap").css('margin-top', 20);
     } else {
         $("#sort-wrap").css('margin-top', 0);
@@ -20,6 +20,7 @@ $(document).ready(function(){
         $("#restaurant-broad").css("width", "100vw");
         $("#EnzoLeft").css("width", "100vw");
         $(".pagination").css("margin-top", 0);
+        $("#slogan-top").css("left", 55);
     }
     if($(window).width() > 350){
         $(".star-text-wrap").hide();
@@ -28,7 +29,10 @@ $(document).ready(function(){
         $(".star-text-wrap").show();
         $(".star-pics-wrap").hide();
         $(".pagination").css("margin-top", 20);
+        $("#slogan-top").css("left", 60);
     }
+    $("#results-loading").css('z-index', -1);
+    $("#results-loading").css('opacity', 0);
 });
 
 
@@ -283,6 +287,13 @@ function submitTopSearch(){
 
 function refreshResults(askedArray){
     $("#results-loading").css('z-index', 1000);
+    if($(window).width() > 767){
+        width = $("#results-for-header").outerWidth();
+        $("#results-loading").css('width', width);
+    } else {        
+        $("#results-loading").css('padding-top', 70);
+        $("#results-loading").css('width', '100vw');
+    }
     $("#results-loading").css('opacity', 0.9);
     get = "";
     get = get + "&radius_filter=" + $("#radius").val();
@@ -373,6 +384,19 @@ function refreshResults(askedArray){
     }
     xmlhttp.open("GET", "refreshResults.php?"+get, true);
     xmlhttp.send();
+}
+
+function showCatWaitingOnIndex(name,city){
+    $("#results-loading").html('<h1>Loading data from <i>'+name+'</i> in <i>'+city+'</i>...</h1>');
+    $("#results-loading").css('z-index', 1000);
+    if($(window).width() > 767){
+        width = $("#results-for-header").outerWidth();
+        $("#results-loading").css('width', width);
+    } else {        
+        $("#results-loading").css('padding-top', 70);
+        $("#results-loading").css('width', '100vw');
+    }
+    $("#results-loading").css('opacity', 0.9);
 }
 
 $("#sort-by").on("change", function(){

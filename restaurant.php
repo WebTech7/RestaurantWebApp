@@ -102,6 +102,7 @@ IF (isset($_GET['id']) ) {
                                     $rating_tot += $row->rating;
                                 }
                             }
+            $restaurantImg = 'img/default.png';
                         if($hasYelpAndRWA == "Y"){
                                          $url = "http://api.yelp.com/v2/business/";
             $unsigned_url = stripAccents($url . urlencode($restaurantYelpID));
@@ -128,9 +129,15 @@ IF (isset($_GET['id']) ) {
             $response = json_decode($data);
             $json_string = file_get_contents($signed_url);
             $result = json_decode($json_string);
+            if(isset($result->categories)){
+                $restaurantCategory  = $result->categories;
+            };
+
+            if(isset($result->image_url)){
+                $restaurantImg = $result->image_url;
+            };
                                             
             if(!isset($result->reviews[0])){
-                echo '<h3 style="margin-bottom:-18px;font-style:italic;padding-top:10px;">No reviews yet.</h3>';
             } else { $hasYelpAndRWAAndReview = true;
             if(isset($result->reviews[0]->user->name)) {
                 $reviewUser = $result->reviews[0]->user->name;
@@ -196,7 +203,7 @@ IF (isset($_GET['id']) ) {
             $reviewRating = 0;
             $reviewUser = '';
             $reviewExcerpt = '';
-                        $restaurantImg = 'http://s3-media3.fl.yelpcdn.com/assets/2/www/img/e98ed5a1460f/brand_guidelines/yelp-2c-outline.png';
+            $restaurantImg = 'img/default.png';
             if(isset($result->categories)){
                 $restaurantCategory  = $result->categories;
             };
@@ -335,7 +342,7 @@ $obj = json_decode($json);$photo = ($obj->photos->photo[0]);
                                     } }
                                         ?>
                                  
-                </div><?php if($review_count!=0){?><div style="float:left;width:200px;margin-top:20px;">(based on <?php echo $review_count; ?> review<?php if($review_count != 1) {echo "s";} ?>)</div><?php } ?></div>
+                </div><?php if($review_count!=0){?><div style="float:left;width:200px;margin-top:20px;"><?php echo $review_count; ?> review<?php if($review_count != 1) {echo "s";} ?></div><?php } ?></div>
                 </div>
             <div id="EnzoLeft" style="padding:10px 10px 0 10px;width:100%;">
                 <div id="jumptomenu" class="jumpto"></div>
@@ -406,17 +413,17 @@ $obj = json_decode($json);$photo = ($obj->photos->photo[0]);
                             <div class="dish-title">
                                 <?php echo $dishArray[$b]["title"]; ?>
                             </div>
-                            <div <?php if(!$online_orders){echo 'style="display:none"';} ?>>
+                            <div>
                                 <div class="dish-price-add">
                                     <div class="dish-price">
                                         <?php echo $dishArray[$b]["price"]; ?>
                                     </div>
 
-                                    <div class="dish-add"><img onclick="addDish(<?php echo $dishArray[$b]["dish_id"]; ?>)" src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678092-sign-add-128.png" alt="+" /></div>
-                                    <div class="dish-add" <?php if(!isset($_COOKIE["dish-".$dishArray[$b]["dish_id"]]) || $_COOKIE["dish-".$dishArray[$b]["dish_id"]]==0){ ?>style="display:none;"<?php } ?> id="remove-dish-<?php echo $dishArray[$b]["dish_id"]; ?>"><img onclick="removeDish(<?php echo $dishArray[$b]["dish_id"]; ?>)" src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678069-sign-error-48.png" alt="+" /></div>
+                                    <div class="dish-add" <?php if(!$online_orders){echo 'style="display:none"';} ?>><img onclick="addDish(<?php echo $dishArray[$b]["dish_id"]; ?>)" src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678092-sign-add-128.png" alt="+" /></div>
+                                    <div class="dish-add" <?php if(!$online_orders){echo 'style="display:none"';} ?> <?php if(!isset($_COOKIE["dish-".$dishArray[$b]["dish_id"]]) || $_COOKIE["dish-".$dishArray[$b]["dish_id"]]==0){ ?>style="display:none;"<?php } ?> id="remove-dish-<?php echo $dishArray[$b]["dish_id"]; ?>"><img onclick="removeDish(<?php echo $dishArray[$b]["dish_id"]; ?>)" src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678069-sign-error-48.png" alt="+" /></div>
 
                                 </div>
-                                <div class="dish-amount-wrapper">
+                                <div class="dish-amount-wrapper" <?php if(!$online_orders){echo 'style="display:none"';} ?>>
                                     <div class="dish-amount">
                                         <img src="https://cdn2.iconfinder.com/data/icons/flat-ui-free/128/bag.png" alt="In your food bag:" height="17" /> <span id="amount-dishes-<?php echo $dishArray[$b]["dish_id"]; ?>"><?php if(isset($_COOKIE["dish-".$dishArray[$b]["dish_id"]])){ echo $_COOKIE["dish-".$dishArray[$b]["dish_id"]]; } else echo "0"; ?></span>
                                         <input type="hidden" id="amount-dishes-<?php echo $dishArray[$b]["dish_id"]; ?>-hidden" name="amount-dishes-<?php echo $dishArray[$b]["dish_id"]; ?>" value="<?php if(isset($_COOKIE["dish-".$dishArray[$b]["dish_id"]])){ echo $_COOKIE["dish-".$dishArray[$b]["dish_id"]]; } else { echo "0"; } ?>" />
@@ -438,7 +445,7 @@ $obj = json_decode($json);$photo = ($obj->photos->photo[0]);
                 ?>
                                     <input type="hidden" id="get-total" value="<?php echo $total; ?>"/><input type="hidden" name="restaurant-id" value="<?php echo $_GET["id"] ?>" />
                 
-                <div class="order-conclusion-wrapper postal-conclusion-wrapper" style="width:100%;" <?php if(!$online_orders){echo 'style="display:none"';} ?>>
+                <div <?php if(!$online_orders){echo 'style="display:none"';} ?> class="order-conclusion-wrapper postal-conclusion-wrapper" style="width:100%;" >
                     <div style="width:200px;float:right;">
                             <div id="error"><?php if(isset($_COOKIE["postal_code"]) && trim($_COOKIE["postal_code"]) != ""){$resFrom = $_COOKIE["postal_code"]; $resTo = $restaurantPostal; $resDistance = $restaurantMaxDrivingDistance; require_once("checkPostal.php");} ?></div>
                         <div class="order-conclusion-top">
@@ -454,9 +461,10 @@ $obj = json_decode($json);$photo = ($obj->photos->photo[0]);
                     <div style="width:100%;float:right;">
                       <br />
                 </div>
-                <div class="order-conclusion-wrapper" style="width:100%;" <?php if(!$online_orders){echo 'style="display:none"';} ?>>
-                    <div style="width:200px;float:right;">
-                            <div id="error"></div>
+            </div>
+                <div class="order-conclusion-wrapper" <?php if(!$online_orders){echo 'style="display:none"';} ?> style="width:100%;" >
+                    <div <?php if(!$online_orders){echo 'style="display:none"';} ?> style="width:200px;float:right;">
+                            <div <?php if(!$online_orders){echo 'style="display:none"';} ?> id="error"></div>
                         <div class="order-conclusion-top">
                             <div class="total">
                                 Total: € <span id="total-script"><?php echo str_replace(".", "," ,($total)/100); $explodeArray = explode(".", $total/100); if(count($explodeArray) == 1){echo ",00";}else if(strlen($explodeArray[1]) == 1){echo "0";} ?>
