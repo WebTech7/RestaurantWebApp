@@ -37,6 +37,9 @@
                 &copy; Copyright WebTech7 2014 <?php $y=date('Y'); if($y != 2014){echo "- $y";} ?>
             </li>
             <li>
+                <a href="howto.php">API</a>
+            </li>
+            <li>
                 <a href="contact.php">Contact</a>
             </li>
             <li>
